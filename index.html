@@ -337,6 +337,41 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;background:var(--bgimg)
 <section id="gview" class="wrap" hidden></section>
 <div class="toast-wrap" id="toasts" aria-live="polite"></div>
 
+<script>(function(){
+function mk(host,peer,code,done,fail){
+  var hs={},pres={},conns={},cbs=[],last=[],me=peer.id,gc=null,R={};
+  function deliver(t,d,from){(hs[t]||[]).forEach(function(f){try{f({topic:t,data:d,peer:from,isMe:from===me,sameTab:from===me})}catch(e){console.error(e)}})}
+  function view(raw){return raw.map(function(x){return{peer:x.peer,presence:x.presence||{},isMe:x.peer===me,sameTab:x.peer===me,kind:'viewer',guest:false,by:null}})}
+  function fire(raw){var cur=view(raw),pi=last.map(function(x){return x.peer}),ci=cur.map(function(x){return x.peer}),
+    j=cur.filter(function(x){return pi.indexOf(x.peer)<0}),l=last.filter(function(x){return ci.indexOf(x.peer)<0});last=cur;
+    cbs.forEach(function(f){try{f({peers:cur,joined:j,left:l,updated:[]})}catch(e){console.error(e)}})}
+  function raw(){var a=[{peer:me,presence:pres[me]||{}}];Object.keys(conns).forEach(function(id){a.push({peer:id,presence:pres[id]||{}})});return a}
+  function bcast(){var r=raw();Object.keys(conns).forEach(function(id){try{conns[id].send({k:'peers',l:r})}catch(e){}});fire(r)}
+  R.on=function(t,f){(hs[t]=hs[t]||[]).push(f);return function(){hs[t]=hs[t].filter(function(x){return x!==f})}};
+  R.onPeers=function(f){cbs.push(f);return function(){cbs=cbs.filter(function(x){return x!==f})}};
+  R.peers=function(){return last};R.connected=function(){return host?true:!!(gc&&gc.open)};R.leave=function(){try{peer.destroy()}catch(e){}return Promise.resolve()};
+  R.emit=function(t,d){try{if(host){Object.keys(conns).forEach(function(id){conns[id].send({k:'ev',t:t,d:d})})}else if(gc&&gc.open)gc.send({k:'ev',t:t,d:d})}catch(e){}return Promise.resolve()};
+  R.presence=function(p){var o=pres[me]=pres[me]||{};Object.keys(p).forEach(function(k){if(p[k]===null)delete o[k];else o[k]=p[k]});
+    if(host)bcast();else if(gc&&gc.open)gc.send({k:'pres',p:o});return Promise.resolve()};
+  peer.on('error',function(e){fail(e)});
+  if(host){
+    peer.on('open',function(){done(R)});
+    peer.on('connection',function(c){c.on('open',function(){conns[c.peer]=c;pres[c.peer]={};bcast()});
+      c.on('data',function(m){if(!m)return;if(m.k==='pres'){pres[c.peer]=m.p||{};bcast()}else if(m.k==='ev')deliver(m.t,m.d,c.peer)});
+      c.on('close',function(){delete conns[c.peer];delete pres[c.peer];bcast()})});
+  }else{
+    peer.on('open',function(){gc=peer.connect('iplauction-'+code,{serialization:'json',reliable:true});
+      gc.on('open',function(){done(R)});
+      gc.on('data',function(m){if(!m)return;if(m.k==='peers')fire(m.l);else if(m.k==='ev')deliver(m.t,m.d,gc.peer)});
+      gc.on('close',function(){fire([])})});
+  }
+}
+window.PeerRoom={join:function(name,host){return new Promise(function(res,rej){
+  var code=String(name).replace(/^ipl-/,'').toLowerCase(),to=setTimeout(function(){rej(new Error('timeout'))},12000);
+  var peer=host?new Peer('iplauction-'+code):new Peer();
+  mk(!!host,peer,code,function(r){clearTimeout(to);res(r)},function(e){clearTimeout(to);rej(e)})})}};
+})();
+</script>
 <script>
 (function(){
 'use strict';
@@ -2756,7 +2791,7 @@ function act(t,v){if(NET.r&&NET.my)NET.r.emit('act',{t:t,team:NET.my,v:v}).catch
 
 /* ---- lobby ---- */
 async function netOpen(code,host){
-  try{NET.r=await NET.R.join('ipl-'+code.toLowerCase())}catch(e){toast('Could not open the party room. Try again.');return false}
+  try{NET.r=await NET.R.join('ipl-'+code.toLowerCase(),host)}catch(e){toast('Could not open the party room. Try again.');return false}
   NET.host=host;NET.code=code;
   NET.r.onPeers(function(c){NET.peers=c.peers;c.peers.forEach(function(p){if(p.presence&&p.presence.role==='host')NET.hostPeer=p.peer});
     if(NET.host&&NET.live&&c.joined.length){netPush(true)}lobbyPaint()});
@@ -2824,7 +2859,15 @@ function gPaint(){var g=NET.G;if(!g||!$('gTeam'))return;var L=g.L,my=NET.my,mt=g
   else if(cb){tx='Cannot bid';m=cb}
   else{dis=false;m=L.ld?'Next increment is '+money(inc(L.pr))+'.':'Opening at base price.'}
   bb.disabled=dis;bb.textContent=tx;why.textContent=m}
-(async function(){try{if(window.claude&&claude.use){var R=await claude.use('room');if(R){NET.R=R;$('onl').hidden=false}}}catch(e){}})();
+function loadPeerLib(cb){var U=['https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js','https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js','https://fastly.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://gcore.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://cdn.jsdelivr.net/npm/peerjs@1.5.3/dist/peerjs.min.js'],i=0;
+  (function next(){if(window.Peer)return cb(true);if(i>=U.length)return cb(false);var sc=document.createElement('script');sc.src=U[i++];sc.onload=function(){window.Peer?cb(true):next()};sc.onerror=function(){sc.remove();next()};document.head.appendChild(sc)})()}
+function onlineInit(){var o=$('onl');
+  if(NET.R){o.hidden=false;return}
+  o.hidden=false;var msg=o.querySelector('.note');if(msg)msg.textContent='Loading the online connection…';
+  loadPeerLib(function(ok){if(ok&&window.PeerRoom){NET.R=window.PeerRoom;if(msg)msg.textContent='Host a party and share the code. Friends take a franchise each. Every other franchise is run by the AI. Only the host\'s tab runs the auction, so keep it open.';return}
+    if(msg)msg.innerHTML='Could not load the online library (your network may block the CDNs). <button id="onRetry" class="btn" type="button">Retry</button>'})}
+document.addEventListener('click',function(e){if(e.target&&e.target.id==='onRetry')onlineInit()});
+(async function(){try{if(window.claude&&claude.use){var R=await claude.use('room');if(R)NET.R=R}}catch(e){}onlineInit()})();
 renderPick();
 })();
 </script>
