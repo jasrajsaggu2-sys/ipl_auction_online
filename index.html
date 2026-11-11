@@ -1053,7 +1053,7 @@ function tick(){
   if(!S||S.paused||S.done)return;
   if(S.phase==='rtm'){
     var rp=S.rtmPending;if(!rp)return;
-    var hum=rp.team===S.me&&!S.spectate&&!S.auto,now=Date.now();
+    var hum=isH(rp.team),now=Date.now();
     if(S.sim||(effSpeed()==='turbo'&&!hum)){rtmDecide(aiRtm(T(rp.team),S.lot));return}
     if(hum){if(now>=rp.end)rtmDecide(false)}else if(now>=rp.aiAt)rtmDecide(aiRtm(T(rp.team),S.lot));
     if(S.phase==='rtm')paintLot();
@@ -1061,7 +1061,7 @@ function tick(){
   }
   if(S.phase==='raise'){
     var rq=S.rtmPending;if(!rq)return;
-    var hw=rq.winner===S.me&&!S.spectate&&!S.auto,nw=Date.now();
+    var hw=isH(rq.winner),nw=Date.now();
     if(S.sim||(effSpeed()==='turbo'&&!hw)){raiseDecide(aiRaiseK(rq.winner,S.lot));return}
     if(hw){if(nw>=rq.end)raiseDecide(1)}else if(nw>=rq.aiAt)raiseDecide(aiRaiseK(rq.winner,S.lot));
     if(S.phase==='raise')paintLot();
@@ -1186,7 +1186,7 @@ function closeLot(){
   if(L.leader){
     var f=rtmCandidate(L);
     if(f){
-      var hum=f===S.me&&!S.spectate&&!S.auto&&!S.sim,humW=L.leader===S.me&&!S.spectate&&!S.auto&&!S.sim;
+      var hum=isH(f)&&!S.sim,humW=isH(L.leader)&&!S.sim;
       if(hum||humW||(!S.sim&&effSpeed()!=='turbo')){var n0=Date.now();S.phase='rtm';S.rtmPending={team:f,stage:'match',end:n0+(hum?20000:10000),aiAt:n0+2500+Math.random()*5500};paintLot();return}   /* RTM window: 20s for you, 10s for AI teams */
       instantRtm(L,f);
     }
@@ -1363,7 +1363,7 @@ function rtmDecide(use){
   if(!use||canBuy(T(f),L.p,L.price)){finishLot();return}
   if(rp.stage==='final'){doRtm(L,f);finishLot();return}
   /* RTM team has matched: the winning bidder may now raise the bid once, as in the real auction */
-  var n0=Date.now(),w=L.leader,humW=w===S.me&&!S.spectate&&!S.auto;
+  var n0=Date.now(),w=L.leader,humW=isH(w);
   L.rtmBase=L.price;S.phase='raise';S.rtmPending={team:f,winner:w,stage:'raise',end:n0+(humW?20000:10000),aiAt:n0+2500+Math.random()*5500};
   paintLot();
 }
@@ -1377,7 +1377,7 @@ function raiseDecide(k,exact){
   if(exact&&np<L.price+inc(L.price))np=L.price+inc(L.price);
   if(k>0&&!canBuy(T(w),L.p,np)){
     L.price=np;L.hist.push({id:w,price:np});L.raised=true;
-    var n0=Date.now(),hum=f===S.me&&!S.spectate&&!S.auto;
+    var n0=Date.now(),hum=isH(f);
     S.phase='rtm';S.rtmPending={team:f,stage:'final',end:n0+(hum?20000:10000),aiAt:n0+2500+Math.random()*5500};
     if(!S.sim&&!S.spectate)toast(w+' raised the bid to '+money(np)+' against the Right to Match.');
     paintLot();paintLog();return;
@@ -1390,7 +1390,7 @@ function raiseDecide(k,exact){
 /* ---- training centre: spend leftover purse on players before the season starts ---- */
 var PROG={skill:{n:'Skill camp',sym:'🏏',cost:25,lo:1,hi:2,d:'+1 to +2 rating'},elite:{n:'Elite coaching',sym:'⭐',cost:75,lo:2,hi:4,plat:.15,d:'+2 to +4, 15% chance he plateaus'},fit:{n:'Fitness and recovery',sym:'💪',cost:40,lo:1,hi:1,fit:1,d:'+1 and halves a bad-form slump'}};
 var TRMAX=2;
-function trainOpen(){return !!(S&&S.done&&!S.formDone)}
+function trainOpen(){return !!(S&&S.done&&!S.formDone)&&!ONL()}
 function doTrain(t,sq,key){
   var g=PROG[key];if(!g||(sq.tr|0)>=TRMAX||t.purse<g.cost)return null;
   t.purse-=g.cost;sq.tr=(sq.tr|0)+1;t.trSpent=(t.trSpent|0)+g.cost;
@@ -1403,7 +1403,7 @@ function doTrain(t,sq,key){
 }
 function aiTrain(){
   S.teams.forEach(function(t){
-    if(t.id===S.me&&!S.spectate&&!S.auto)return;
+    if(isH(t.id))return;
     var budget=t.purse*.25;
     t.squad.slice().sort(function(a,b){return b.p.rating-a.p.rating}).slice(0,11).forEach(function(sq){
       ['elite','skill'].forEach(function(k){if(budget>=PROG[k].cost&&t.purse>=PROG[k].cost+200){budget-=PROG[k].cost;doTrain(t,sq,k)}});
@@ -1810,7 +1810,7 @@ function evalProposal(B,gA,gB,cash){
 }
 function r5(x){return Math.ceil(x/5)*5}
 function aiTradeRound(max){
-  var pool=S.teams.filter(function(t){return S.spectate||t.id!==S.me}),done=0,tries=0;
+  var pool=S.teams.filter(function(t){return S.spectate||(t.id!==S.me&&!(S.rh&&S.rh[t.id]))}),done=0,tries=0;
   while(done<max&&tries<4000){
     tries++;
     var A=pool[Math.floor(Math.random()*pool.length)],B=pool[Math.floor(Math.random()*pool.length)];
@@ -1824,7 +1824,7 @@ function aiTradeRound(max){
   return done;
 }
 function makeOffers(){
-  var me=T(S.me),offers=[],teams=shuffle(S.teams.filter(function(t){return t.id!==S.me}));
+  var me=T(S.me),offers=[],teams=shuffle(S.teams.filter(function(t){return t.id!==S.me&&!(S.rh&&S.rh[t.id])}));
   teams.forEach(function(t){
     if(offers.length>=4)return;
     var tries=0;
@@ -1853,7 +1853,7 @@ function paintTrades(){
   if(!S.done){el.innerHTML='<h2>Trade market</h2><div class="card"><p>The trade market opens when the auction ends. Finish bidding, or press <b>Sim to end</b> in the hall.</p></div>';return}
   var me=T(S.me),open=tradeOpen();
   S.tr=S.tr||{with:null,give:{},get:{},cash:0,msg:'',need:0};S.trades=S.trades||[];
-  var tr=S.tr,others=S.teams.filter(function(t){return t.id!==S.me});
+  var tr=S.tr,others=S.teams.filter(function(t){return t.id!==S.me&&!(S.rh&&S.rh[t.id])});
   if(!tr.with||tr.with===S.me)tr.with=others[0].id;
   var B=T(tr.with),h='<h2>Trade market</h2>';
   h+='<p class="muted">'+(open?'Franchises can swap players now that the hammer is down. A player moves at the price he was bought for, so purses shift by the difference. The market closes when the first league match is played.':'The first league match has been played, so the trade market is closed. The log below shows every deal.')+'</p>';
@@ -2760,7 +2760,7 @@ document.addEventListener('change',function(e){
 window.__ipl={start:startAuction,tick:tick,state:function(){return S},season:function(){initSeason();while(S.season.md<S.season.fixtures.length)playMD();while(!S.season.champ)playoffNext();return S.season}};
 
 /* ===== ONLINE PARTY: host runs the auction, guests send paddle actions ===== */
-var NET={R:null,r:null,host:false,code:'',peers:[],hostPeer:null,my:null,G:null,SQ:{},live:false,last:0,pend:0,ri:0,sn:0,lastTeam:undefined};
+var NET={tr:null,SQj:{},SQv:0,sig:'',R:null,r:null,host:false,code:'',peers:[],hostPeer:null,my:null,G:null,SQ:{},live:false,last:0,pend:0,ri:0,sn:0,lastTeam:undefined};
 function tcol(id){var t=TEAMS.filter(function(x){return x.id===id})[0];return t?t.color:'#888'}
 function tnm(id){var t=TEAMS.filter(function(x){return x.id===id})[0];return t?t.name:id}
 function gchip(id){return '<span class="chip"><i class="dot" style="--c:'+tcol(id)+'"></i>'+esc(id)+'</span>'}
@@ -2770,32 +2770,110 @@ function rOut(id){var L=S.lot;if(!L||S.phase!=='bidding')return;L.rOut=L.rOut||{
   else if(L.leader!==id){L.duel=L.duel.filter(function(x){return x!==id});if(L.out.indexOf(id)<0)L.out.push(id);L.rOut[id]=true}
   paintLot();paintLog()}
 function snapOf(){var L=S.lot,o={H:Object.keys(S.rh||{}).concat(S.me),ph:S.phase,dn:S.done?1:0,pz:S.paused?1:0,N:S.sold.length,
-  T:S.teams.map(function(t){return[t.id,t.purse,t.squad.length,t.os]}),R:S.sold.slice(-6).map(function(s){return[s.p.name,s.id,s.price]})};
-  if(L){var p=L.p;o.L={n:L.no,nm:p.name,r:p.role,c:p.c,os:p.os?1:0,u:p.u?1:0,g:p.gen?1:0,b:p.base,rt:p.rating,pr:L.price,ld:L.leader,id:L.idle,cd:L.cd?Math.max(1,L.cd-Date.now()):0,du:L.duel||[],ou:L.out||[],rs:L.result,sn:L.setNo,sm:L.set.name,sl:L.set.players.length,li:L.inSet,ac:L.set.accel?1:0,rp:(S.phase==='rtm'||S.phase==='raise')&&S.rtmPending?S.rtmPending.team:0}}
+  T:S.teams.map(function(t){return[t.id,t.purse,t.squad.length,t.os,rtmLeft(t)]}),R:S.sold.slice(-6).map(function(s){return[s.p.name,s.id,s.price]})};
+  var st=S.sets[S.setIdx];if(st)o.U=st.players.slice(S.lotIdx,S.lotIdx+4).map(function(p){return[p.name,p.role,p.base]});
+  if(L&&!S.done){var p=L.p,rp=S.rtmPending;o.L={n:L.no,nm:p.name,r:p.role,c:p.c,os:p.os?1:0,u:p.u?1:0,g:p.gen?1:0,b:p.base,rt:p.rating,pr:L.price,ld:L.leader,id:L.idle,cd:L.cd?Math.max(1,L.cd-Date.now()):0,du:L.duel||[],ou:L.out||[],rs:L.result,sn:L.setNo,sm:L.set.name,sl:L.set.players.length,li:L.inSet,ac:L.set.accel?1:0,
+    hs:L.hist.slice(-14).map(function(h){return[h.id,h.price]}),da:L.dropAt||{},cm:commentaryOf(L),pv:prevOf(p)||'',rb:L.rtmBase||0,
+    rp:(S.phase==='rtm'||S.phase==='raise')&&rp?{t:rp.team,s:rp.stage,w:rp.winner||'',e:Math.max(0,rp.end-Date.now())}:0}}
+  if(S.done)o.P=postP();
   if(S.done)o.E=ranking().map(function(x){return[x.t.id,x.s]});
   return o}
 function netPush(force){if(!NET.live||!NET.r||!S)return;var n=Date.now();
   if(!force&&n-NET.last<300){if(!NET.pend){NET.pend=1;setTimeout(function(){NET.pend=0;netPush(true)},320)}return}
   NET.last=n;NET.r.emit('snap',snapOf()).catch(function(){})}
-function sqPush(id){var t=T(id);if(!t||!NET.r)return;NET.r.emit('sq',{id:id,s:t.squad.map(function(e){return[e.p.name,e.p.role,e.p.os?1:0,e.price]})}).catch(function(){})}
+function sqPush(id){var t=T(id);if(!t||!NET.r)return;NET.r.emit('sq',{id:id,s:t.squad.map(function(e){return[e.p.name,e.p.role,e.p.os?1:0,e.price,e.p.rating]})}).catch(function(){})}
 ['placeBid','startLot','finishLot','endAuction'].forEach(function(nm){});
 var _pb=placeBid;placeBid=function(id){_pb(id);netPush()};
 var _sl=startLot;startLot=function(p,s){_sl(p,s);netPush(true)};
 var _fl=finishLot;finishLot=function(){var n=S.sold.length;_fl();if(NET.live&&S.sold.length>n)sqPush(S.sold[S.sold.length-1].id);netPush(true)};
 var _ea=endAuction;endAuction=function(){_ea();netPush(true);S.teams.forEach(function(t,i){setTimeout(function(){sqPush(t.id)},200*i)})};
 function netBeat(){if(!NET.live||!S)return;netPush(true);if(NET.ri++%2===0){var t=S.teams[(NET.ri>>1)%S.teams.length];if(t.squad.length)sqPush(t.id)}}
-function onAct(m){if(!NET.host||!S||!S.rh)return;var d=m.data||{},h=S.rh[d.team];if(!h||h.peer!==m.peer)return;
+function onAct(m){if(!NET.host||!S||!S.rh)return;var d=m.data||{},h=S.rh[d.team];
+  if(d.t==='sq'&&typeof d.v==='string'&&NET.live){sqPush(d.v);return}
+  if(!h||h.peer!==m.peer)return;
   if(d.t==='bid')rBid(d.team);else if(d.t==='out')rOut(d.team);else if(d.t==='ceil')h.ceil=Math.max(0,Math.min(PURSE,Math.round((+d.v||0)*100)));
+  else if(d.t==='td'){tdAct(d.team,d.v);deskPaint()}
+  else if(d.t==='rtm'){var rp=S.rtmPending;if(S.phase==='rtm'&&rp&&rp.team===d.team)rtmDecide(!!d.v)}
+  else if(d.t==='raise'){var rq=S.rtmPending;if(S.phase==='raise'&&rq&&rq.winner===d.team){var x=+d.x;raiseDecide(Math.max(0,Math.min(8,(+d.v)|0)),x>0&&x<1e5?Math.round(x):0)}}
   netPush()}
 function act(t,v){if(NET.r&&NET.my)NET.r.emit('act',{t:t,team:NET.my,v:v}).catch(function(){})}
+
+
+/* ---- after the auction: trade desk, ready check, whole-season sim ---- */
+function isHum(id){return id===S.me||!!(S.rh&&S.rh[id])}
+function humans(){return Object.keys(S.rh||{}).concat(S.me)}
+function evalFor(A,B,gA,gB,cash){var ea=tEntries(A,gA),eb=tEntries(B,gB);
+  var gain=ea.reduce(function(a,e){return a+tvalue(B,e.p)},0)+cash,loss=eb.reduce(function(a,e){return a+tvalue(B,e.p)*(e.p.rating>=90?1.35:1.1)},0);return gain>=loss}
+function tmsg(id,m){S.tm=S.tm||{};S.tm[id]=String(m).slice(0,80)}
+function namesOk(a){return Array.isArray(a)&&a.length<=4&&a.every(function(x){return typeof x==='string'&&x.length<60})}
+function dropPend(a,b){S.tp=(S.tp||[]).filter(function(x){return x.a!==a&&x.a!==b&&x.b!==a&&x.b!==b})}
+function tdAct(team,p){
+  if(!S||!S.done||!p||!T(team))return;S.tp=S.tp||[];S.rd=S.rd||{};S.tn=S.tn||0;
+  if(p.k==='rdy'){if(S.seasonRun)return;S.rd[team]=!S.rd[team];checkReady();return}
+  if(!tradeOpen()){tmsg(team,'The trade market is closed.');return}
+  if(p.k==='prop'){var A=T(team),B=T(p.to);if(!B||B===A)return;
+    var ga=p.ga,gb=p.gb,cash=Math.round(+p.cash||0);if(!namesOk(ga)||!namesOk(gb)||!isFinite(cash)||Math.abs(cash)>5000)return;
+    var err=tradeCheck(A,B,ga,gb,cash);if(err){tmsg(team,err);return}
+    if(isHum(B.id)){S.tp=S.tp.filter(function(x){return !(x.a===A.id&&x.b===B.id)});S.tp.push({i:++S.tn,a:A.id,b:B.id,ga:ga,gb:gb,cash:cash});if(S.tp.length>6)S.tp.shift();tmsg(team,'Offer sent to '+B.id+'.');tmsg(B.id,A.id+' sent you a trade offer.')}
+    else if(evalFor(A,B,ga,gb,cash)){doTrade(A,B,ga,gb,cash);tmsg(team,B.id+' accepted. Trade done.');dropPend(A.id,B.id)}
+    else tmsg(team,B.id+' rejected the offer. Ask for less or add cash.')}
+  else if(p.k==='acc'||p.k==='dec'){var o=S.tp.filter(function(x){return x.i===p.i&&x.b===team})[0];if(!o)return;S.tp=S.tp.filter(function(x){return x!==o});
+    if(p.k==='dec'){tmsg(o.a,team+' declined your offer.');tmsg(team,'Offer declined.');return}
+    var e=tradeCheck(T(o.a),T(team),o.ga,o.gb,o.cash);if(e){tmsg(team,'Trade failed: '+e);tmsg(o.a,'Trade with '+team+' failed: '+e);return}
+    doTrade(T(o.a),T(team),o.ga,o.gb,o.cash);tmsg(o.a,team+' accepted. Trade done.');tmsg(team,'Trade done with '+o.a+'.');dropPend(o.a,team)}
+}
+function gone(id){var h=S.rh&&S.rh[id];return !!(h&&NET.peers.length&&!NET.peers.some(function(p){return p.peer===h.peer}))}
+function checkReady(){if(!S||!S.done||S.seasonRun||!S.rd)return;if(!humans().every(function(id){return S.rd[id]||gone(id)}))return;runSeason()}
+function runSeason(){if(S.seasonRun)return;S.season=null;initSeason();var Z=S.season;while(Z.md<Z.fixtures.length)playMD();while(!Z.champ)playoffNext();S.seasonRun=1;S.tp=[];
+  toast('Season complete. Champions: '+T(Z.champ).name+'.');S.teams.forEach(function(t,i){setTimeout(function(){sqPush(t.id)},150*i)});showTab('season')}
+function postP(){var P={to:tradeOpen()?1:0,rd:humans().filter(function(id){return (S.rd&&S.rd[id])||gone(id)}),tp:(S.tp||[]).map(function(x){return[x.i,x.a,x.b,x.ga,x.gb,x.cash]}),tl:(S.trades||[]).slice(-4).map(function(x){return[x.a,x.b,x.ga,x.gb,x.cash]}),tm:{}};
+  humans().forEach(function(id){if(S.tm&&S.tm[id])P.tm[id]=S.tm[id]});
+  if(S.seasonRun&&S.season){P.ch=S.season.champ;P.tb=standings().map(function(x){return[x.id,x.w,x.l,x.pts]})}return P}
+var _dt=doTrade;doTrade=function(A,B,a,b,c){_dt(A,B,a,b,c);if(NET.live){sqPush(A.id);sqPush(B.id)}};
+var _ptr=paintTrades;paintTrades=function(){_ptr();if(ONL()&&S.done){var el=$('view-trades'),d=document.createElement('div');d.id='tdBox';d.className='card';d.style.marginTop='14px';el.insertBefore(d,el.children[1]||null);deskPaint()}};
+var _pse=paintSeason;paintSeason=function(){if(ONL()&&!S.seasonRun){$('view-season').innerHTML='<h2>Season</h2><div class="card"><p>The whole season is simulated in one go once every player presses <b>Ready</b> on the Trades tab. Trading closes at that moment.</p></div>';return}_pse()};
+function deskV(){var P,teams,H,my,sqf;
+  if(NET.host&&S){P=postP();teams=S.teams.map(function(t){return[t.id,t.purse,t.squad.length,t.os,rtmLeft(t)]});H=humans();my=S.me;sqf=function(id){var t=T(id);return t?t.squad.map(function(e){return{n:e.p.name,role:e.p.role,os:e.p.os?1:0,rt:e.p.rating,pr:e.price}}):[]}}
+  else{var g=NET.G;if(!g)return null;P=g.P||{};teams=g.T;H=g.H;my=NET.my&&g.H.indexOf(NET.my)>=0?NET.my:null;sqf=function(id){return(NET.SQ[id]||[]).map(function(x){return{n:x[0],role:x[1],os:x[2],pr:x[3],rt:x[4]}})}}
+  return{P:P,teams:teams,H:H,my:my,sq:sqf}}
+function deskPaint(){var el=$('tdBox');if(!el)return;var v=deskV();if(!v)return;el.hidden=false;el.innerHTML=deskHtml(v)}
+function deskHtml(v){var P=v.P||{},my=v.my,tr=NET.tr=NET.tr||{with:null,give:{},get:{},cash:''},h='<h3>After the auction</h3>';
+  if(P.ch){return h+'<div class="champ"><span class="k">IPL champions</span><h3><em>'+esc(tnm(P.ch))+'</em></h3></div><div class="scroll" style="margin-top:10px"><table class="tbl"><thead><tr><th>#</th><th>Franchise</th><th class="r">W</th><th class="r">L</th><th class="r">Pts</th></tr></thead><tbody>'+(P.tb||[]).map(function(x,i){return '<tr'+(x[0]===my?' class="me"':'')+'><td>'+(i+1)+'</td><td>'+gchip(x[0])+'</td><td class="r mono">'+x[1]+'</td><td class="r mono">'+x[2]+'</td><td class="r mono">'+x[3]+'</td></tr>'}).join('')+'</tbody></table></div><p class="note">The whole season was simulated once everyone confirmed. The host can open the Season tab for match details.</p>'}
+  h+='<p class="note">Trade with friends and with the AI franchises. When <b>everyone</b> presses Ready, the whole season is simulated in one go and trading closes.</p>';
+  var rd=P.rd||[];h+='<div class="pillrow" style="margin:6px 0">'+v.H.map(function(id){return '<span class="pill">'+gchip(id)+' '+(rd.indexOf(id)>=0?'✅ ready':'⏳ trading')+'</span>'}).join('')+'</div>';
+  if(my)h+='<button class="btn primary" type="button" data-td="rdy" style="font-size:20px">'+(rd.indexOf(my)>=0?'Ready (tap to undo)':'I am ready for the season')+'</button> ';
+  if(NET.host)h+='<button class="btn" type="button" data-td="force">Host: start season now</button>';
+  if(!my)return h+'<p class="muted">You are spectating.</p>';
+  var tm=(P.tm||{})[my];if(tm)h+='<p style="margin-top:8px"><b>'+esc(tm)+'</b></p>';
+  if(!P.to)return h;
+  var inc_=(P.tp||[]).filter(function(x){return x[2]===my}),out=(P.tp||[]).filter(function(x){return x[1]===my});
+  h+='<h3 style="margin-top:12px">Offers for you</h3>'+(inc_.length?'<div class="scroll"><table class="tbl"><tbody>'+inc_.map(function(x){var line=x[5]>0?'they add '+money(x[5]):x[5]<0?'you add '+money(-x[5]):'no cash';return '<tr><td>'+gchip(x[1])+'</td><td>They send <b>'+(x[3].map(esc).join(', ')||'nobody')+'</b></td><td>for <b>'+(x[4].map(esc).join(', ')||'nobody')+'</b></td><td class="muted">'+line+'</td><td class="r"><button class="btn" type="button" data-td="acc" data-i="'+x[0]+'">Accept</button> <button class="ghost" type="button" data-td="dec" data-i="'+x[0]+'">Decline</button></td></tr>'}).join('')+'</tbody></table></div>':'<p class="muted">No offers right now.</p>')+out.map(function(x){return '<p class="muted">Waiting for '+esc(x[2])+' to answer your offer.</p>'}).join('');
+  var others=v.teams.filter(function(t){return t[0]!==my});if(!tr.with||!others.some(function(t){return t[0]===tr.with}))tr.with=others[0][0];
+  var mine=v.sq(my),theirs=v.sq(tr.with),mt=v.teams.filter(function(t){return t[0]===my})[0];
+  function side(ps,sd,sel){return '<div style="max-height:280px;overflow:auto;border:1px solid var(--line);border-radius:4px">'+ps.slice().sort(function(a,b){return b.rt-a.rt}).map(function(p){return '<label style="display:flex;gap:8px;align-items:center;padding:6px 10px;border-top:1px solid var(--line);cursor:pointer"><input type="checkbox" class="tdChk" data-side="'+sd+'" data-name="'+esc(p.n)+'"'+(sel[p.n]?' checked':'')+'><span style="flex:1;min-width:0">'+esc(p.n)+(p.os?' <span class="tag hl" style="padding:0 5px;font-size:11px">OS</span>':'')+'</span><span class="muted" style="font-size:12px">'+(ROLE_SHORT[p.role]||p.role)+'</span><span class="mono">'+p.rt+'</span><span class="mono muted">'+money(p.pr)+'</span></label>'}).join('')+'</div>'}
+  h+='<h3 style="margin-top:12px">Propose a trade</h3><p class="note">Your purse '+money(mt?mt[1]:0)+'. Players move at the price they were bought for.</p><label class="k" for="tdWith">Trade partner</label> <select id="tdWith" class="btn" style="padding:7px 10px;margin:4px 0 10px">'+others.map(function(t){return '<option value="'+t[0]+'"'+(t[0]===tr.with?' selected':'')+'>'+esc(tnm(t[0]))+(v.H.indexOf(t[0])>=0?' (player)':' (AI)')+' · '+money(t[1])+'</option>'}).join('')+'</select><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px"><div><span class="k">You give</span>'+side(mine,'give',tr.give)+'</div><div><span class="k">You get from '+esc(tr.with)+'</span>'+(theirs.length?side(theirs,'get',tr.get):'<p class="muted">Loading squad…</p>')+'</div></div><div class="ctl-row" style="margin-top:10px"><label>Cash you add (₹ Cr, negative = they pay you)<input id="tdCash" type="number" step="0.25" inputmode="decimal" value="'+esc(tr.cash||'')+'" placeholder="0"></label><button class="btn primary" type="button" data-td="prop" style="font-size:20px">Propose trade</button></div>';
+  var log=P.tl||[];h+='<h3 style="margin-top:12px">Latest trades</h3>'+(log.length?'<ul class="list">'+log.slice().reverse().map(function(x){return '<li>'+gchip(x[0])+' sends '+(x[2].map(esc).join(', ')||'cash')+' ⇄ '+gchip(x[1])+' sends '+(x[3].map(esc).join(', ')||'cash')+'</li>'}).join('')+'</ul>':'<p class="muted">No trades yet.</p>');
+  return h}
+function tdSend(p){if(NET.host&&S){tdAct(S.me,p);netPush(true);deskPaint()}else if(NET.r&&NET.my)NET.r.emit('act',{t:'td',team:NET.my,v:p}).catch(function(){})}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-td]');if(!b)return;var k=b.getAttribute('data-td'),tr=NET.tr=NET.tr||{with:null,give:{},get:{},cash:''},p={k:k};
+  if(k==='force'){if(NET.host&&S){runSeason();netPush(true)}return}
+  if(k==='prop'){p.to=tr.with;p.ga=Object.keys(tr.give).filter(function(n){return tr.give[n]});p.gb=Object.keys(tr.get).filter(function(n){return tr.get[n]});p.cash=Math.round((parseFloat(tr.cash)||0)*100);
+    if(!p.ga.length&&!p.gb.length){toast('Tick at least one player.');return}tr.give={};tr.get={};tr.cash=''}
+  else if(k==='acc'||k==='dec')p.i=+b.getAttribute('data-i');
+  tdSend(p)});
+document.addEventListener('change',function(e){var t=e.target;if(!t||!t.classList)return;var tr=NET.tr=NET.tr||{with:null,give:{},get:{},cash:''};
+  if(t.id==='tdWith'){tr.with=t.value;tr.get={};if(!NET.host&&NET.my)act('sq',tr.with);deskPaint()}
+  else if(t.classList.contains('tdChk'))tr[t.getAttribute('data-side')][t.getAttribute('data-name')]=t.checked;
+  else if(t.id==='tdCash')tr.cash=t.value});
+document.addEventListener('input',function(e){if(e.target&&e.target.id==='tdCash'){(NET.tr=NET.tr||{with:null,give:{},get:{}}).cash=e.target.value}});
 
 /* ---- lobby ---- */
 async function netOpen(code,host){
   try{NET.r=await NET.R.join('ipl-'+code.toLowerCase(),host)}catch(e){toast('Could not open the party room. Try again.');return false}
   NET.host=host;NET.code=code;
   NET.r.onPeers(function(c){NET.peers=c.peers;c.peers.forEach(function(p){if(p.presence&&p.presence.role==='host')NET.hostPeer=p.peer});
-    if(NET.host&&NET.live&&c.joined.length){netPush(true)}lobbyPaint()});
-  NET.r.on('act',onAct);NET.r.on('snap',onSnap);NET.r.on('sq',function(m){if(m.peer!==NET.hostPeer||!m.data)return;NET.SQ[m.data.id]=m.data.s;gSquad()});
+    if(NET.host&&NET.live&&c.joined.length){netPush(true)}if(NET.host&&NET.live&&S&&S.done&&c.left.length){if(!S.seasonRun)checkReady();netPush(true);if($('tdBox'))deskPaint()}lobbyPaint()});
+  NET.r.on('act',onAct);NET.r.on('snap',onSnap);NET.r.on('sq',function(m){if(m.peer!==NET.hostPeer||!m.data)return;NET.SQ[m.data.id]=m.data.s;var j=JSON.stringify(m.data.s);if(NET.SQj[m.data.id]!==j){NET.SQj[m.data.id]=j;NET.SQv++}gSquad()});
   NET.r.presence({role:host?'host':'guest'});
   $('onRow').hidden=true;$('onLobby').hidden=false;
   if(!host){['.hero','#teamGrid','.startrow'].forEach(function(q){var e=document.querySelector(q);if(e)e.hidden=true})}
@@ -2824,34 +2902,58 @@ document.addEventListener('click',function(e){var t=e.target.closest&&e.target.c
 /* ---- guest screen ---- */
 function onSnap(m){if(NET.host||!m.data||m.peer!==NET.hostPeer)return;m.data.at=Date.now();NET.G=m.data;
   if(!NET.live){NET.live=true;$('pick').hidden=true;$('room').hidden=true;$('tabs').hidden=true;gInit();setInterval(gPaint,500)}gPaint()}
-function gInit(){var g=$('gview');g.hidden=false;g.innerHTML='<div class="status" style="margin-top:16px"><div class="team"><span class="k">Your franchise</span><b id="gTeam"></b></div><div><span class="k">Purse left</span><b id="gPurse"></b><small>of ₹180 Cr</small></div><div><span class="k">Squad</span><b id="gSq"></b><small>25 to 35</small></div><div><span class="k">Overseas</span><b id="gOs"></b><small>max 17</small></div></div>'
-+'<div class="hallgrid"><article class="lot"><div class="lot-head"><span class="eyebrow" id="gEye"></span><span class="eyebrow" id="gNo"></span></div><div class="lot-body"><h2 class="lotname" id="gName"></h2><div class="tags" id="gTags"></div><div class="lot-meta"><div><span class="k">Base price</span><b id="gBase"></b></div><div><span class="k">Rating</span><b id="gRat"></b></div></div></div>'
-+'<div class="bidpanel"><span class="k">Current bid</span><div class="bignum mono" id="gPrice"></div><div class="leader" id="gLead"></div><div class="hammer" id="gHam"></div></div>'
+function gInit(){var g=$('gview');g.hidden=false;g.innerHTML='<div class="status" style="margin-top:16px"><div class="team"><span class="k">Your franchise</span><b id="gTeam"></b></div><div><span class="k">Purse left</span><b id="gPurse"></b><small>of ₹180 Cr</small></div><div><span class="k">Squad</span><b id="gSq"></b><small id="gNeed">25 to 35</small></div><div><span class="k">Overseas · RTM</span><b id="gOs"></b><small>max 17 overseas</small></div></div>'
++'<div class="hallgrid"><article class="lot"><div class="lot-head"><span class="eyebrow" id="gEye"></span><span class="eyebrow" id="gNo"></span></div><div class="lot-body"><h2 class="lotname" id="gName"></h2><div class="tags" id="gTags"></div><div class="lot-meta"><div><span class="k">Base price</span><b id="gBase"></b></div><div><span class="k">Rating</span><b id="gRat"></b><span class="meter"><i id="gRatBar"></i></span></div></div></div>'
++'<div class="bidpanel"><span class="k">Current bid</span><div class="bignum mono" id="gPrice"></div><div class="leader" id="gLead"></div><div class="hammer" id="gHam"></div><div class="note" id="gComm" style="color:var(--panel-muted);font-style:italic"></div><div class="note" id="gRtm" hidden style="color:#fff;margin-top:10px;padding:12px;border:1px solid var(--accent);border-radius:8px"></div></div>'
 +'<div class="controls"><button id="gBidBtn" class="btn primary" type="button"></button><div class="note" id="gWhy"></div><div class="ctl-row"><label>Auto-raise up to (₹ Cr)<input id="gCeil" type="number" min="0" step="0.25" inputmode="decimal" placeholder="off"></label><button id="gCeilBtn" class="btn" type="button">Set</button><button id="gOutBtn" class="btn" type="button"></button></div></div></article>'
-+'<aside class="side"><section class="card"><h3>Recent sales</h3><ol class="list" id="gSales"></ol></section><section class="card"><h3>Franchises</h3><ul class="list" id="gTeams"></ul></section><section class="card"><h3 id="gSqH">My squad</h3><ul class="list" id="gMine"></ul></section></aside></div><div id="gEnd" class="card" hidden></div>'}
-function gSquad(){if(!$('gMine'))return;var s=NET.SQ[NET.my]||[];$('gSqH').textContent='My squad ('+s.length+')';$('gMine').innerHTML=s.length?s.map(function(x){return '<li><span class="nm">'+esc(x[0])+'</span> <span class="muted" style="font-size:12px">'+(ROLE_SHORT[x[1]]||x[1])+(x[2]?' · OS':'')+'</span><span class="mono">'+money(x[3])+'</span></li>'}).join(''):'<li class="muted">No players yet.</li>'}
++'<aside class="side"><section class="card"><h3>Out of the bidding</h3><ul class="list" id="gOutL"></ul></section><section class="card"><h3>Paddle log</h3><ol class="list log" id="gLog"></ol></section><section class="card"><h3>Up next</h3><ol class="list" id="gUp"></ol></section><section class="card"><h3>Recent sales</h3><ol class="list" id="gSales"></ol></section><section class="card"><h3>Franchises <small class="muted" style="font-size:12px;font-family:var(--f-body);text-transform:none">tap one to see its squad</small></h3><ul class="list" id="gTeams"></ul></section><section class="card"><h3 id="gSqH">My squad</h3><ul class="list" id="gMine"></ul></section></aside></div><div id="gEnd" class="card" hidden></div><div id="tdBox" class="card" hidden style="margin-top:12px"></div>'}
+function gSquad(){if(!$('gMine'))return;var id=NET.sel||NET.my,s=NET.SQ[id]||[];$('gSqH').textContent=(id===NET.my?'My squad':id+' squad')+' ('+s.length+')';$('gMine').innerHTML=s.length?s.map(function(x){return '<li><span class="nm">'+esc(x[0])+'</span> <span class="muted" style="font-size:12px">'+(ROLE_SHORT[x[1]]||x[1])+(x[2]?' · OS':'')+'</span><span class="mono">'+money(x[3])+'</span></li>'}).join(''):'<li class="muted">No players yet.</li>'}
+function gRaise(pr,k){for(var i=0;i<k;i++)pr+=inc(pr);return pr}
+function gRtm(g,mt,isP){var b=$('gRtm'),L=g.L,rp=L&&L.rp;if(!rp){b.hidden=true;b.dataset.k='';return}
+  var left=Math.max(0,Math.ceil((rp.e-(Date.now()-g.at))/1000)),key=rp.s+'|'+rp.t+'|'+L.n+'|'+L.pr,my=NET.my,ft=mt?{squad:{length:mt[2]},os:mt[3],purse:mt[1]}:null,fp={os:L.os},cd='<b class="mono">Time left: <span id="gRtmCd"></span>s</b>',from=rp.s==='raise'?rp.w:L.ld,h;
+  b.hidden=false;
+  if(b.dataset.k!==key){b.dataset.k=key;
+    var head='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px">'+gchip(from)+' 🔨 <b class="mono">'+money(L.pr)+'</b> ⚔️ '+gchip(rp.t)+' 🎴</div>';
+    if(rp.s==='raise'){
+      if(isP&&rp.w===my){h='<b>Right to Match used.</b> '+gchip(rp.t)+' will match your winning bid of <b>'+money(L.pr)+'</b> for '+esc(L.nm)+'. You <b>must raise</b> once. If they still match they pay the higher price; if they walk away, <b>you</b> pay it. '+cd+'<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">'+[1,2,4,8].map(function(k){var np=gRaise(L.pr,k),bad=ft&&canBuy(ft,fp,np);return '<button type="button" class="btn'+(k===1?' primary':'')+'" data-graise="'+k+'"'+(bad?' disabled':'')+'>⬆️ Raise to '+money(np)+'</button>'}).join('')+(ft&&canBuy(ft,fp,gRaise(L.pr,1))?'<button type="button" class="btn" data-graise="0">No raise</button>':'')+'<input id="gRaiseAmt" type="number" step="0.25" placeholder="₹ Cr" style="width:90px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:4px;padding:6px"><button type="button" class="btn" data-graisec="1">Raise to amount</button></div>'}
+      else h='<b>Right to Match used.</b> '+gchip(rp.t)+' will match '+money(L.pr)+' for '+esc(L.nm)+'. '+gchip(rp.w)+' may raise the bid once. '+cd}
+    else if(isP&&rp.t===my){var can=ft&&!canBuy(ft,fp,L.pr),n=mt?mt[4]:0;h='<b>Right to Match.</b> '+esc(L.nm)+' played for you in 2026. '+(rp.s==='final'?gchip(L.ld)+' raised the bid from '+money(L.rb)+' to <b>'+money(L.pr)+'</b>. Match the new price, or walk away?':gchip(L.ld)+' won him at <b>'+money(L.pr)+'</b>. Match the bid to keep him? They may then raise it once.')+' ('+n+' card'+(n===1?'':'s')+' left) '+cd+'<div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn primary" data-grtm="1"'+(can?'':' disabled')+'>✅ Match '+money(L.pr)+'</button><button type="button" class="btn" data-grtm="0">❌ Let him go</button></div>'+(can?'':'<div style="margin-top:6px">You cannot afford to match this bid.</div>')}
+    else h='<b>Right to Match window.</b> '+gchip(rp.t)+' played with '+esc(L.nm)+' in 2026 and may match '+gchip(L.ld)+'’s '+(rp.s==='final'?'raised bid':'winning bid')+' of <b>'+money(L.pr)+'</b>. '+cd;
+    b.innerHTML=head+h}
+  var c=$('gRtmCd');if(c)c.textContent=left}
 function gPaint(){var g=NET.G;if(!g||!$('gTeam'))return;var L=g.L,my=NET.my,mt=g.T.filter(function(x){return x[0]===my})[0],isP=my&&g.H.indexOf(my)>=0;
   $('gTeam').textContent=isP?tnm(my):my?my+' (not in this auction)':'Spectating';
-  $('gPurse').textContent=mt?money(mt[1]):'-';$('gSq').textContent=mt?mt[2]+' / '+MAX:'-';$('gOs').textContent=mt?mt[3]:'-';
-  $('gSales').innerHTML=g.R.slice().reverse().map(function(r){return '<li><span class="nm">'+esc(r[0])+'</span>'+gchip(r[1])+'<span class="mono">'+money(r[2])+'</span></li>'}).join('')||'<li class="muted">No sales yet.</li>';
-  $('gTeams').innerHTML=g.T.map(function(t){return '<li>'+gchip(t[0])+(g.H.indexOf(t[0])>=0?'<em>player</em>':'')+'<span class="mono">'+t[2]+' · '+money(t[1])+'</span></li>'}).join('');
+  $('gPurse').textContent=mt?money(mt[1]):'-';$('gSq').textContent=mt?mt[2]+' / '+MAX:'-';$('gOs').textContent=mt?mt[3]+' · '+(mt[4]?'🎴'.repeat(mt[4]):'no RTM'):'-';
+  if(mt)$('gNeed').textContent=mt[2]<MIN?'need '+(MIN-mt[2])+' more':'minimum met';
+  $('gSales').innerHTML=g.R.slice().reverse().map(function(r){return '<li>'+gchip(r[1])+'<span class="nm">'+esc(r[0])+'</span><span class="mono">'+money(r[2])+'</span></li>'}).join('')||'<li class="muted">No sales yet.</li>';
+  $('gTeams').innerHTML=g.T.map(function(t){return '<li data-gt="'+t[0]+'" style="cursor:pointer'+(t[0]===(NET.sel||my)?';font-weight:700':'')+'">'+gchip(t[0])+(g.H.indexOf(t[0])>=0?'<em>player</em>':'')+'<span class="mono">'+t[2]+' · '+(t[4]?'🎴'.repeat(t[4])+' · ':'')+money(t[1])+'</span></li>'}).join('');
+  $('gUp').innerHTML=(g.U||[]).map(function(p){return '<li><span class="nm">'+esc(p[0])+'</span><span class="mono muted">'+(ROLE_SHORT[p[1]]||p[1]).replace(/s$/,'')+' · '+money(p[2])+'</span></li>'}).join('')||'<li class="muted">Last lot of this set.</li>';
   gSquad();
   var stale=Date.now()-g.at>8000;
-  if(g.dn){$('gBidBtn').disabled=true;$('gBidBtn').textContent='Auction closed';$('gOutBtn').hidden=true;$('gHam').textContent='';var E=$('gEnd');E.hidden=false;
-    E.innerHTML='<h3>Final squad strength</h3><div class="scroll"><table class="tbl"><tbody>'+(g.E||[]).map(function(e,i){return '<tr'+(e[0]===my?' class="me"':'')+'><td>'+(i+1)+'</td><td>'+gchip(e[0])+'</td><td class="r mono">'+e[1]+'</td></tr>'}).join('')+'</tbody></table></div><p class="note">Squads are final. The host can run trades, training and the season.</p>';return}
+  if(g.dn){$('gBidBtn').disabled=true;$('gBidBtn').textContent='Auction closed';$('gOutBtn').hidden=true;$('gHam').textContent='';$('gRtm').hidden=true;var E=$('gEnd');E.hidden=false;
+    E.innerHTML='<h3>Final squad strength</h3><div class="scroll"><table class="tbl"><tbody>'+(g.E||[]).map(function(e,i){return '<tr'+(e[0]===my?' class="me"':'')+'><td>'+(i+1)+'</td><td>'+gchip(e[0])+'</td><td class="r mono">'+e[1]+'</td></tr>'}).join('')+'</tbody></table></div><p class="note">Squads are final until you trade. Trade and confirm below.</p>';
+    if(g.P){var sg=JSON.stringify(g.P)+'|'+NET.SQv+'|'+(NET.sel||'');if(sg!==NET.sig){NET.sig=sg;deskPaint()}}return}
   if(!L)return;
   $('gEye').textContent=L.ac?'Accelerated round':'Set '+L.sn+' · '+L.sm;$('gNo').textContent='Lot '+L.li+' of '+L.sl+' · #'+L.n;
-  $('gName').textContent=L.nm;$('gTags').innerHTML=[ROLE_LABEL[L.r],COUNTRY[L.c],L.os?'Overseas':'Indian',L.g?'Domestic circuit':L.u?'Uncapped':''].filter(Boolean).map(function(x){return '<span class="tag'+(x==='Overseas'?' hl':'')+'">'+esc(x)+'</span>'}).join('');
-  $('gBase').textContent=money(L.b);$('gRat').textContent=L.rt+' / 100';$('gPrice').textContent=money(L.pr);
+  $('gName').textContent=L.nm;
+  var tg=[ROLE_LABEL[L.r],COUNTRY[L.c],L.os?'Overseas':'Indian',L.g?'Domestic circuit':L.u?'Uncapped':!L.os?'Capped':''];if(L.ac)tg.push('Re-entered at base');if(L.pv){tg.push('Ex-'+L.pv);if(isP&&L.pv===my&&mt&&mt[4]>0)tg.push('Your RTM')}
+  $('gTags').innerHTML=tg.filter(Boolean).map(function(x){return '<span class="tag'+(x==='Overseas'?' hl':'')+'">'+esc(x)+'</span>'}).join('');
+  $('gBase').textContent=money(L.b);$('gRat').textContent=L.rt+' / 100';$('gRatBar').style.width=L.rt+'%';$('gPrice').textContent=money(L.pr);$('gComm').textContent=L.cm||'';
   $('gLead').innerHTML=L.ld?gchip(L.ld)+(L.ld===my?'<span>Your paddle is up</span>':'<span>'+esc(tnm(L.ld))+'</span>'):'<span style="color:var(--panel-muted)">No paddle up yet</span>';
-  var h=L.rs?(L.rs==='sold'?'SOLD':'UNSOLD'):stale?'Waiting for the host…':L.rp?'Right to Match window…':g.pz?'Paused':L.cd?'All other teams are out. Sold in '+Math.max(1,Math.ceil((L.cd-(Date.now()-g.at))/1000))+'…':L.ld&&L.id>=4?'Going twice…':L.ld&&L.id>=3?'Going once…':!L.ld&&L.id>=2?'No takers yet…':L.ld?'Bidding open':'Waiting for an opening bid';
-  $('gHam').textContent=h;
+  var rtm=g.ph==='rtm'||g.ph==='raise';
+  var h=L.rs?(L.rs==='sold'?'SOLD':'UNSOLD'):stale?'Waiting for the host…':rtm?'Right to Match…':g.pz?'Paused':L.cd?'All other teams are out. Sold in '+Math.max(1,Math.ceil((L.cd-(Date.now()-g.at))/1000))+'…':L.ld&&L.id>=4?'Going twice…':L.ld&&L.id>=3?'Going once…':!L.ld&&L.id>=2?'No takers yet…':L.ld?'Bidding open':'Waiting for an opening bid';
+  $('gHam').textContent=h;gRtm(g,mt,isP);
+  var d=L.du,o=L.ou,rows=L.hs.slice().reverse().map(function(x){return '<li>'+gchip(x[0])+(x[0]===my?'<em>you</em>':'')+'<span class="mono">'+money(x[1])+'</span></li>'});
+  if(d.length||o.length)rows.unshift('<li style="display:block"><span class="k">In the ring</span> '+(d.map(gchip).join(' <span class="muted">v</span> ')||'—')+(o.length?'<br><span class="k">Dropped out</span> '+o.map(gchip).join(' '):'')+'</li>');
+  $('gLog').innerHTML=rows.join('')||'<li class="muted">No paddle up yet. Opening at '+money(L.b)+'.</li>';
+  $('gOutL').innerHTML=o.map(function(i){return '<li>'+gchip(i)+(i===my?'<em>you</em>':'')+(L.da[i]?'<span class="mono muted" style="margin-left:6px;font-size:12px">out at '+money(L.da[i])+'</span>':'')+'</li>'}).join('')||'<li class="muted">Nobody has dropped out yet.</li>';
   var bb=$('gBidBtn'),ob=$('gOutBtn'),why=$('gWhy'),nxt=L.ld?L.pr+inc(L.pr):L.b,bidding=g.ph==='bidding'&&!L.rs;
-  var out=L.ou.indexOf(my)>=0,inD=L.du.indexOf(my)>=0,open=inD||L.du.length<2;
+  var out=o.indexOf(my)>=0,inD=d.indexOf(my)>=0,open=inD||d.length<2;
   ob.hidden=!isP;ob.textContent=out?'Come back':'Go out';ob.disabled=!bidding||L.ld===my;
   var cb=mt?canBuy({squad:{length:mt[2]},os:mt[3],purse:mt[1]},{os:L.os},nxt):null,m='',dis=true,tx='Raise paddle · '+money(nxt);
   if(!isP){tx='Spectating';m='Pick a franchise in the lobby next time to bid.'}
-  else if(!bidding){tx=g.ph==='bidding'?'Sold':'Next lot…';m=''}
+  else if(rtm){tx='Right to Match…';m='The hammer is held while the Right to Match plays out.'}
+  else if(!bidding){tx='Next lot…';m=''}
   else if(L.ld===my){tx='You hold the bid';m='Wait for a rival paddle, or for the hammer.'}
   else if(out){tx='You are out';m='Press Come back to rejoin when a slot is free.'}
   else if(!open){tx='Two teams bidding';m='You can join once one of them drops out.'}
@@ -2859,6 +2961,11 @@ function gPaint(){var g=NET.G;if(!g||!$('gTeam'))return;var L=g.L,my=NET.my,mt=g
   else if(cb){tx='Cannot bid';m=cb}
   else{dis=false;m=L.ld?'Next increment is '+money(inc(L.pr))+'.':'Opening at base price.'}
   bb.disabled=dis;bb.textContent=tx;why.textContent=m}
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-grtm],[data-graise],[data-graisec],[data-gt]');if(!b||NET.host||!NET.my&&!b.hasAttribute('data-gt'))return;
+  if(b.hasAttribute('data-grtm'))act('rtm',b.getAttribute('data-grtm')==='1');
+  else if(b.hasAttribute('data-graisec')){var v=parseFloat($('gRaiseAmt').value);if(isNaN(v)){toast('Enter an amount in crore.');return}NET.r.emit('act',{t:'raise',team:NET.my,v:1,x:Math.round(v*100)}).catch(function(){})}
+  else if(b.hasAttribute('data-graise'))act('raise',+b.getAttribute('data-graise'));
+  else{var id=b.getAttribute('data-gt');NET.sel=NET.sel===id?null:id;gSquad();if(NET.my)act('sq',NET.sel||NET.my);else NET.r.emit('act',{t:'sq',team:'',v:NET.sel}).catch(function(){})}});
 function loadPeerLib(cb){var U=['https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js','https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js','https://fastly.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://gcore.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://cdn.jsdelivr.net/npm/peerjs@1.5.3/dist/peerjs.min.js'],i=0;
   (function next(){if(window.Peer)return cb(true);if(i>=U.length)return cb(false);var sc=document.createElement('script');sc.src=U[i++];sc.onload=function(){window.Peer?cb(true):next()};sc.onerror=function(){sc.remove();next()};document.head.appendChild(sc)})()}
 function onlineInit(){var o=$('onl');
