@@ -2530,7 +2530,7 @@ $('simLot').addEventListener('click',function(){
   S.labOpen=S.lot.p.name;S.labs=S.labs||{};
   paintLab();
 });
-$('simPlayer').addEventListener('click',function(){if(!S||S.done||S.phase!=='bidding')return;if(ONL()){castVote(S.me,'lot');paintVotes();netPush(true);return}S.sim='lot';S.paused=false;$('pauseBtn').textContent='Pause';restartClock()});
+$('simPlayer').addEventListener('click',function(){if(!S||S.done||['bidding','rtm','raise'].indexOf(S.phase)<0)return;if(ONL()){castVote(S.me,'lot');paintVotes();netPush(true);return}S.sim='lot';S.paused=false;$('pauseBtn').textContent='Pause';restartClock()});
 $('simSet').addEventListener('click',function(){if(!S||S.done)return;if(ONL()){castVote(S.me,'set');paintVotes();netPush(true);return}S.sim='set';S.paused=false;$('pauseBtn').textContent='Pause';restartClock()});
 $('simEnd').addEventListener('click',function(){if(!S||S.done)return;if(ONL()){castVote(S.me,'end');paintVotes();netPush(true);return}S.sim='end';S.paused=false;$('pauseBtn').textContent='Pause';restartClock()});
 $('ceilIn').addEventListener('input',function(e){
@@ -2810,7 +2810,7 @@ function activeHumans(){return humans().filter(function(id){return !gone(id)})}
 function votesOf(k){S.sv=S.sv||{};S.sv[k]=S.sv[k]||{};return S.sv[k]}
 function voteIds(k){var v=votesOf(k);return activeHumans().filter(function(i){return v[i]||isAuto(i)})}
 function msMap(){var o={};o[S.me]=S.mission;Object.keys(S.rh||{}).forEach(function(i){o[i]=S.rh[i].mission});return o}
-function castVote(id,k){if(!S||S.done||!NET.live)return;if(k!=='lot'&&k!=='set'&&k!=='end')return;if(k==='lot'&&S.phase!=='bidding')return;var v=votesOf(k);v[id]=!v[id];checkVotes(k)}
+function castVote(id,k){if(!S||S.done||!NET.live)return;if(k!=='lot'&&k!=='set'&&k!=='end')return;if(k==='lot'&&['bidding','rtm','raise'].indexOf(S.phase)<0)return;var v=votesOf(k);v[id]=!v[id];checkVotes(k)}
 function checkVotes(k){var v=votesOf(k);if(!Object.keys(v).some(function(i){return v[i]}))return;var hs=activeHumans();if(!hs.length)return;if(!hs.every(function(i){return v[i]||isAuto(i)}))return;
   S.sv[k]={};S.sim=k;S.paused=false;var pb=$('pauseBtn');if(pb)pb.textContent='Pause';restartClock();toast('Everyone voted: simulating '+(k==='lot'?'this player':k==='set'?'this set':'to the end')+'.')}
 function paintVotes(){if(!ONL()||!S||S._sh)return;var rq=activeHumans().length;[['simPlayer','lot','Sim this player'],['simSet','set','Sim this set'],['simEnd','end','Sim to end']].forEach(function(a){var b=$(a[0]);if(!b)return;var n=voteIds(a[1]).length;b.textContent=a[2]+' ('+n+'/'+rq+')';b.style.borderColor=votesOf(a[1])[S.me]?'var(--accent)':''})}
@@ -2862,7 +2862,7 @@ function gSync(){var g=NET.G,F=NET.F;if(!g||!F)return;var my=NET.my||TEAMS[0].id
   var L=g.L,lp=L&&POOL[L.nm];S.lot=lp?{p:lp,leader:L.ld,price:L.pr,base:L.b,set:{accel:!!L.ac,players:[]}}:null;
   if(NET.SB&&S.season!==NET.SB){S.season=NET.SB;S.seasonRun=1}}
 function gExtra(g,my,isP){var SV=g.SV||{},rq=g.RQ||1;
-  [['gVLot','lot','Sim this player'],['gVSet','set','Sim this set'],['gVEnd','end','Sim to end']].forEach(function(a){var b=$(a[0]);if(!b)return;var v=SV[a[1]]||[];b.textContent=a[2]+' ('+v.length+'/'+rq+')';b.style.borderColor=v.indexOf(my)>=0?'var(--accent)':'';b.disabled=!isP||!!g.dn||(a[1]==='lot'&&g.ph!=='bidding')});
+  [['gVLot','lot','Sim this player'],['gVSet','set','Sim this set'],['gVEnd','end','Sim to end']].forEach(function(a){var b=$(a[0]);if(!b)return;var v=SV[a[1]]||[];b.textContent=a[2]+' ('+v.length+'/'+rq+')';b.style.borderColor=v.indexOf(my)>=0?'var(--accent)':'';b.disabled=!isP||!!g.dn||(a[1]==='lot'&&['bidding','rtm','raise'].indexOf(g.ph)<0)});
   var au=$('gAutoBtn');if(au){var on=(g.AU||[]).indexOf(my)>=0;au.textContent='Autopilot: '+(on?'on':'off');au.disabled=!isP||!!g.dn}
   var lb=$('gLabBtn');if(lb)lb.disabled=!NET.F||!g.L;
   if(S&&S._sh){paintMission();var gl=$('gLab');if(gl&&S.labOpen&&g.L&&S.labOpen!==g.L.nm){gl.hidden=true;S.labOpen=null}}}
