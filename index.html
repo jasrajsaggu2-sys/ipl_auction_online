@@ -2952,14 +2952,18 @@ async function netOpen(code,host){
   NET.r.on('act',onAct);NET.r.on('snap',onSnap);NET.r.on('full',onFull);NET.r.on('sale',onSale);NET.r.on('uns',onUns);NET.r.on('seas',onSeas);NET.r.on('sq',function(m){if(m.peer!==NET.hostPeer||!m.data)return;NET.SQ[m.data.id]=m.data.s;var j=JSON.stringify(m.data.s);if(NET.SQj[m.data.id]!==j){NET.SQj[m.data.id]=j;NET.SQv++;NET.dirty=1}gSquad();if(!NET.host)gSync()});
   NET.r.presence({role:host?'host':'guest'});
   $('onRow').hidden=true;$('onLobby').hidden=false;
-  if(!host){['.hero','#teamGrid','.startrow'].forEach(function(q){var e=document.querySelector(q);if(e)e.hidden=true})}
+  ['.hero','#teamGrid','.startrow'].forEach(function(q){var e=document.querySelector(q);if(e)e.hidden=true});
   lobbyPaint();return true}
 function taken(){var o={};NET.peers.forEach(function(p){if(!p.isMe&&p.presence&&p.presence.team)o[p.presence.team]=1});return o}
 function lobbyPaint(){var el=$('onLobby');if(!NET.r||el.hidden||NET.live)return;
   var mine=NET.host?picked:NET.my;if(mine!==NET.lastTeam){NET.lastTeam=mine;NET.r.presence({team:mine||null})}
-  var tk=taken(),n=NET.peers.length,h='<div class="eyebrow">Party code</div><div class="codebig">'+esc(NET.code)+'</div><p class="note">'+n+' '+(n===1?'person':'people')+' here. Share the code. Unclaimed franchises are played by the AI.</p>';
-  if(NET.host){h+='<div class="pillrow" style="margin:6px 0">'+NET.peers.map(function(p,i){var t=p.presence&&p.presence.team;return '<span class="pill">'+(p.isMe?'You (host)':p.presence&&p.presence.role==='host'?'Host':'Player '+(i+1))+': '+(t||'choosing')+'</span>'}).join('')+'</div><p class="note">Pick your own franchise below, then start.</p><button id="onStart" class="btn primary" type="button">Start online auction</button>'}
-  else{h+='<p class="note">Choose your franchise. The host starts the auction.</p><div class="otb">'+TEAMS.map(function(t){return '<button type="button" data-ot="'+t.id+'" style="--c:'+t.color+'" aria-pressed="'+(NET.my===t.id)+'"'+(tk[t.id]?' disabled':'')+'>'+t.id+' <small class="muted">'+(tk[t.id]?'taken':esc(t.city))+'</small></button>'}).join('')+'</div>'}
+  var tk=taken();
+  if(NET.host&&picked&&tk[picked]){toast(picked+' was just taken by a friend. Pick another franchise.');picked=null;NET.lastTeam=undefined}
+  var n=NET.peers.length,h='<div class="eyebrow">Party code</div><div class="codebig">'+esc(NET.code)+'</div><p class="note">'+n+' '+(n===1?'person':'people')+' here. Share the code. Unclaimed franchises are played by the AI.</p>';
+  if(NET.host){h+='<div class="pillrow" style="margin:6px 0">'+NET.peers.map(function(p,i){var t=p.presence&&p.presence.team;return '<span class="pill">'+(p.isMe?'You (host)':p.presence&&p.presence.role==='host'?'Host':'Player '+(i+1))+': '+(t||'choosing')+'</span>'}).join('')+'</div>'}
+  var mineNow=NET.host?picked:NET.my;
+  h+='<p class="note">'+(NET.host?'Choose your franchise, then start the auction when everyone is in.':'Choose your franchise. The host starts the auction.')+'</p><div class="otb">'+TEAMS.map(function(t){return '<button type="button" data-ot="'+t.id+'" style="--c:'+t.color+'" aria-pressed="'+(mineNow===t.id)+'"'+(tk[t.id]?' disabled':'')+'>'+t.id+' <small class="muted">'+(tk[t.id]?'taken':esc(t.city))+'</small></button>'}).join('')+'</div>';
+  if(NET.host)h+='<button id="onStart" class="btn primary" type="button" style="margin-top:10px">Start online auction</button>';
   el.innerHTML=h}
 document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('button');if(!t)return;
   if(t.id==='onHost'){if(!NET.R)return;var c='';for(var i=0;i<4;i++)c+='ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.floor(Math.random()*24)];netOpen(c,true)}
@@ -2969,7 +2973,7 @@ document.addEventListener('click',function(e){var t=e.target.closest&&e.target.c
     startAuction(picked,false,false);S.rh=rh;document.body.classList.add('onl');NET.live=true;NET.sn=0;
     toast(Object.keys(rh).length+' friend(s) and '+(15-Object.keys(rh).length)+' AI teams. Auction started.');
     setInterval(netBeat,1000);netPush(true);sendFull()}
-  else if(t.getAttribute('data-ot')&&!NET.host){NET.my=t.getAttribute('data-ot');lobbyPaint()}
+  else if(t.getAttribute('data-ot')){if(NET.host)picked=t.getAttribute('data-ot');else NET.my=t.getAttribute('data-ot');lobbyPaint()}
   else if(t.id==='gBidBtn')act('bid');
   else if(t.id==='gOutBtn')act('out');else if(t.id==='gVLot')act('vote','lot');else if(t.id==='gVSet')act('vote','set');else if(t.id==='gVEnd')act('vote','end');else if(t.id==='gAutoBtn')act('auto');else if(t.id==='gLabBtn'){if(S&&S._sh&&NET.G&&NET.G.L){S.labOpen=NET.G.L.nm;S.labs=S.labs||{};paintLab()}}
   else if(t.id==='gCeilBtn'){act('ceil',$('gCeil').value);toast($('gCeil').value>0?'Auto-raise set to ₹'+$('gCeil').value+' Cr.':'Auto-raise off.')}
