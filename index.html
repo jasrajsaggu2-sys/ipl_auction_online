@@ -4235,11 +4235,16 @@ openPick=function(h){var _m=resolveM(h);if(isT(_m)){toast('Ball-by-ball pick mod
 /* ===== Lite graphics: no stadium backdrop, blur, shadows or animations (smoother on slower PCs) ===== */
 (function(){
  var KEY='iplLite',b=$('liteBtn'),st=document.createElement('style');st.id='liteCss';
- st.textContent='body::after{display:none!important}.top,.hero,.card{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important}*{animation:none!important;transition:none!important;text-shadow:none!important}body{background:var(--bg)!important}';
+ st.textContent='body::after{display:none!important}.top,.hero,.card{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important}*{animation:none!important;transition:none!important;text-shadow:none!important}body{background:var(--bg)!important}.tbl,.scroll,.card,.mcard,.tcard{contain:content;will-change:auto!important}.tbl tr{content-visibility:auto;contain-intrinsic-size:auto 34px}*{filter:none!important;text-shadow:none!important}';
  function get(){try{var v=localStorage.getItem(KEY);if(v==='on'||v==='off')return v==='on'}catch(e){}return !!(window.matchMedia&&matchMedia('(hover:hover) and (pointer:fine)').matches)}
  function set(on,save){if(on){if(!st.parentNode)document.head.appendChild(st)}else if(st.parentNode)st.parentNode.removeChild(st);if(b)b.textContent='Lite: '+(on?'on':'off');if(save){try{localStorage.setItem(KEY,on?'on':'off')}catch(e){}}}
- set(get(),false);
- if(b)b.addEventListener('click',function(){set(!st.parentNode,true)});
+ /* lite also throttles the heaviest repaints so a fast auction stops hammering the DOM */
+ var _pS=paintStatus,_pL=paintLot,tS=0,tL=0,aS=0,aL=null;
+ paintStatus=function(){if(!st.parentNode)return _pS.apply(this,arguments);var n=Date.now();if(n-tS>=250){tS=n;return _pS.apply(this,arguments)}if(!aS)aS=setTimeout(function(){aS=0;tS=Date.now();try{_pS()}catch(e){}},260)};
+ paintLot=function(pop){if(!st.parentNode||pop)return _pL.apply(this,arguments);var n=Date.now();if(n-tL>=120){tL=n;return _pL.apply(this,arguments)}if(!aL)aL=setTimeout(function(){aL=null;tL=Date.now();try{_pL()}catch(e){}},130)};
+ function setB(on){if(b){b.textContent='Lite: '+(on?'on':'off');b.style.fontWeight=on?'700':'';b.style.borderColor=on?'var(--accent)':''}}
+ set(get(),false);setB(!!st.parentNode);
+ if(b)b.addEventListener('click',function(){set(!st.parentNode,true);setB(!!st.parentNode)});
 })();
 renderPick();
 })();
