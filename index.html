@@ -353,6 +353,8 @@ select:focus,input:focus{border-color:var(--cyan);outline:2px solid color-mix(in
       <label class="muted" style="font-size:13px;display:flex;align-items:center;gap:6px">Max overseas<select id="ruleOs" class="btn" style="padding:7px 10px" title="Most overseas players a franchise may hold"><option value="17">17 (default)</option><option value="24">24</option></select></label>
       <label class="muted" style="font-size:13px;display:flex;align-items:center;gap:6px">Playing side<select id="ruleXi" class="btn" style="padding:7px 10px" title="How many players bat and field in each match"><option value="11">11 (default)</option><option value="17">17</option></select></label>
       <label class="muted" style="font-size:13px;display:flex;align-items:center;gap:6px">Format<select id="ruleFmt" class="btn" style="padding:7px 10px" title="Overs per innings, or a five-day Test match"><option value="20">T20 · 20 overs (default)</option><option value="5">5 overs</option><option value="10">10 overs</option><option value="30">30 overs</option><option value="40">40 overs</option><option value="50">ODI · 50 overs</option><option value="test">Test match · 5 days</option><option value="tt">Test Twenty · 2 x 20 overs</option></select></label>
+      <label class="muted" style="font-size:13px;display:flex;align-items:center;gap:6px">Purse<select id="rulePurse" class="btn" style="padding:7px 10px" title="Starting purse for every franchise"><option value="9000">₹90 Cr</option><option value="12000">₹120 Cr</option><option value="15000">₹150 Cr</option><option value="18000" selected>₹180 Cr (default)</option><option value="25000">₹250 Cr</option><option value="30000">₹300 Cr</option><option value="40000">₹400 Cr</option><option value="50000">₹500 Cr</option></select></label>
+      <label class="muted" style="font-size:13px;display:flex;align-items:center;gap:6px">RTM cards<select id="ruleRtm" class="btn" style="padding:7px 10px" title="Right to Match cards per franchise"><option value="2">2 · original 10 teams (default)</option><option value="a1">1 · every team</option><option value="a2">2 · every team</option><option value="a3">3 · every team</option><option value="0">None</option></select></label>
       <button id="startBtn" class="btn primary" disabled>Choose a franchise</button>
       <button id="simMeBtn" class="btn" disabled>Simulate my team</button>
       <button id="watchBtn" class="btn" disabled>Watch full simulation</button>
@@ -475,7 +477,7 @@ window.PeerRoom={join:function(name,host){return new Promise(function(res,rej){
 (function(){
 'use strict';
 var $=function(id){return document.getElementById(id)};
-var MIN=25,MAX=35,MAXOS=17,XIN=11,OSXI=4,BALLS=120,TEST=false,MIXED=false,TT=false,PURSE=18000,FLOOR=30,MAINSETS=16,GEN=520,PRICECAP=3000;
+var MIN=25,MAX=35,MAXOS=17,XIN=11,OSXI=4,BALLS=120,TEST=false,MIXED=false,TT=false,PURSE=18000,RTMN=2,RTMALL=false,FLOOR=30,MAINSETS=16,GEN=520,PRICECAP=3000;
 
 /* format helpers: playing-side size, overs, Test */
 function OVR(){return BALLS/6}
@@ -1150,7 +1152,7 @@ function activeTeams(me){
   return TEAMS.filter(function(t){return t.id===me||keep.indexOf(t)>=0});
 }
 function newState(me,market){
-  S={market:market||'real',me:me,teams:activeTeams(me).map(function(t){return{id:t.id,name:t.name,city:t.city,ground:t.ground,color:t.color,purse:PURSE,squad:[],os:0,rtm:OLD.indexOf(t.id)>=0?2:0,cap:Math.random()<.85?30:31+Math.floor(Math.random()*4),agg:.88+Math.random()*.26,pers:['star','value','balanced','balanced','patient'][Math.floor(Math.random()*5)],disc:.8+Math.random()*.4}}),
+  S={market:market||'real',me:me,teams:activeTeams(me).map(function(t){return{id:t.id,name:t.name,city:t.city,ground:t.ground,color:t.color,purse:PURSE,squad:[],os:0,rtm:rtmHas(t.id)?RTMN:0,cap:Math.random()<.85?30:31+Math.floor(Math.random()*4),agg:.88+Math.random()*.26,pers:['star','value','balanced','balanced','patient'][Math.floor(Math.random()*5)],disc:.8+Math.random()*.4}}),
      sets:buildSets().map(function(x){x.players=shuffle(x.players.slice());return x}),mainSets:MAINSETS,setIdx:0,lotIdx:0,lot:null,phase:'between',wait:1,speed:'normal',sim:null,paused:false,ceil:0,
      sold:[],unsold:[],lotNo:0,accelDone:false,season:null,tab:'hall',viewTeam:me,filter:'ALL',done:false};
 }
@@ -1288,11 +1290,14 @@ function tick(){
   if(!L.leader){if(L.idle>=3){closeLot();return}paintLot();return}
   /* nobody left who will pay the next price: every other team drops out, then a 5 second countdown */
   var will=S.teams.some(function(t){return t.id!==L.leader&&ok(t)});
+  /* sell only when ALL other teams are out: a human team that is still in and able to bid keeps the lot open until it bids or goes out */
+  var humanIn=S.teams.some(function(t){return t.id!==L.leader&&isH(t.id)&&!hOut(L,t.id)&&!canBuy(t,L.p,nxt)});
+  if(!will&&humanIn&&!L.cd){paintLot();return}
   if(!will&&L.idle>=1){
     L.out=L.out||[];L.dropAt=L.dropAt||{};
     S.teams.forEach(function(t){
       if(t.id===L.leader)return;
-      if(isH(t.id)&&!hOut(L,t.id))return;   /* you may still raise your paddle during the countdown */
+      if(isH(t.id)&&!hOut(L,t.id)&&!canBuy(t,L.p,nxt))return;   /* still in and able to bid: stays in (cannot afford = out) */
       if(L.out.indexOf(t.id)<0)L.out.push(t.id);
       if(L.dropAt[t.id]==null)L.dropAt[t.id]=L.price;
     });
@@ -1368,7 +1373,7 @@ function nextLot(){
     }
     if(S.lotIdx>=set.players.length){
       S.setIdx++;S.lotIdx=0;if(S.sv)S.sv.set={};
-      if(S.sets[S.setIdx]&&!S.sets[S.setIdx].accel)S.teams.forEach(function(t){if(OLD.indexOf(t.id)>=0&&rtmLeft(t)<1){t.rtm=1;if(!S.spectate&&t.id===S.me)toast('Set '+(S.setIdx+1)+': you have a fresh Right to Match card.')}});
+      if(S.sets[S.setIdx]&&!S.sets[S.setIdx].accel)S.teams.forEach(function(t){if(rtmHas(t.id)&&rtmLeft(t)<1){t.rtm=1;if(!S.spectate&&t.id===S.me)toast('Set '+(S.setIdx+1)+': you have a fresh Right to Match card.')}});
       if(S.sim==='set'){S.sim=null;restartClock()}
       continue;
     }
@@ -2735,6 +2740,7 @@ function qn(){var n=(typeof S!=='undefined'&&S&&S.teams)?S.teams.length:16;retur
 function LV(i){return qn()===12?[3,3,2,2,2,2,1,1,1,1,1,1][i]:[3,2,2,2,1,1,1,1][i]}
 function QW(){var n=qn();return n===12?'top twelve':n===8?'top eight':'top '+n}
 function QCH(){return qn()===12?'1st and 2nd get 3, 3rd to 6th get 2, 7th to 12th get 1':'1st gets 3, 2nd to 4th get 2, 5th to 8th get 1'}
+function rtmHas(id){return RTMN>0&&(RTMALL||OLD.indexOf(id)>=0)}
 var LIVES=[3,2,2,2,1,1,1,1],OLD=['CSK','MI','RCB','KKR','DC','SRH','RR','PBKS','GT','LSG'];
 var PO_V=[{id:'PBKS',city:'Mullanpur',ground:'New PCA Stadium'},{id:'RCB',city:'Bengaluru',ground:'M. Chinnaswamy Stadium'},{id:'CSK',city:'Chennai',ground:'M. A. Chidambaram Stadium'},{id:'KKR',city:'Kolkata',ground:'Eden Gardens'},{id:'GT',city:'Ahmedabad',ground:'Narendra Modi Stadium'}];
 function poDate(i){return dstr(S.season.fixtures.length-1+3+i+Math.floor(i/3))}
@@ -2972,7 +2978,7 @@ function loadState(text){
   var o;
   try{o=JSON.parse(text)}catch(e){toast('That file is not a valid save.');return false}
   if(!o||o.magic!=='ipl-auction-room'||!o.state||!o.state.teams||!o.state.sets){toast('That file is not an IPL Auction Room save.');return false}
-  clearInterval(clock);S=o.state;var _r=S.rules||{};MIN=_r.min||25;MAX=_r.max||35;MAXOS=_r.os||17;XIN=_r.xin||11;OSXI=_r.osxi||(XIN===17?6:4);BALLS=_r.balls||120;TEST=!!_r.test;MIXED=false;TT=!!_r.tt;S.teams.forEach(function(t){if(OLD.indexOf(t.id)<0)t.rtm=0});S.prev=S.prev||{};Object.keys(S.prev).forEach(function(k){S.prev[k]=P26[k]||domPrev(k)});S.paused=!S.done;S.sim=null;
+  clearInterval(clock);S=o.state;var _r=S.rules||{};MIN=_r.min||25;MAX=_r.max||35;MAXOS=_r.os||17;XIN=_r.xin||11;OSXI=_r.osxi||(XIN===17?6:4);BALLS=_r.balls||120;TEST=!!_r.test;MIXED=false;TT=!!_r.tt;PURSE=_r.purse||18000;RTMN=_r.rtmN==null?2:_r.rtmN;RTMALL=!!_r.rtmAll;S.teams.forEach(function(t){if(!rtmHas(t.id))t.rtm=0});S.prev=S.prev||{};Object.keys(S.prev).forEach(function(k){S.prev[k]=P26[k]||domPrev(k)});S.paused=!S.done;S.sim=null;
   $('pick').hidden=true;$('room').hidden=false;$('tabs').hidden=false;$('restartBtn').hidden=false;$('saveBtn').hidden=false;
   $('lotWrap').hidden=!!S.done;$('report').hidden=!S.done;
   $('ceilIn').value=S.ceil?S.ceil/100:'';$('autoBtn').textContent='Autopilot: '+(S.auto?'on':'off');$('autoBtn').disabled=!!S.spectate;
@@ -3838,7 +3844,7 @@ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.c
 function retRepaint(){if(NET.r&&!NET.live)lobbyPaint();else retOffline(true)}
 
 /* offline: start screen */
-(function(){var m=$('marketSel');if(m&&m.parentNode)m.parentNode.insertAdjacentHTML('afterend','<label class="muted" style="font-size:13px;display:flex;align-items:center;gap:6px">Retentions<select id="retSel" class="btn" style="padding:7px 10px"><option value="0">None (full auction)</option>'+[1,2,3,4,5,6].map(function(n){return '<option value="'+n+'">Retain up to '+n+' from IPL 2026</option>'}).join('')+'<option value="c">Custom number…</option></select><input id="retNum" type="number" min="1" max="25" value="7" class="btn" hidden style="width:74px;padding:7px 8px" aria-label="Custom number of retentions"></label>');
+(function(){var m=$('marketSel');if(m&&m.parentNode)m.parentNode.insertAdjacentHTML('afterend','<label class="muted" style="font-size:13px;display:flex;align-items:center;gap:6px">Retentions<select id="retSel" class="btn" style="padding:7px 10px"><option value="0">None (full auction)</option>'+[1,2,3,4,5,6].map(function(n){return '<option value="'+n+'">Retain up to '+n+' from IPL 2026</option>'}).join('')+'<option value="25">Full IPL 2026 squad (up to 25)</option><option value="c">Custom number…</option></select><input id="retNum" type="number" min="1" max="25" value="7" class="btn" hidden style="width:74px;padding:7px 8px" aria-label="Custom number of retentions"></label>');
  var sr=document.querySelector('.startrow');if(sr)sr.insertAdjacentHTML('beforebegin','<div class="card" id="retCard" hidden style="margin-top:12px"></div>')})();
 var _retSig='';
 function retOffline(force){var c=$('retCard');if(!c)return;if(NET.r||$('pick').hidden){c.hidden=true;return}
@@ -4061,21 +4067,21 @@ var _opk=openPick;
 openPick=function(h){var _m=resolveM(h);if(isT(_m)){toast('Ball-by-ball pick mode is not available in Test matches.');return}_opk(h)};
 
 (function(){
- var rM=$('ruleMax'),rO=$('ruleOs'),rX=$('ruleXi'),rF=$('ruleFmt');if(!rM||!rO||!rX||!rF)return;
- try{var sv=JSON.parse(localStorage.getItem('iplRules2')||'null');if(sv){rM.value=sv.max;rO.value=sv.os;rX.value=sv.xin;rF.value=sv.fmt}}catch(e){}
+ var rM=$('ruleMax'),rO=$('ruleOs'),rX=$('ruleXi'),rF=$('ruleFmt'),rP=$('rulePurse'),rR=$('ruleRtm');if(!rM||!rO||!rX||!rF||!rP||!rR)return;
+ try{var sv=JSON.parse(localStorage.getItem('iplRules2')||'null');if(sv){rM.value=sv.max;rO.value=sv.os;rX.value=sv.xin;rF.value=sv.fmt;if(sv.purse)rP.value=sv.purse;if(sv.rtm)rR.value=sv.rtm}}catch(e){}
  function apply(draw){
-  MIN=25;MAX=+rM.value||35;MAXOS=+rO.value||17;XIN=+rX.value||11;OSXI=XIN===17?6:4;
+  MIN=25;MAX=+rM.value||35;MAXOS=+rO.value||17;XIN=+rX.value||11;OSXI=XIN===17?6:4;PURSE=+rP.value||18000;var rv=rR.value;RTMALL=rv.charAt(0)==='a';RTMN=+rv.replace('a','')||0;
   var f=rF.value;TEST=f==='test';MIXED=false;TT=f==='tt';BALLS=(TEST||TT)?120:(+f||20)*6;
-  try{localStorage.setItem('iplRules2',JSON.stringify({max:MAX,os:MAXOS,xin:XIN,fmt:f}))}catch(e){}
+  try{localStorage.setItem('iplRules2',JSON.stringify({max:MAX,os:MAXOS,xin:XIN,fmt:f,purse:rP.value,rtm:rR.value}))}catch(e){}
   if(draw)renderPick();
  }
- [rM,rO,rX,rF].forEach(function(e){e.addEventListener('change',function(){apply(true)})});
+ [rM,rO,rX,rF,rP,rR].forEach(function(e){e.addEventListener('change',function(){apply(true)})});
  apply(false);
  var _sa=startAuction;
  startAuction=function(){
-  if(typeof NET!=='undefined'&&NET&&NET.live){MIN=25;MAX=35;MAXOS=17;XIN=11;OSXI=4;BALLS=120;TEST=false;MIXED=false;TT=false}else apply(false);
+  if(typeof NET!=='undefined'&&NET&&NET.live){MIN=25;MAX=35;MAXOS=17;XIN=11;OSXI=4;BALLS=120;TEST=false;MIXED=false;TT=false;PURSE=18000;RTMN=2;RTMALL=false}else apply(false);
   var r=_sa.apply(this,arguments);
-  if(S)S.rules={min:MIN,max:MAX,os:MAXOS,xin:XIN,osxi:OSXI,balls:BALLS,test:TEST,tt:TT};
+  if(S)S.rules={purse:PURSE,rtmN:RTMN,rtmAll:RTMALL,min:MIN,max:MAX,os:MAXOS,xin:XIN,osxi:OSXI,balls:BALLS,test:TEST,tt:TT};
   paintStatus();
   return r;
  };
