@@ -4483,38 +4483,63 @@ renderPick();
     if(ov)ov.hidden=true;
   }
 
+  /* Format-aware AI: phases and tempo scale with the match format (Test, ODI-length, T20, short blitz). */
+  function aiFmt(){var mo=HW.maxOvers||20;return {mo:mo,kind:HW.testMode?'test':(mo<=10?'blitz':(mo<=20?'t20':'odi'))}}
+  function aiChase(st){
+    var need,balls;
+    if(HW.multiInnings){if(HW.innIdx!==3)return null;need=HW.target-st.runs;balls=HW.maxBalls-testMatchBalls()}
+    else{if(HW.innIdx!==1)return null;need=HW.innings[0].runs+1-st.runs;balls=HW.maxBalls-st.balls}
+    return {need:need,over:Math.max(0.2,balls/6),req:need/Math.max(0.2,balls/6)};
+  }
   function aiBatMode(st){
-    var over=st.balls/6, remaining=Math.max(0,HW.maxOvers-over), rr=st.balls?st.runs/(st.balls/6):0;
-    var style=AI_STYLES[HW.aiStyle]||AI_STYLES.balanced;
-    if(style.bat==='fast'){
-      if(over>=HW.maxOvers-4)return st.wkts>=8?'att':'slog';
-      if(st.wkts>=6&&over<HW.maxOvers-4)return 'att';
-      return over<6?'att':'slog';
+    var F=aiFmt(),style=AI_STYLES[HW.aiStyle]||AI_STYLES.balanced,over=st.balls/6,w=st.wkts,mo=F.mo;
+    var bias=HW.aiStyle==='fearless'?1:(style.bat==='fast'?1:(style.bat==='patient'?-1:0));
+    var ch=aiChase(st),lvl;
+    if(F.kind==='test'){
+      lvl=over<12?0:1;
+      if(over>=60&&w<6&&!ch)lvl=2;
+      if(w>=8)lvl=Math.max(lvl,1);
+      if(ch){
+        if(ch.req<3.2&&w<6)lvl=2;
+        else if(w>=7||(ch.over<25&&ch.req>4.8))lvl=0;
+        else lvl=1;
+      }
+      bias=bias>0?1:(bias<0?-1:0);
+      lvl+=(bias>0&&w<6?1:(bias<0?-1:0));
+    }else{
+      var death=Math.max(2,Math.round(mo*0.2)),pp=F.kind==='odi'?10:(F.kind==='t20'?6:Math.ceil(mo*0.3));
+      var inDeath=over>=mo-death;
+      if(F.kind==='blitz')lvl=inDeath?3:2;
+      else if(F.kind==='t20')lvl=inDeath?3:(over<pp?2:1);
+      else lvl=inDeath?3:(over<pp?1:(over>=mo*0.6?2:(w>=3?0:1)));
+      if(!inDeath&&w>=(F.kind==='odi'?6:7))lvl-=1;
+      if(F.kind==='odi'&&!inDeath&&w>=8)lvl=0;
+      lvl+=bias;
+      if(ch){
+        if(ch.req>11)lvl+=2;else if(ch.req>8)lvl+=1;else if(ch.req<5.5&&w<=5)lvl-=1;
+        if(ch.need<=12)lvl=Math.max(lvl,2);
+      }
     }
-    if(style.bat==='patient'){
-      if(HW.innIdx===1){var need=HW.innings[0].runs+1-st.runs, req=remaining>0?need/remaining:99;if(req>12)return 'att';if(req>9)return 'bal';}
-      if(over<6)return st.wkts>=2?'def':'bal';
-      if(over<HW.maxOvers-4)return st.wkts>=5?'def':'def';
-      return st.wkts>=7?'bal':'att';
-    }
-    if(HW.innIdx===1){var need2=HW.innings[0].runs+1-st.runs, req2=remaining>0?need2/remaining:99;if(req2>11)return 'slog';if(req2>8)return 'att';if(req2<5&&st.wkts<5)return 'def';}
-    if(over>=HW.maxOvers-4)return st.wkts>=7?'bal':'att';
-    if(over<6)return st.wkts>=2?'def':'att';
-    if(st.wkts>=6)return 'def';
-    return rr<6?'att':'bal';
+    return ['def','bal','att','slog'][Math.max(0,Math.min(3,lvl))];
   }
   function aiBowlPlan(st){
-    var over=st.balls/6, rr=st.balls?st.runs/(st.balls/6):0;
-    if(HW.aiStyle==='fast')return over>=HW.maxOvers-4?'york':(over<6?'pace':(st.wkts>=4?'spin':'pace'));
-    if(HW.aiStyle==='fearless')return over>=HW.maxOvers-4?'pace':(st.wkts>=3?'spin':'pace');
-    if(HW.aiStyle==='patient')return over>=HW.maxOvers-4?'york':(rr>8?'line':(over<6?'line':'spin'));
-    if(over>=HW.maxOvers-4)return 'york';
-    if(st.wkts>=5&&over>=6)return 'spin';
-    if(rr>9)return 'pace';
-    if(over<6)return 'line';
-    return 'spin';
+    var F=aiFmt(),style=AI_STYLES[HW.aiStyle]||AI_STYLES.balanced,over=st.balls/6,rr=over?st.runs/over:0,mo=F.mo,pit=HW.pitch,plan;
+    if(F.kind==='test'){
+      var ov=over%80;
+      if(over<25||(over>=80&&ov<10))plan='pace';
+      else if(rr>4)plan='line';
+      else plan=(pit==='dry'||st.wkts>=5)?'spin':'line';
+    }else{
+      var death=Math.max(2,Math.round(mo*0.2)),pp=F.kind==='odi'?10:(F.kind==='t20'?6:Math.ceil(mo*0.3));
+      if(over>=mo-death)plan='york';
+      else if(over<pp)plan='pace';
+      else if(rr>(F.kind==='odi'?6.5:9.5))plan='line';
+      else if(F.kind==='odi')plan=pit==='green'?'pace':'spin';
+      else plan=(st.wkts>=4||pit==='dry')?'spin':'line';
+      if((style.bat==='fast'||HW.aiStyle==='fearless')&&plan==='spin'&&pit!=='dry')plan='pace';
+    }
+    return BOWL_PLANS[plan]?plan:'line';
   }
-
   function testRunsFor(team,upto){
     var total=0;
     for(var i=0;i<Math.min(upto,HW.innings.length);i++)if(HW.innings[i].batId===team)total+=HW.innings[i].runs;
@@ -4783,6 +4808,42 @@ renderPick();
     if(bSel)bSel.onchange=function(){st.curBowler=bSel.value};
 
     var ballBtn=$('hwBallBtn');
+    if(ballBtn&&userBatting){(function(){
+      var bw=st.bowlers.filter(function(b){return b.name===st.curBowler})[0]||st.bowlers[0];
+      var bt=st.batters[st.striker];
+      var diff=(bt.rating-bw.rating)/100;
+      var pl=BOWL_PLANS[aiBowlPlan(st)];
+      var pc=PITCHES[HW.pitch]||PITCHES.flat;
+      var ab=HW.activeAbility;
+      function odds(k){
+        var a=BAT_MODES[k];
+        var w=Math.max(0.015,Math.min(0.28,(0.052-diff*0.04)*a.wktM*pl.wktM));
+        var s6=Math.max(0.01,Math.min(0.32,(0.065+diff*0.06)*a.bndM*pl.bndM));
+        var s4=Math.max(0.03,Math.min(0.38,(0.125+diff*0.08)*a.bndM*pl.bndM));
+        var t=0.08*a.runM,o=0.36*a.runM*pl.runM;
+        s6*=pc.boundary;s4*=pc.boundary;w*=pc.wicket;o*=pc.run;t*=pc.run;
+        if(ab==='blitz'){s6*=1.45;s4*=1.35;w*=0.85}
+        if(ab==='jaffa'){w*=1.65;s6*=0.65;s4*=0.70}
+        if(ab==='shield'&&k!=='slog'){w*=0.25}
+        if(st.freeHit)w=0;
+        var left=1;w=Math.min(w,left);left-=w;s6=Math.min(s6,left);left-=s6;s4=Math.min(s4,left);left-=s4;t=Math.min(t,left);left-=t;o=Math.min(o,left);
+        function P(x){return Math.round(x*100)}
+        return {w:P(w),six:P(s6),four:P(s4),runs:P(s6+s4+t+o)};
+      }
+      var shots=[['def','🛡️','Defend'],['bal','🏏','Push'],['att','🔥','Drive'],['slog','💥','Loft']];
+      var h='<div class="hwShots"><div class="hwShotsT">Pick your shot · tap to face the ball</div><div class="hwShotGrid">';
+      shots.forEach(function(x){
+        var o=odds(x[0]);
+        h+='<button type="button" class="hwShot'+(HW.batAgg===x[0]?' on':'')+'" data-shot="'+x[0]+'"><span class="hwI">'+x[1]+'</span><b>'+x[2]+'</b><span class="hwRuns">'+o.runs+'%</span><small>chance of runs</small><span class="hwBar"><i style="width:'+o.runs+'%"></i></span><small>4s '+o.four+'% · 6s '+o.six+'%</small><small class="hwOut">Out '+o.w+'%</small></button>';
+      });
+      h+='</div></div>';
+      var tmp=document.createElement('div');tmp.innerHTML=h;
+      var panel=tmp.firstChild,row=ballBtn.parentNode;
+      row.parentNode.insertBefore(panel,row);
+      panel.querySelectorAll('[data-shot]').forEach(function(b){
+        b.onclick=function(){HW.batAgg=b.getAttribute('data-shot');simulateDelivery(st);renderLiveModal()};
+      });
+    })();}
     if(ballBtn)ballBtn.onclick=function(){simulateDelivery(st);renderLiveModal()};
 
     var overBtn=$('hwOverBtn');
@@ -4906,6 +4967,7 @@ renderPick();
       '<div class="card"><h3>📊 Season records</h3><p>Highest team total: <b>'+top+'</b>'+(topMatch?' — '+chip(topMatch.inn[0].r>=topMatch.inn[1].r?topMatch.inn[0].id:topMatch.inn[1].id):'')+'</p><p>Closest score difference: <b>'+(Number.isFinite(closest)?closest:'—')+'</b>'+(closeMatch?' runs · '+safeText(closeMatch.h)+' v '+safeText(closeMatch.a):'')+'</p><p class="muted">Records include completed league and playoff matches.</p></div>'+
       '</div></section>';
   }
+  if(typeof paintSeason!=='function')return;
   var oldPaint=paintSeason;
   paintSeason=function(){
     oldPaint.apply(this,arguments);
@@ -4916,6 +4978,435 @@ renderPick();
     if(hero)hero.insertAdjacentHTML('afterend',html);
     else{var h2=el.querySelector('h2');if(h2)h2.insertAdjacentHTML('afterend',html)}
   };
+})();
+</script>
+
+<style id="hitwicketSkin">
+/* ===== Hitwicket-style game skin ===== */
+.hwShots{margin:12px 0}
+.hwShotsT{font:800 13px var(--f-display);font-style:italic;text-transform:uppercase;letter-spacing:.08em;color:#FFD65A;margin-bottom:8px}
+.hwShotGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.hwShot{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 4px;color:#fff;cursor:pointer;border-radius:14px;border:2px solid #0A1250;border-bottom-width:5px;background:linear-gradient(180deg,#4A62F0,#2236B8);text-transform:uppercase;font-style:italic}
+.hwShot.on{border-color:#9A4A00;background:linear-gradient(180deg,#FFE27A,#FFB81C 55%,#FF8A00);color:#2A1600}
+.hwShot:active{transform:translateY(3px);border-bottom-width:2px}
+.hwShot .hwI{font-size:24px}
+.hwShot b{font:800 15px var(--f-display)}
+.hwShot .hwRuns{font:800 26px var(--f-display)}
+.hwShot small{font-size:10px;opacity:.9;text-transform:none;font-style:normal}
+.hwShot .hwOut{color:#FF6B5A;font-weight:800}
+.hwShot.on .hwOut{color:#8A1200}
+.hwBar{width:80%;height:6px;border-radius:9px;background:rgba(0,0,0,.4);overflow:hidden}
+.hwBar i{display:block;height:100%;background:linear-gradient(90deg,#36D97B,#B6FF6B)}
+html:root:root{color-scheme:dark;
+--bg:#070B24;--surface:#121A4A;--surface2:#1B2670;--ink:#FFFFFF;--muted:#A9B8F0;--line:#3A4DB8;
+--accent:#FFB81C;--accent-ink:#2A1600;--hammer:#FF4D4D;--good:#36D97B;--cyan:#35C8FF;
+--panel:#0A1038;--panel-ink:#FFFFFF;--panel-muted:#A9B8F0}
+html:root:root body{background:radial-gradient(120% 70% at 50% 0%,#2A3BB0 0%,#10185A 45%,#050818 100%)!important;color:var(--ink)}
+body::after{opacity:.28!important}
+h1,h2,h3,h4,.role-h{font-style:italic;text-transform:uppercase;letter-spacing:.04em;text-shadow:0 2px 0 rgba(0,0,0,.45)}
+.card>h3,.card>.mhead h3,section.card>h3{display:inline-block;margin:0 0 10px;padding:4px 18px 4px 12px;color:#2A1600;text-shadow:none;background:linear-gradient(180deg,#FFD65A,#FF9F1C);clip-path:polygon(0 0,100% 0,calc(100% - 12px) 100%,0 100%);font-size:16px}
+/* header */
+.top{background:linear-gradient(180deg,#1A2580,#0A1038)!important;border-bottom:3px solid #FFB81C;box-shadow:0 4px 18px rgba(0,0,0,.5)!important}
+.brand{font-style:italic;text-transform:uppercase;letter-spacing:.06em}
+.brand-logo{border-radius:50%;border:2px solid #FFB81C;background:#fff}
+.ghost{background:linear-gradient(180deg,#2C3CA8,#18227A)!important;color:#fff!important;border:1px solid #4A5FD6!important;border-radius:999px!important;padding:5px 12px;font-weight:700}
+/* chunky 3D buttons */
+.btn,button.btn{border-radius:12px;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.05em;color:#fff;border:2px solid #0A1250;border-bottom-width:5px;background:linear-gradient(180deg,#4A62F0,#2236B8);text-shadow:0 2px 0 rgba(0,0,0,.4);transition:transform .08s,filter .15s}
+.btn.primary,button.btn.primary{color:#2A1600;border-color:#9A4A00;background:linear-gradient(180deg,#FFE27A 0%,#FFB81C 55%,#FF8A00 100%)!important;text-shadow:0 1px 0 rgba(255,255,255,.5);box-shadow:inset 0 2px 0 rgba(255,255,255,.55)!important}
+.btn:hover{filter:brightness(1.12)}
+.btn:active{transform:translateY(3px);border-bottom-width:2px}
+.btn:disabled,.btn[disabled]{filter:grayscale(.8) brightness(.7)}
+/* cards */
+.card,.hero,.mcard,.tcard,.tpchip,.retp,.champ,.sg-hero{background:linear-gradient(160deg,#1E2A8A 0%,#121A4A 60%,#0C1235 100%)!important;border:2px solid #3A4DB8!important;border-radius:16px!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 6px 16px rgba(0,0,0,.45)!important}
+.mcard.mine,.tcard.on,.tpchip.on,.tpchip[aria-pressed="true"]{border-color:#FFB81C!important;box-shadow:0 0 0 2px rgba(255,184,28,.35),0 0 22px rgba(255,184,28,.35)!important}
+/* bid price = gold coin number */
+.bignum{background:linear-gradient(180deg,#FFF3B0,#FFC52E 55%,#FF8A00);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 3px 0 rgba(90,40,0,.8)) drop-shadow(0 0 18px rgba(255,184,28,.45));font-style:italic}
+.hammer{text-transform:uppercase;font-style:italic;letter-spacing:.08em}
+/* tables */
+.tbl thead th{background:linear-gradient(180deg,#2C3CA8,#18227A);color:#FFD65A;text-transform:uppercase;font-style:italic;letter-spacing:.06em}
+.tbl tbody tr:nth-child(even){background:rgba(58,77,184,.18)}
+.tbl tbody tr:hover{background:rgba(255,184,28,.12)}
+/* tabs: game-style pills with icons */
+.tabbar{background:transparent}
+.tab{color:#C9D4FF;font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.04em;border:0;border-radius:10px;background:transparent;display:flex;flex-direction:column;align-items:center;gap:2px}
+.tab::before{font-size:20px;line-height:1;font-style:normal;filter:drop-shadow(0 2px 0 rgba(0,0,0,.5))}
+.tab[data-tab=hall]::before{content:"🔨"}.tab[data-tab=sets]::before{content:"🗂️"}.tab[data-tab=squad]::before{content:"🏏"}
+.tab[data-tab=teams]::before{content:"🛡️"}.tab[data-tab=trades]::before{content:"🔁"}.tab[data-tab=training]::before{content:"💪"}
+.tab[data-tab=season]::before{content:"🏆"}.tab[data-tab=results]::before{content:"📊"}.tab[data-tab=rules]::before{content:"📜"}
+.tab[aria-selected="true"]{color:#2A1600;background:linear-gradient(180deg,#FFE27A,#FFB81C 60%,#FF8A00);border:0;box-shadow:0 0 16px rgba(255,184,28,.55),inset 0 2px 0 rgba(255,255,255,.55)}
+.tab[aria-selected="true"]::before{filter:none}
+/* mobile: bottom nav bar like a mobile game */
+@media(max-width:820px){
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:60;background:linear-gradient(180deg,#1A2580,#070B24);border-top:3px solid #FFB81C;padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 18px rgba(0,0,0,.55)}
+.tabbar:has(#tabs[hidden]){display:none}
+.tabbar-inner{padding:0 6px}
+.tabs{gap:4px;padding:0}
+.tab{flex:1 0 66px;padding:6px 4px;font-size:10px}
+main.wrap{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
+.hallgrid{grid-template-columns:minmax(0,1fr)}
+}
+</style>
+
+<style id="teamSelectionAndStadiumEnhancement">
+/* Richer floodlit stadium atmosphere */
+html:root:root body {
+  background:
+    radial-gradient(ellipse at 50% -12%, rgba(92,142,255,.48), transparent 48%),
+    radial-gradient(ellipse at 8% 42%, rgba(255,184,28,.12), transparent 34%),
+    linear-gradient(180deg, #111d66 0%, #080f3b 48%, #030617 100%) !important;
+}
+body::after {
+  opacity: .48 !important;
+  filter: saturate(1.22) contrast(1.08);
+}
+main.wrap {
+  position: relative;
+  isolation: isolate;
+}
+main.wrap::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(80,132,255,.16), transparent 55%),
+    linear-gradient(180deg, rgba(3,8,30,0) 0%, rgba(3,6,23,.30) 100%);
+}
+
+/* Franchise picker: make the selected team unmistakable */
+.tcard {
+  min-height: 154px;
+  padding: 18px 16px 16px 22px !important;
+  background:
+    radial-gradient(circle at 100% 0%, color-mix(in srgb,var(--c) 28%,transparent), transparent 48%),
+    linear-gradient(145deg, #202e91 0%, #121b56 58%, #0a1037 100%) !important;
+  border: 2px solid rgba(126,151,255,.42) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 9px 22px rgba(0,0,0,.30) !important;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.tcard .tbar {
+  width: 7px !important;
+  box-shadow: 2px 0 14px color-mix(in srgb,var(--c) 70%,transparent);
+}
+.tcard .tid {
+  color: #fff;
+  font-size: 39px;
+  text-shadow: 0 3px 0 rgba(0,0,0,.35), 0 0 16px color-mix(in srgb,var(--c) 55%,transparent);
+}
+.tcard .tname { color: #fff; font-weight: 800; }
+.tcard .tmeta { color: #c4d0ff; }
+.tcard .tpurse { color: #ffe08a; }
+.tcard:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb,var(--c) 75%,white) !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.4) !important;
+}
+.tcard[aria-pressed="true"] {
+  border: 3px solid #FFD34E !important;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(255,211,78,.35), transparent 48%),
+    linear-gradient(145deg, #394aa9 0%, #202d79 58%, #11194b 100%) !important;
+  box-shadow:
+    0 0 0 3px rgba(255,211,78,.20),
+    0 0 28px rgba(255,184,28,.48),
+    inset 0 0 0 1px rgba(255,255,255,.22) !important;
+  transform: translateY(-3px);
+}
+.tcard[aria-pressed="true"]::after {
+  content: "✓ SELECTED";
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  color: #251400;
+  background: linear-gradient(180deg,#fff0a8,#ffbd28);
+  border: 1px solid #fff0a8;
+  font: 900 10px var(--f-mono);
+  letter-spacing: .06em;
+  box-shadow: 0 3px 10px rgba(0,0,0,.28);
+}
+.tcard[aria-pressed="true"] .tid {
+  color: #ffe08a;
+  text-shadow: 0 0 18px rgba(255,211,78,.55);
+}
+
+/* Team chips in the auction setup */
+.tpchip[aria-pressed="true"] {
+  color: #271600 !important;
+  background: linear-gradient(180deg,#fff0a8,#ffbd28) !important;
+  border-color: #ffe08a !important;
+  outline: 2px solid rgba(255,211,78,.35);
+  box-shadow: 0 0 16px rgba(255,184,28,.30) !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+}
+.tpchip[aria-pressed="false"] { opacity: .72; }
+@media (prefers-reduced-motion: reduce) {
+  .tcard { transition: none; }
+  .tcard:hover, .tcard[aria-pressed="true"] { transform: none; }
+}
+</style>
+
+
+<style id="finalIplFireStadiumTheme">
+/* Completely new IPL match-night palette: charcoal, fiery orange and stadium gold */
+html, body {
+  background: #090b13 !important;
+}
+body {
+  background-image:
+    radial-gradient(ellipse at 12% 18%, rgba(255,78,20,.34), transparent 32%),
+    radial-gradient(ellipse at 88% 12%, rgba(255,183,48,.25), transparent 30%),
+    radial-gradient(ellipse at 50% 92%, rgba(177,25,37,.25), transparent 45%),
+    linear-gradient(125deg,#090b13 0%,#241019 38%,#35130e 67%,#080b13 100%) !important;
+  background-attachment: fixed !important;
+}
+body::after {
+  background:
+    linear-gradient(180deg,rgba(7,8,16,.26),rgba(7,8,16,.72)),
+    var(--bgimg) center bottom/cover no-repeat !important;
+  background-size:cover,cover !important;
+  background-position:center,center bottom !important;
+  filter:saturate(1.55) contrast(1.16) brightness(.70) !important;
+  opacity:.92 !important;
+}
+.top {
+  background:linear-gradient(90deg,rgba(13,12,20,.98),rgba(73,22,15,.96),rgba(17,12,20,.98)) !important;
+  border-bottom:1px solid rgba(255,166,54,.55) !important;
+}
+.brand-mark {
+  color:#211006 !important;
+  background:linear-gradient(135deg,#ffe08a,#ff7a1a) !important;
+}
+.tabbar {
+  background:rgba(12,11,19,.96) !important;
+  border-top-color:rgba(255,153,56,.28) !important;
+}
+.tab { color:#e2c9b7 !important; }
+.tab[aria-selected="true"] {
+  color:#fff !important;
+  border-bottom-color:#ffb33f !important;
+  background:linear-gradient(180deg,rgba(255,111,32,.22),rgba(65,20,14,.20)) !important;
+}
+.tcard {
+  background:
+    radial-gradient(circle at 100% 0%,color-mix(in srgb,var(--c) 27%,transparent),transparent 48%),
+    linear-gradient(145deg,#30202a 0%,#1d1720 58%,#101018 100%) !important;
+  border-color:rgba(255,157,75,.38) !important;
+}
+.tcard[aria-pressed="true"] {
+  border-color:#ffd15b !important;
+  box-shadow:0 0 0 3px rgba(255,209,91,.22),0 0 30px rgba(255,129,35,.48),inset 0 0 0 1px rgba(255,255,255,.2) !important;
+}
+.top::after {
+  content:"";
+  display:block;
+  height:3px;
+  background:linear-gradient(90deg,transparent,#ff542e 18%,#ffd15b 50%,#ff8a2a 82%,transparent);
+  background-size:200% 100%;
+  animation:iplFireSweep 5s linear infinite;
+}
+@keyframes iplFireSweep {
+  from { background-position:100% 0; }
+  to { background-position:-100% 0; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .top::after { animation:none; }
+}
+</style>
+
+
+<style id="performanceEdition">
+/* PERFORMANCE EDITION — remove expensive fixed imagery, filters and continuous effects */
+html, body {
+  background: linear-gradient(145deg,#090b13 0%,#211019 48%,#101827 100%) !important;
+  background-attachment: scroll !important;
+}
+body::after {
+  display: none !important;
+  content: none !important;
+}
+.top, .hero, .card {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+.top::after {
+  animation: none !important;
+  background: linear-gradient(90deg,transparent,#ff9a35,#ffd15b,#ff9a35,transparent) !important;
+  opacity: .7 !important;
+}
+*, *::before, *::after {
+  scroll-behavior: auto !important;
+}
+.tcard, .mcard, .btn, .tab {
+  transition: none !important;
+}
+.tcard:hover, .mcard:hover {
+  transform: none !important;
+}
+.tcard[aria-pressed="true"] {
+  border: 3px solid #ffd15b !important;
+  box-shadow: 0 0 0 2px rgba(255,209,91,.18) !important;
+}
+.tcard[aria-pressed="true"]::after {
+  box-shadow: none !important;
+}
+.bignum {
+  filter: none !important;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hammer.warn, .stamp.show, .bignum.pop, .toast {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+</style>
+
+
+<style id="catchyLightweightBackground">
+/* Eye-catching IPL backdrop using lightweight CSS gradients only */
+html, body {
+  background-color: #080d27 !important;
+}
+body {
+  background-image:
+    radial-gradient(ellipse at 8% 4%, rgba(255,116,35,.25) 0%, transparent 29%),
+    radial-gradient(ellipse at 92% 10%, rgba(105,65,255,.27) 0%, transparent 32%),
+    radial-gradient(ellipse at 52% 78%, rgba(0,183,210,.16) 0%, transparent 40%),
+    linear-gradient(132deg,#080d27 0%,#151044 42%,#102d50 72%,#080d27 100%) !important;
+  background-attachment: scroll !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+body::after {
+  display: none !important;
+  content: none !important;
+}
+/* Subtle diagonal pitch-inspired lines; static, no animation or blur */
+main.wrap {
+  position: relative;
+  isolation: isolate;
+}
+main.wrap::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  opacity: .16;
+  background: repeating-linear-gradient(
+    135deg,
+    transparent 0,
+    transparent 42px,
+    rgba(255,255,255,.10) 43px,
+    transparent 45px
+  );
+}
+.top {
+  background: linear-gradient(90deg,#080d27 0%,#21124f 52%,#0b2342 100%) !important;
+  border-bottom: 1px solid rgba(255,190,75,.42) !important;
+}
+.top::after {
+  height: 2px !important;
+  background: linear-gradient(90deg,transparent,#ff8a35 25%,#ffe08a 50%,#7c6cff 75%,transparent) !important;
+  opacity: .85 !important;
+  animation: none !important;
+}
+.tabbar {
+  background: rgba(8,13,39,.96) !important;
+}
+.tab[aria-selected="true"] {
+  border-bottom-color: #ffd15b !important;
+  color: #fff !important;
+  background: rgba(255,177,58,.10) !important;
+}
+.tcard {
+  background:
+    radial-gradient(circle at 100% 0%,color-mix(in srgb,var(--c) 25%,transparent),transparent 48%),
+    linear-gradient(145deg,#20245b 0%,#151a43 62%,#0c1532 100%) !important;
+  border-color: rgba(145,157,255,.38) !important;
+}
+.tcard[aria-pressed="true"] {
+  border: 3px solid #ffd15b !important;
+  box-shadow: 0 0 0 2px rgba(255,209,91,.18) !important;
+}
+</style>
+
+
+<style id="rtmOptionsVisibilityFix">
+/* Keep RTM decision panels and every choice fully visible */
+#rtmBox:not([hidden]), #gRtm:not([hidden]), #tdBox:not([hidden]) {
+  display: block !important;
+  position: relative !important;
+  z-index: 12 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  max-height: none !important;
+  height: auto !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere !important;
+  box-sizing: border-box !important;
+  color: #fff !important;
+  background: linear-gradient(145deg,#26315f,#151d42) !important;
+  border: 2px solid #ffd15b !important;
+  border-radius: 12px !important;
+  padding: 14px !important;
+  margin: 12px 0 !important;
+  box-shadow: 0 0 0 2px rgba(255,209,91,.14) !important;
+}
+#rtmBox[hidden], #gRtm[hidden], #tdBox[hidden] {
+  display: none !important;
+}
+#rtmBox button, #gRtm button, #tdBox button {
+  min-height: 42px !important;
+  white-space: normal !important;
+  flex: 0 1 auto;
+  max-width: 100%;
+  line-height: 1.25 !important;
+}
+#rtmBox > div, #gRtm > div {
+  max-width: 100% !important;
+  flex-wrap: wrap !important;
+}
+#rtmBox input, #gRtm input {
+  max-width: 100% !important;
+  min-height: 40px !important;
+}
+.bidpanel {
+  min-width: 0 !important;
+  overflow: visible !important;
+}
+#lot {
+  overflow: visible !important;
+}
+@media (max-width: 600px) {
+  #rtmBox, #gRtm, #tdBox { padding: 11px !important; }
+  #rtmBox button, #gRtm button, #tdBox button {
+    flex: 1 1 145px !important;
+  }
+}
+</style>
+<script id="rtmAutoRevealFix">
+(function(){
+  function revealDecision(el){
+    if(!el || el.hidden || !el.textContent.trim()) return;
+    requestAnimationFrame(function(){
+      if(el.hidden) return;
+      var r=el.getBoundingClientRect();
+      if(r.bottom > window.innerHeight || r.top < 0){
+        el.scrollIntoView({block:"nearest",behavior:"auto"});
+      }
+    });
+  }
+  ["rtmBox","gRtm","tdBox"].forEach(function(id){
+    var el=document.getElementById(id);
+    if(!el) return;
+    new MutationObserver(function(){ revealDecision(el); })
+      .observe(el,{attributes:true,attributeFilter:["hidden"],childList:true,subtree:true});
+  });
 })();
 </script>
 
