@@ -5002,9 +5002,9 @@ renderPick();
   var SHOTS={
     b:{k:'b',num:'0',name:'BLOCK',    runs:0,base:82,wf:0.04,txt:'Block'},
     n:{k:'n',num:'1',name:'NUDGE',    runs:1,base:62,wf:0.05,txt:'Nudge'},
-    p:{k:'p',num:'2',name:'SQUARE PUSH',runs:2,base:40,wf:0.45,txt:'Square push'},
-    c:{k:'c',num:'4',name:'CUT SHOT', runs:4,base:30,wf:0.60,txt:'Cut shot'},
-    u:{k:'u',num:'6',name:'UPPER CUT',runs:6,base:22,wf:0.70,txt:'Upper cut'}
+    p:{k:'p',num:'2',name:'SQUARE PUSH',runs:2,base:40,wf:0.30,txt:'Square push'},
+    c:{k:'c',num:'4',name:'CUT SHOT', runs:4,base:30,wf:0.42,txt:'Cut shot'},
+    u:{k:'u',num:'6',name:'UPPER CUT',runs:6,base:22,wf:0.52,txt:'Upper cut'}
   };
   var SHOT_KEYS=['b','n','p','c','u'];
   var DELIVERIES={
@@ -5126,10 +5126,23 @@ renderPick();
     if(b.role==='PACE')return 'pace';
     return (hashStr(b.name)%2)?'spin':'pace';
   }
+  /* the bowler picks one of two six-ball plans before each over, then chooses when to use each delivery */
+  var OVER_PLANS={A:{3:2,2:3,1:1},B:{3:2,2:2,1:2}};
+  function fireCap(st){return OVER_PLANS[st.planPick||'A']}
+  function fireUse(st){
+    var ov=Math.floor(st.balls/6);
+    if(!st.fu||st.fu.o!==ov)st.fu={o:ov,c:{1:0,2:0,3:0}};
+    return st.fu;
+  }
   function makeBowlOpts(st){
-    var b=curBowlerObj(st),pool=BVARS[bowlKind(b)].slice();
+    var b=curBowlerObj(st),fu=fireUse(st),
+        pool=BVARS[bowlKind(b)].filter(function(v){return fu.c[v.f]<fireCap(st)[v.f]});
+    pool=pool.slice();
     for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=pool[i];pool[i]=pool[j];pool[j]=t}
-    var pick=pool.slice(0,6);
+    /* keep a spread of flame levels where the over's limits allow it */
+    var pick=[],cnt={1:0,2:0,3:0};
+    pool.forEach(function(v){if(pick.length<6&&cnt[v.f]<2){pick.push(v);cnt[v.f]++}});
+    pool.forEach(function(v){if(pick.length<6&&pick.indexOf(v)<0)pick.push(v)});
     pick.sort(function(a,c){return a.f-c.f});
     return pick;
   }
@@ -5145,6 +5158,17 @@ renderPick();
       '.hwbvb.f3{background:linear-gradient(180deg,#ff9a4a,#e0541c)}'+
       '@media(max-width:560px){.hwbv{grid-template-columns:repeat(3,minmax(0,1fr))}}';
     document.head.appendChild(st);return 1})();
+  function planRow(st){
+    var fu=fireUse(st),cap=fireCap(st),locked=st.balls%6!==0||Object.keys(fu.c).some(function(k){return fu.c[k]>0});
+    var pb=['A','B'].map(function(k){
+      var c=OVER_PLANS[k],on=(st.planPick||'A')===k;
+      return '<button type="button" class="btn'+(on?' primary':'')+'" data-plan="'+k+'"'+(locked&&!on?' disabled':'')+
+        ' style="font-size:12.5px;padding:6px 10px;opacity:'+(locked&&!on?.45:1)+'">Plan '+k+': 🔥🔥🔥×'+c[3]+' · 🔥🔥×'+c[2]+' · 🔥×'+c[1]+'</button>';
+    }).join(' ');
+    var left=[3,2,1].map(function(k){return '🔥'.repeat(k)+' '+(cap[k]-fu.c[k])+' left'}).join(' · ');
+    return '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px 0 2px">'+pb+'</div>'+
+      '<div class="muted" style="font-size:12px;margin:4px 0 2px">'+(locked?'Over plan '+(st.planPick||'A')+' locked for this over. ':'Pick your plan for this over. ')+'Remaining: '+left+'. Use them in any order.</div>';
+  }
   function bowlPanel(st){
     var o=st.bopts,bw=curBowlerObj(st);
     var btns=o.map(function(v,i){
@@ -5152,6 +5176,7 @@ renderPick();
         '<span class="fl">'+'🔥'.repeat(v.f)+'</span><span>'+esc(v.n)+'</span></button>';
     }).join('');
     return '<div class="card"><span class="k">Pick your variation · '+(bowlKind(bw)==='spin'?'🌀 Spinner ':'⚡ Pacer ')+esc(bw.name)+' to '+esc(st.batters[st.striker].name)+'</span>'+
+      planRow(st)+
       '<div class="hwbv">'+btns+'</div>'+
       '<div class="hwrand"><button type="button" id="hwRandBowl" class="btn">🎲 Random variation</button>'+
       '<span class="muted" style="font-size:12px;align-self:center">🔥 safe · 🔥🔥 medium · 🔥🔥🔥 risky: more wicket chance, but more boundaries and wides. Options change every ball.</span></div></div>';
@@ -5554,7 +5579,7 @@ renderPick();
     if(HW.pitch==='dry'&&plan===BOWL_PLANS.spin)pWkt*=1.16;
     if(HW.pitch==='green'&&plan===BOWL_PLANS.pace)pWkt*=1.12;
 
-    if(bv){pWkt*=bv.w;pSix*=bv.b;pFour*=bv.b;pOne*=bv.r;pTwo*=bv.r}
+    if(bv){pWkt*=bv.w*0.70;pSix*=bv.b;pFour*=bv.b;pOne*=bv.r;pTwo*=bv.r}
     if(ab==='blitz'){pSix*=1.45;pFour*=1.35;pWkt*=0.85}
     if(ab==='jaffa'){pWkt*=1.65;pSix*=0.65;pFour*=0.70}
     if(ab==='shield'&&HW.batAgg!=='slog'){pWkt*=0.25}
@@ -5874,8 +5899,9 @@ renderPick();
     ov.querySelectorAll('[data-shot]').forEach(function(b){
       b.onclick=function(){playShot(b.getAttribute('data-shot'))};
     });
-    function playVar(i){var v=st.bopts&&st.bopts[i];if(!v)return;simulateDelivery(st,null,null,v);renderLiveModal()}
+    function playVar(i){var v=st.bopts&&st.bopts[i];if(!v)return;var fu=fireUse(st),ob=st.balls;simulateDelivery(st,null,null,v);if(st.balls>ob)fu.c[v.f]++;renderLiveModal()}
     ov.querySelectorAll('[data-bv]').forEach(function(b){b.onclick=function(){playVar(+b.getAttribute('data-bv'))}});
+    ov.querySelectorAll('[data-plan]').forEach(function(b){b.onclick=function(){if(b.disabled)return;st.planPick=b.getAttribute('data-plan');st.bopts=null;renderLiveModal()}});
     var rbBtn=$('hwRandBowl');
     if(rbBtn)rbBtn.onclick=function(){playVar(Math.floor(Math.random()*(st.bopts?st.bopts.length:1)))};
     var rndBtn=$('hwRandShot');
