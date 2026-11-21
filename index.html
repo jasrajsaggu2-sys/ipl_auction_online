@@ -59,7 +59,11 @@ body::after{position:fixed!important;left:0!important;top:0!important;right:auto
 .wcmark{display:none;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:#1f4fa8;font-size:22px;margin-right:8px;flex:none}
 body.wc .wcmark{display:inline-flex}
 body.wc .brand-logo,body.wc .herologo{object-fit:contain!important;background:#fff!important;border-radius:8px}
-body.wc #onl{display:none!important}
+body.pxguest #pxMode,body.pxguest #pxFmt{pointer-events:none;opacity:.5}
+body.pxguest :is(#view-kick,#view-tourn,#view-tours) :is(.xa:not([data-xa=tnopen]):not([data-xa=tnback]),.mhwgo,.msim,.mhw,.mxi,select,input){pointer-events:none;opacity:.45}
+.sbfl{display:inline-flex;gap:4px;align-items:center}
+.sbpr{display:grid;grid-template-columns:1fr 110px;gap:8px;align-items:center;margin:4px 0}
+.sbpr input{width:100%}
 </style>
 <style id="pxStyle">
 .xgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;margin-top:10px}
@@ -394,7 +398,7 @@ select:focus,input:focus{border-color:var(--cyan);outline:2px solid color-mix(in
 </header>
 
 <main class="wrap">
-  <div class="modebar" id="modeBar" role="tablist" aria-label="Cricket Auction sections"><button class="modetab" type="button" role="tab" data-mode="ipl" aria-selected="true">🏏 IPL Auction<small>20 franchises</small></button><button class="modetab" type="button" role="tab" data-mode="wc" aria-selected="false">🌍 World Cup Auction<small>20 T20 World Cup nations</small></button><button class="modetab" type="button" role="tab" data-mode="kick" aria-selected="false">⚡ Kick-off<small>One-off matches</small></button><button class="modetab" type="button" role="tab" data-mode="tourn" aria-selected="false">🏆 Tournaments<small>Build your own cup</small></button><button class="modetab" type="button" role="tab" data-mode="tours" aria-selected="false">✈️ Tours<small>Bilateral series</small></button></div>
+  <div class="modebar" id="modeBar" role="tablist" aria-label="Cricket Auction sections"><button class="modetab" type="button" role="tab" data-mode="ipl" aria-selected="true">🏏 IPL Auction<small>20 franchises</small></button><button class="modetab" type="button" role="tab" data-mode="wc" aria-selected="false">🌍 World Cup Auction<small>20 T20 World Cup nations</small></button><button class="modetab" type="button" role="tab" data-mode="kick" aria-selected="false">⚡ Kick-off<small>One-off matches</small></button><button class="modetab" type="button" role="tab" data-mode="tourn" aria-selected="false">🏆 Tournaments<small>Build your own cup</small></button><button class="modetab" type="button" role="tab" data-mode="tours" aria-selected="false">✈️ Tours<small>Bilateral series</small></button><button class="modetab" type="button" role="tab" data-mode="stad" aria-selected="false">🏟️ Stadiums<small>Build your ground</small></button></div>
   <section id="pick">
     <div class="hero">
       <img class="herologo" alt="IPL" src="data:image/jpeg;base64,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">
@@ -509,6 +513,7 @@ select:focus,input:focus{border-color:var(--cyan);outline:2px solid color-mix(in
     <div id="view-kick" class="page" hidden></div>
     <div id="view-tourn" class="page" hidden></div>
     <div id="view-tours" class="page" hidden></div>
+    <div id="view-stad" class="page" hidden></div>
   </section>
 </main>
 <div class="wrap"><p style="text-align:center;margin:24px 0 calc(24px + env(safe-area-inset-bottom,0px));font-size:13px;opacity:.7">Instagram - <a href="https://instagram.com/jasraj_singh007" target="_blank" rel="noopener" style="color:inherit">@jasraj_singh007</a></p></div>
@@ -1503,6 +1508,7 @@ function endAuction(){
   $('lotWrap').hidden=true;$('report').hidden=false;
   paintReport();paintStatus();
   if(S.tab!=='hall')paintTab(S.tab);
+  else setTimeout(function(){try{if(S&&S.done&&S.tab==='hall'&&!ONL())showTab('season')}catch(e){}},900);
 }
 
 /* strength: best XI (max 4 overseas, a keeper, 4 bowlers) plus bench depth */
@@ -3029,7 +3035,7 @@ function btns(hd,done,m){
 function mcard(m,label,meta,hd){
   function line(i){return '<div class="ml'+(m.win===i.id?' w':'')+'">'+chip(i.id)+'<span class="mono">'+i.r+'/'+i.w+' <small>('+ov(i.shown)+' ov)</small></span></div>'}
   return '<div class="mcard'+((m.h===S.me||m.a===S.me)?' mine':'')+'">'+(label?'<span class="k">'+label+'</span>':'')+(meta?'<div class="mres">'+meta+'</div>':'')+line(m.inn[0])+line(m.inn[1])+
-    (m.toss?'<div class="mres">Toss: '+esc(m.toss.w)+' chose to '+(m.toss.d==='bat'?'bat':'bowl')+' first</div>':'')+'<div class="mres"><b>'+esc(m.text)+'</b></div>'+(hd&&m.b?btns(hd,true,m):'')+'</div>';
+    (m.toss?'<div class="mres">Toss: '+esc(m.toss.w)+' chose to '+(m.toss.d==='bat'?'bat':'bowl')+' first</div>':'')+'<div class="mres"><b>'+esc(m.text)+'</b></div>'+earnLine(m)+(hd&&m.b?btns(hd,true,m):'')+'</div>';
 }
 function fcard(m,label,meta,hd,neutral){
   var p=winProb(m.h,m.a,neutral),tw=m.toss&&m.toss.w||'',td=m.toss&&m.toss.d||'bowl';
@@ -3042,7 +3048,7 @@ var SVIEW='md';
 function schedHtml(Z,tb,leagueDone){
   var rows='',n=0,t8=tb.slice(0,qn()).map(function(x){return x.id});
   Z.fixtures.forEach(function(md,k){md.forEach(function(m){n++;
-    rows+='<tr'+((m.h===S.me||m.a===S.me)?' class="me"':'')+'><td class="mono" style="white-space:nowrap">'+n+(m.done?' <button class="btn msb" type="button" data-hd="L:'+k+':'+md.indexOf(m)+'" style="padding:1px 6px;font-size:12px">📋</button>':'')+'</td><td class="mono">'+dstr(k)+'</td><td>'+chip(m.h)+' <span class="muted">v</span> '+chip(m.a)+'</td><td class="muted">'+esc(T(m.h).ground)+'</td><td>'+(m.done?'<b>'+esc(m.text)+'</b>':'<span class="muted">Scheduled</span>')+'</td></tr>'})});
+    rows+='<tr'+((m.h===S.me||m.a===S.me)?' class="me"':'')+'><td class="mono" style="white-space:nowrap">'+n+(m.done?' <button class="btn msb" type="button" data-hd="L:'+k+':'+md.indexOf(m)+'" style="padding:1px 6px;font-size:12px">📋</button>':'')+'</td><td class="mono">'+dstr(k)+'</td><td>'+chip(m.h)+' <span class="muted">v</span> '+chip(m.a)+'</td><td class="muted">'+esc(mVenue(m))+'</td><td>'+(m.done?'<b>'+esc(m.text)+'</b>':'<span class="muted">Scheduled</span>')+'</td></tr>'})});
   Z.po.forEach(function(m,i){n++;rows+='<tr><td class="mono" style="white-space:nowrap">'+n+' <button class="btn msb" type="button" data-hd="P:'+i+'" style="padding:1px 6px;font-size:12px">📋</button></td><td class="mono">'+poDate(i)+'</td><td><span class="k">'+esc(m.label)+'</span> '+chip(m.h)+' <span class="muted">v</span> '+chip(m.a)+'</td><td class="muted">'+esc(mVenue(m))+'</td><td><b>'+esc(m.text)+'</b></td></tr>'});
   if(leagueDone&&!Z.champ){var nx=poNext();n++;rows+='<tr><td class="mono">'+n+'</td><td class="mono">'+poDate(Z.po.length)+'</td><td><span class="k">'+esc(nx.label)+'</span> '+chip(nx.h)+' <span class="muted">v</span> '+chip(nx.a)+'</td><td class="muted">'+esc(mVenue(nx))+'</td><td><span class="muted">Scheduled</span></td></tr>'}
   else if(!leagueDone)rows+='<tr><td></td><td class="mono">after the league</td><td colspan="3"><span class="k">Playoffs</span> <span class="muted">Survival ladder for the '+QW()+', more matches follow as teams are knocked out. Venues: Ahmedabad, Mullanpur, Bengaluru, Chennai, Kolkata.</span></td></tr>';
@@ -3084,10 +3090,10 @@ function paintSeason(){
       h+='</section>';
     }
     if(Z.md>0){
-      h+='<section><h3 class="role-h" style="padding-top:0">Matchday '+Z.md+' results · '+dstr(Z.md-1)+'</h3><div class="mgrid">'+Z.fixtures[Z.md-1].map(function(m,i){return mcard(m,'Match '+((Z.md-1)*per+i+1),'📍 '+esc(T(m.h).ground),'L:'+(Z.md-1)+':'+i)}).join('')+'</div></section>';
+      h+='<section><h3 class="role-h" style="padding-top:0">Matchday '+Z.md+' results · '+dstr(Z.md-1)+'</h3><div class="mgrid">'+Z.fixtures[Z.md-1].map(function(m,i){return mcard(m,'Match '+((Z.md-1)*per+i+1),hgMeta(m),'L:'+(Z.md-1)+':'+i)}).join('')+'</div></section>';
     }
     if(!leagueDone){
-      h+='<section><h3 class="role-h" style="padding-top:0">Next: matchday '+(Z.md+1)+' · '+dstr(Z.md)+'</h3><div class="mgrid">'+Z.fixtures[Z.md].map(function(m,i){var lab='Match '+(Z.md*per+i+1),meta='📍 '+esc(T(m.h).ground);return m.done?mcard(m,lab,meta,'L:'+Z.md+':'+i):fcard(m,lab,meta,'L:'+Z.md+':'+i,false)}).join('')+'</div></section>';
+      h+='<section><h3 class="role-h" style="padding-top:0">Next: matchday '+(Z.md+1)+' · '+dstr(Z.md)+'</h3><div class="mgrid">'+Z.fixtures[Z.md].map(function(m,i){var lab='Match '+(Z.md*per+i+1),meta=hgMeta(m);return m.done?mcard(m,lab,meta,'L:'+Z.md+':'+i):fcard(m,lab,meta,'L:'+Z.md+':'+i,false)}).join('')+'</div></section>';
     }
     var mine=[];
     for(var i=0;i<nMD;i++)Z.fixtures[i].forEach(function(m){if(m.done&&(m.h===S.me||m.a===S.me))mine.push({md:i+1,m:m})});
@@ -3829,10 +3835,10 @@ async function netOpen(code,host){
   if(err){var et=err&&(err.type||err.message)||'unknown';
     toast(et==='peer-unavailable'?'No party found with that code. Check the code and make sure the host tab is open.':'Could not reach the party server ('+et+'). Check your internet, turn off VPN/ad-blockers, then try again.');return false}
   NET.host=host;NET.code=code;
-  NET.r.onPeers(function(c){NET.peers=c.peers;try{chatPeers(c)}catch(e_){}c.peers.forEach(function(p){if(p.presence&&p.presence.role==='host')NET.hostPeer=p.peer});
+  NET.r.onPeers(function(c){NET.peers=c.peers;try{chatPeers(c)}catch(e_){}c.peers.forEach(function(p){if(p.presence&&p.presence.role==='host'){NET.hostPeer=p.peer;var hm=p.presence.mode;if(!NET.host&&!NET.live&&hm&&(hm==='wc')!==WC.on){setMode(hm,true);NET.my=null;NET.lastTeam=undefined;toast('Switched to the '+(hm==='wc'?'World Cup':'IPL')+' auction to match the host.')}}});
     if(NET.host&&NET.live&&c.joined.length){netPush(true);sendFull()}if(NET.host&&NET.live&&S&&S.done&&c.left.length){if(!S.seasonRun)checkReady();netPush(true);if($('tdBox'))deskPaint()}lobbyPaint()});
   NET.r.on('act',onAct);NET.r.on('snap',onSnap);NET.r.on('full',onFull);NET.r.on('sale',onSale);NET.r.on('uns',onUns);NET.r.on('seas',onSeas);NET.r.on('sq',function(m){if(m.peer!==NET.hostPeer||!m.data)return;NET.SQ[m.data.id]=m.data.s;var j=JSON.stringify(m.data.s);if(NET.SQj[m.data.id]!==j){NET.SQj[m.data.id]=j;NET.SQv++;NET.dirty=1}gSquad();if(!NET.host)gSync()});
-  NET.r.presence({role:host?'host':'guest'});
+  NET.r.presence({role:host?'host':'guest',mode:WC.on?'wc':'ipl'});
   $('onRow').hidden=true;$('onLobby').hidden=false;
   ['.hero','#teamGrid','.startrow'].forEach(function(q){var e=document.querySelector(q);if(e)e.hidden=true});
   lobbyPaint();return true}
@@ -3853,7 +3859,7 @@ document.addEventListener('click',function(e){var t=e.target.closest&&e.target.c
   else if(t.id==='onStart'){if(!picked){toast('Pick your own franchise first.');return}
     var rh={};NET.peers.forEach(function(p){var tm=p.presence&&p.presence.team;if(!p.isMe&&p.presence&&p.presence.role==='guest'&&tm&&tm!==picked&&!rh[tm]&&TEAMS.some(function(x){return x.id===tm}))rh[tm]={ceil:0,peer:p.peer,mission:pickMission()}});
     startAuction(picked,false,false);S.rh=rh;document.body.classList.add('onl');NET.live=true;NET.sn=0;
-    toast(Object.keys(rh).length+' friend(s) and '+(15-Object.keys(rh).length)+' AI teams. Auction started.');
+    toast(Object.keys(rh).length+' friend(s) and '+(S.teams.length-1-Object.keys(rh).length)+' AI teams. Auction started.');
     setInterval(netBeat,1000);netPush(true);sendFull()}
   else if(t.getAttribute('data-ot')){if(NET.host)picked=t.getAttribute('data-ot');else NET.my=t.getAttribute('data-ot');lobbyPaint()}
   else if(t.id==='gBidBtn')act('bid');
@@ -4317,7 +4323,7 @@ openPick=function(h){var _m=resolveM(h);if(isT(_m)){toast('Ball-by-ball pick mod
 /* ===== Lite graphics: no stadium backdrop, blur, shadows or animations (smoother on slower PCs) ===== */
 (function(){
  var KEY='iplLite',b=$('liteBtn'),st=document.createElement('style');st.id='liteCss';
- st.textContent='body::after{display:none!important}.top,.hero,.card{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important}*{animation:none!important;transition:none!important;text-shadow:none!important}body{background:var(--bg)!important}.tbl,.scroll,.card,.mcard,.tcard{contain:content;will-change:auto!important}.tbl tr{content-visibility:auto;contain-intrinsic-size:auto 34px}*{filter:none!important;text-shadow:none!important}';
+ st.textContent='body::after{display:none!important}.top,.hero,.card{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important}*:not(.hwfv):not(.hwfv *){animation:none!important;transition:none!important;text-shadow:none!important}body{background:var(--bg)!important}.tbl,.scroll,.card,.mcard,.tcard{contain:content;will-change:auto!important}.tbl tr{content-visibility:auto;contain-intrinsic-size:auto 34px}*{filter:none!important;text-shadow:none!important}';
  function get(){try{var v=localStorage.getItem(KEY);if(v==='on'||v==='off')return v==='on'}catch(e){}return !!(window.matchMedia&&matchMedia('(hover:hover) and (pointer:fine)').matches)}
  function set(on,save){if(on){if(!st.parentNode)document.head.appendChild(st)}else if(st.parentNode)st.parentNode.removeChild(st);if(b)b.textContent='Lite: '+(on?'on':'off');if(save){try{localStorage.setItem(KEY,on?'on':'off')}catch(e){}}}
  /* lite also throttles the heaviest repaints so a fast auction stops hammering the DOM */
@@ -4491,88 +4497,151 @@ function stOf(v){v=String(v||'');if(v.indexOf('S:')!==0)return null;return STAD.
 function stadOpts(sfx){return STAD.map(function(x){return['S:'+x.id,'🏟️ '+x.n+(x.c?', '+x.c:'')+(stCap(x)?' · '+stCap(x).toLocaleString():'')+(sfx||'')]})}
 function sdFactor(m){var d=m&&m.sd;if(!d)return 1;return ({flat:1.07,green:.94,slow:.94,dry:.97}[d.p]||1)*({small:1.04,large:.96}[d.z]||1)*(typeof d.en==='number'&&d.cap?1+(d.en-.5)*.05:1)}
 /* stand types: capacity per section of the ring */
-var STT={terrace:{n:'Terraces',cap:3000,c:'#9aa5b5',i:'▤'},stand:{n:'Grandstand',cap:6000,c:'#4f7cff',i:'▥'},prem:{n:'Premium stand',cap:2000,c:'#f5a524',i:'★'},roof:{n:'Covered stand',cap:5000,c:'#8b6cff',i:'⌂'},hill:{n:'Grass bank',cap:4000,c:'#4caf50',i:'≈'},pav:{n:'Pavilion (max 1)',cap:4500,c:'#e5484d',i:'P'}};
+var STT={terrace:{n:'Terraces',cap:3000,c:'#9aa5b5',i:'▤',pr:250},stand:{n:'Grandstand',cap:6000,c:'#4f7cff',i:'▥',pr:600},prem:{n:'Premium stand',cap:2000,c:'#f5a524',i:'★',pr:2500},roof:{n:'Covered stand',cap:5000,c:'#8b6cff',i:'⌂',pr:900},hill:{n:'Grass bank',cap:4000,c:'#4caf50',i:'≈',pr:150},pav:{n:'Pavilion (max 1)',cap:4500,c:'#e5484d',i:'P',pr:4000}};
+var STLV={1:1,2:1.7,3:2.4},STLN={1:'1 floor',2:'2 floors',3:'3 floors'};
 var SLN=12;
-function stCap(x){return (x&&x.sl||[]).reduce(function(t,k){return t+(STT[k]?STT[k].cap:0)},0)}
+var FLNm=['Ground floor','First floor','Second floor','Third floor','Fourth floor'],STMAXF=10;
+function flm(f){return f===0?1:.7}
+function fln(f){return FLNm[f]||('Floor '+f)}
+function stFl(x,i){var k=x&&x.sl&&x.sl[i];if(!STT[k])return [];var a=[k];
+  if(x.up&&x.up[i]){for(var f=0;f<x.up[i].length&&f<STMAXF-1;f++){var u=x.up[i][f];if(STT[u])a.push(u);else break}}
+  else if(x.lv&&(x.lv[i]|0)>1){for(var g=1;g<Math.min(3,x.lv[i]|0);g++)a.push(k)}
+  return a}
+function stLvl(x,i){return Math.max(1,stFl(x,i).length)}
+function stSeats(x,i,f){var a=stFl(x,i);if(f==null){var t=0;a.forEach(function(k,j){t+=Math.round(STT[k].cap*flm(j))});return t}return a[f]?Math.round(STT[a[f]].cap*flm(f)):0}
+function stCap(x){var t=0,n=(x&&x.sl||[]).length;for(var i=0;i<n;i++)t+=stSeats(x,i);return t}
+function stMaxLv(x){var m=0;(x&&x.sl||[]).forEach(function(k,i){m=Math.max(m,stFl(x,i).length)});return m}
+function stPrice(x,k,f){var P=x&&x.pr,p=P&&f!=null&&P[k+'@'+(f+1)];if(typeof p!=='number')p=P&&P[k];return (typeof p==='number'&&p>=0)?p:STT[k].pr}
+function stSim(x,r){var att=0,rev=0,full=0,n=(x.sl||[]).length;
+  for(var i=0;i<n;i++){stFl(x,i).forEach(function(k,f){var seats=Math.round(STT[k].cap*flm(f)),p=stPrice(x,k,f),ref=STT[k].pr,base=p<=0?1:Math.min(1,.9*Math.pow(ref/p,.7)),occ=Math.min(1,base*(.85+.3*r)),a=Math.round(seats*occ);att+=a;rev+=a*p;full+=seats*p})}
+  return{att:att,rev:rev,full:full}}
+function stCur(){return '₹'}
+function stMoney(v){return stCur()+Math.round(v).toLocaleString('en-IN')}
 function stEnc(x){return (x&&x.sl||[]).filter(function(k){return STT[k]}).length/SLN}
 function stAtm(c){return c<=0?'Open ground':c<10000?'Intimate':c<30000?'Lively':c<50000?'Roaring':'Cauldron'}
-function sdAtt(m){var d=m&&m.sd;if(!d||!d.cap)return 0;return Math.round(d.cap*(.72+((((m.seed||1)%1000)/1000)*.28)))}
+function sdR(m){return (((m.seed||1)%1000)/1000)}
+function sdAtt(m){var d=m&&m.sd;if(!d||!d.cap)return 0;if(d.sl)return stSim(d,sdR(m)).att;return Math.round(d.cap*(.72+sdR(m)*.28))}
+function mEarn(m){var d=m&&m.sd,r=sdR(m),att,rev;
+  if(d&&d.sl){var q=stSim(d,r);att=q.att;rev=q.rev}else{att=Math.round(40000*(.72+.28*r));rev=att*1200}
+  var h=Math.round(rev*(((d&&!m.hg)||m.neutral)?.5:.6));return{att:att,rev:rev,h:h,a:rev-h}}
+function earnTotals(list){var tot=0,by={},n=0;list.forEach(function(m){if(!m||!m.done)return;var e=mEarn(m);n++;tot+=e.rev;
+  [[m.h,e.h],[m.a,e.a]].forEach(function(q){var o=by[q[0]]=by[q[0]]||{e:0,n:0};o.e+=q[1];o.n++})});return{tot:tot,by:by,n:n}}
+function earnHTML(list,label){var t=earnTotals(list);if(!t.n)return '';
+  var ids=Object.keys(t.by).sort(function(a,b){return t.by[b].e-t.by[a].e});
+  return '<div class="card xcard"><span class="k">'+esc(label)+'</span><div style="font-size:24px;font-weight:800;margin-top:2px">💰 Total earnings '+stMoney(t.tot)+'</div><div class="muted">'+t.n+' match'+(t.n>1?'es':'')+' played · gate split: home side 60%, away side 40%, or 50-50 at neutral and custom grounds</div>'+
+   '<div class="xchips" style="margin-top:8px">'+ids.map(function(id){var c=T(id)?T(id).color:'#888';return '<span class="xchip" style="border-left:6px solid '+c+'"><b>'+id+'</b> '+stMoney(t.by[id].e)+' <small class="muted">'+t.by[id].n+' m</small></span>'}).join('')+'</div></div>'}
+function earnLine(m){if(!m||!m.done||!m.inn)return '';var e=mEarn(m);return '<div class="mres">💰 '+m.h+' '+stMoney(e.h)+' · '+m.a+' '+stMoney(e.a)+' <small class="muted">(gate '+stMoney(e.rev)+')</small></div>'}
+function tourMs(P){var o=[];P.tours.forEach(function(t){t.ms.forEach(function(i){o.push(S.xm[i])})});(P.ctours||[]).forEach(function(c){c.legs.forEach(function(l){l.ms.forEach(function(i){o.push(S.xm[i])})})});return o}
+function sdGate(m){var d=m&&m.sd;if(!d||!d.sl)return 0;return stSim(d,sdR(m)).rev}
 /* top-down plan of the ground; interactive in the builder */
 function sbSvg(x,live){
   var cx=180,cy=150,k=({small:70,std:82,large:94})[x.z]||82,rx=k*1.12,ry=k*.9,th=26,n=SLN,sl=x.sl||[],o='';
   function P(a,r1,r2){return (cx+Math.cos(a)*r1).toFixed(1)+' '+(cy+Math.sin(a)*r2).toFixed(1)}
-  var ri=rx+6,rYi=ry+6,ro=rx+6+th,rYo=ry+6+th*.9;
+  function band(a0,a1,r1,y1,r2,y2){return 'M'+P(a0,r1,y1)+' L'+P(a0,r2,y2)+' A'+r2.toFixed(1)+' '+y2.toFixed(1)+' 0 0 1 '+P(a1,r2,y2)+' L'+P(a1,r1,y1)+' A'+r1.toFixed(1)+' '+y1.toFixed(1)+' 0 0 0 '+P(a0,r1,y1)+' Z'}
+  var ri=rx+6,rYi=ry+6,rmax=rx+6+th*2.4;
   o+='<svg viewBox="0 0 360 300" style="width:100%;max-width:'+(live?'400px':'150px')+';display:block;margin:auto" role="img" aria-label="Stadium plan"><rect width="360" height="300" rx="14" fill="#1b2a21"/>';
   for(var i=0;i<n;i++){
-    var a0=-Math.PI/2+i*2*Math.PI/n+.025,a1=a0+2*Math.PI/n-.05,t=STT[sl[i]];
-    var d='M'+P(a0,ri,rYi)+' L'+P(a0,ro,rYo)+' A'+ro.toFixed(1)+' '+rYo.toFixed(1)+' 0 0 1 '+P(a1,ro,rYo)+' L'+P(a1,ri,rYi)+' A'+ri.toFixed(1)+' '+rYi.toFixed(1)+' 0 0 0 '+P(a0,ri,rYi)+' Z';
-    o+='<path d="'+d+'" fill="'+(t?t.c:'rgba(255,255,255,.04)')+'" stroke="'+(t?'#0d1511':'#6f8176')+'" stroke-width="'+(t?1.2:1)+'"'+(t?'':' stroke-dasharray="3 3"')+(live?' class="sbslot" data-i="'+i+'" pointer-events="all" style="cursor:pointer"><title>Section '+(i+1)+': '+(t?t.n:'open')+'</title></path>':'/>');
-    if(t&&sl[i]==='roof'){var am=(a0+a1)/2;o+='<path d="M'+P(am-.18,ri+3,rYi+3)+' A'+(ri+3).toFixed(1)+' '+(rYi+3).toFixed(1)+' 0 0 1 '+P(am+.18,ri+3,rYi+3)+'" stroke="#fff" stroke-width="2" fill="none" pointer-events="none" opacity=".7"/>'}
-    if(t&&live){var am2=(a0+a1)/2,rm=(ri+ro)/2,rYm=(rYi+rYo)/2;o+='<text x="'+(cx+Math.cos(am2)*rm).toFixed(1)+'" y="'+(cy+Math.sin(am2)*rYm+4).toFixed(1)+'" text-anchor="middle" font-size="12" font-weight="700" fill="#0d1511" pointer-events="none">'+t.i+'</text>'}
+    var a0=-Math.PI/2+i*2*Math.PI/n+.025,a1=a0+2*Math.PI/n-.05,fl=stFl(x,i),nf=Math.max(1,fl.length),thi=th*Math.min(2.4,1+.3*(nf-1));
+    var ro=rx+6+thi,rYo=ry+6+thi*.9;
+    if(!fl.length)o+='<path d="'+band(a0,a1,ri,rYi,ro,rYo)+'" fill="rgba(255,255,255,.04)" stroke="#6f8176" stroke-width="1" stroke-dasharray="3 3" pointer-events="none"/>';
+    fl.forEach(function(kk,f){var t=STT[kk],q0=f/nf,q1=(f+1)/nf,r1=ri+(ro-ri)*q0,y1=rYi+(rYo-rYi)*q0,r2=ri+(ro-ri)*q1,y2=rYi+(rYo-rYi)*q1;
+      o+='<path d="'+band(a0,a1,r1,y1,r2,y2)+'" fill="'+t.c+'" stroke="#0d1511" stroke-width="1.2" pointer-events="none"/>';
+      if(kk==='roof'){var am=(a0+a1)/2;o+='<path d="M'+P(am-.18,r2-2,y2-2)+' A'+(r2-2).toFixed(1)+' '+(y2-2).toFixed(1)+' 0 0 1 '+P(am+.18,r2-2,y2-2)+'" stroke="#fff" stroke-width="2" fill="none" pointer-events="none" opacity=".7"/>'}
+      if(live){var am2=(a0+a1)/2,rm=(r1+r2)/2,rYm=(y1+y2)/2;o+='<text x="'+(cx+Math.cos(am2)*rm).toFixed(1)+'" y="'+(cy+Math.sin(am2)*rYm+3.5).toFixed(1)+'" text-anchor="middle" font-size="'+(nf>1?9:12)+'" font-weight="700" fill="#0d1511" pointer-events="none">'+t.i+'</text>'}});
+    if(live)o+='<path d="'+band(a0,a1,ri,rYi,rx+6+th*2.4,ry+6+th*2.4*.9)+'" fill="transparent" class="sbslot" data-i="'+i+'" pointer-events="all" style="cursor:pointer"><title>Section '+(i+1)+(fl.length?': '+fl.map(function(kk,f){return fln(f)+' '+STT[kk].n}).join(', '):': open')+'</title></path>';
   }
   o+='<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx.toFixed(1)+'" ry="'+ry.toFixed(1)+'" fill="#3f9a4f" stroke="#fff" stroke-width="2.2" stroke-dasharray="1 0"/>'+
      '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+(rx*.56).toFixed(1)+'" ry="'+(ry*.56).toFixed(1)+'" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="1" stroke-dasharray="4 3"/>'+
      '<rect x="'+(cx-7)+'" y="'+(cy-28)+'" width="14" height="56" rx="2" fill="#d9c28e"/><line x1="'+(cx-7)+'" x2="'+(cx+7)+'" y1="'+(cy-20)+'" y2="'+(cy-20)+'" stroke="#fff" stroke-width="1"/><line x1="'+(cx-7)+'" x2="'+(cx+7)+'" y1="'+(cy+20)+'" y2="'+(cy+20)+'" stroke="#fff" stroke-width="1"/>';
-  if(x.fl){[45,135,225,315].forEach(function(dg){var a=dg*Math.PI/180,px=cx+Math.cos(a)*(ro+16),py=cy+Math.sin(a)*(rYo+14);o+='<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="9" fill="rgba(255,224,102,.28)"/><circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="4.5" fill="#ffe066" stroke="#fff" stroke-width="1"/>'})}
-  if(x.bs)o+='<rect x="150" y="280" width="60" height="13" rx="3" fill="#2a6df4" stroke="#fff" stroke-width="1"/><text x="180" y="290" text-anchor="middle" font-size="8" font-weight="700" fill="#fff">BIG SCREEN</text>';
+  if(x.fl){[45,135,225,315].forEach(function(dg){var a=dg*Math.PI/180,px=cx+Math.cos(a)*(rmax+12),py=cy+Math.sin(a)*(rmax*.8+10);o+='<circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="9" fill="rgba(255,224,102,.28)"/><circle cx="'+px.toFixed(1)+'" cy="'+py.toFixed(1)+'" r="4.5" fill="#ffe066" stroke="#fff" stroke-width="1"/>'})}
+  if(x.bs)o+='<rect x="150" y="284" width="60" height="13" rx="3" fill="#2a6df4" stroke="#fff" stroke-width="1"/><text x="180" y="294" text-anchor="middle" font-size="8" font-weight="700" fill="#fff">BIG SCREEN</text>';
   return o+'</svg>'}
 var SB=null;
 function sbNew(id){var x=id?STAD.filter(function(q){return q.id===id})[0]:null;
-  SB=x?{id:x.id,n:x.n,c:x.c||'',p:x.p||'flat',z:x.z||'std',sl:(x.sl||[]).slice(),fl:!!x.fl,bs:!!x.bs,brush:'stand'}:{id:null,n:'',c:'',p:'flat',z:'std',sl:[],fl:false,bs:false,brush:'stand'};
-  while(SB.sl.length<SLN)SB.sl.push('')}
-function sbBox(){var o=$('mm');if(!o||o.hidden||!o.querySelector('.box'))modal('');return $('mm').querySelector('.box')}
+  SB=x?{id:x.id,n:x.n,c:x.c||'',p:x.p||'flat',z:x.z||'std',sl:(x.sl||[]).slice(),up:[],fl:!!x.fl,bs:!!x.bs,brush:'stand',fsel:0,pr:Object.assign({},x.pr||{}),pre:x.pre||'std',mf:Math.min(STMAXF,Math.max(x.mf||3,stMaxLv(x)))}:{id:null,n:'',c:'',p:'flat',z:'std',sl:[],up:[],fl:false,bs:false,brush:'stand',fsel:0,pr:{},pre:'std',mf:3};
+  while(SB.sl.length<SLN)SB.sl.push('');
+  for(var i=0;i<SLN;i++){var f=x?stFl(x,i):[];SB.up.push(f.slice(1))}}
+function sbTypes(i){var a=[SB.sl[i]].concat(SB.up[i]||[]),o=[];for(var f=0;f<SB.mf&&f<a.length;f++){if(STT[a[f]])o.push(a[f]);else break}return o}
+function sbWrite(i,arr){arr=arr.slice(0,SB.mf);SB.sl[i]=arr[0]||'';SB.up[i]=arr.slice(1)}
+function sbInline(){return !!(S&&S.play&&S.tab==='stad'&&$('view-stad'))}
+function sbBox(){if(sbInline())return $('view-stad');var o=$('mm');if(!o||o.hidden||!o.querySelector('.box'))modal('');return $('mm').querySelector('.box')}
 function stadModal(){
-  var list=STAD.length?STAD.map(function(x){var cp=stCap(x);return '<div class="mcard" style="margin:8px 0;display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center"><div>'+sbSvg(x,false)+'</div><div><div class="mres"><b>🏟️ '+esc(x.n)+'</b>'+(x.c?' · '+esc(x.c):'')+'</div><div class="mres">'+(cp?'👥 '+cp.toLocaleString()+' seats · '+stAtm(cp):'No stands built yet')+(x.fl?' · 🌙 floodlit':'')+(x.bs?' · 📺 big screen':'')+'</div><div class="mres">'+esc(STP[x.p]||STP.random)+' · '+esc(STZ[x.z]||STZ.std)+'</div><div class="mact"><button class="btn stadedit" type="button" data-id="'+x.id+'">✏️ Edit</button><button class="btn staddel" type="button" data-id="'+x.id+'">🗑 Delete</button></div></div></div>'}).join(''):'<p class="muted">No custom stadiums yet. Design your first one.</p>';
-  modal('<div class="mhead"><div><span class="k">CUSTOM STADIUMS</span><h3>Your stadiums</h3></div>'+xbtn()+'</div>'+
-   '<p class="muted">Design a ground, then use it as the venue in Kick-off, Tours and Tournaments. A custom stadium is a neutral ground, so neither side gets home advantage.</p>'+
-   '<div class="mact"><button class="btn primary stadnew" type="button">🏗️ Build a new stadium</button></div>'+list)}
+  var list=STAD.length?STAD.map(function(x){var cp=stCap(x),g=stSim(x,.5),ml=stMaxLv(x);return '<div class="mcard" style="margin:8px 0;display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center"><div>'+sbSvg(x,false)+'</div><div><div class="mres"><b>🏟️ '+esc(x.n)+'</b>'+(x.c?' · '+esc(x.c):'')+'</div><div class="mres">'+(cp?'👥 '+cp.toLocaleString()+' seats · '+stAtm(cp)+(ml>1?' · up to '+ml+' floors':''):'No stands built yet')+(x.fl?' · 🌙 floodlit':'')+(x.bs?' · 📺 big screen':'')+'</div><div class="mres">'+esc(STP[x.p]||STP.random)+' · '+esc(STZ[x.z]||STZ.std)+'</div>'+(cp?'<div class="mres">🎟️ Typical gate '+stMoney(g.rev)+' · '+g.att.toLocaleString()+' fans</div>':'')+'<div class="mact"><button class="btn stadedit" type="button" data-id="'+x.id+'">✏️ Edit</button><button class="btn staddel" type="button" data-id="'+x.id+'">🗑 Delete</button></div></div></div>'}).join(''):'<p class="muted">No custom stadiums yet. Design your first one.</p>';
+  var body='<p class="muted">Design a ground with one to three floors per stand, set your own ticket prices, then use it as the venue in Kick-off, Tours and Tournaments. A custom stadium is a neutral ground, so neither side gets home advantage.</p>'+
+   '<div class="mact"><button class="btn primary stadnew" type="button">🏗️ Build a new stadium</button></div>'+list;
+  if(sbInline()){$('view-stad').innerHTML='<h2>Stadiums</h2>'+body;return}
+  modal('<div class="mhead"><div><span class="k">CUSTOM STADIUMS</span><h3>Your stadiums</h3></div>'+xbtn()+'</div>'+body)}
+function sbRevHTML(x){var cp=stCap(x),g=stSim(x,.5),lo=stSim(x,0),hi=stSim(x,1);
+  return '<div class="mres"><b>🎟️ Typical gate: '+stMoney(g.rev)+'</b> · '+g.att.toLocaleString()+' fans ('+(cp?Math.round(g.att/cp*100):0)+'% full)</div><div class="mres">Range '+stMoney(lo.rev)+' to '+stMoney(hi.rev)+' · sell-out value '+stMoney(g.full)+'</div><div class="muted" style="font-size:12px;margin-top:4px">Cheaper seats fill faster, dearer seats earn more per fan but empty out. Find the price that earns the most.</div>'}
 function sbPaint(){
   var x=SB,cp=stCap(x),en=Math.round(stEnc(x)*100),box=sbBox();
   var sel=function(id,cur,o){return '<select id="'+id+'" class="btn">'+o.map(function(q){return '<option value="'+q[0]+'"'+(q[0]===cur?' selected':'')+'>'+q[1]+'</option>'}).join('')+'</select>'};
   var pal=Object.keys(STT).map(function(k){var t=STT[k];return '<button type="button" class="btn sbbrush'+(x.brush===k?' primary':'')+'" data-b="'+k+'" style="font-size:12.5px;padding:5px 9px;display:inline-flex;align-items:center;gap:6px"><i style="width:12px;height:12px;border-radius:3px;background:'+t.c+';display:inline-block"></i>'+t.n+' <small class="muted">'+t.cap.toLocaleString()+'</small></button>'}).join('')+
     '<button type="button" class="btn sbbrush'+(x.brush==='x'?' primary':'')+'" data-b="x" style="font-size:12.5px;padding:5px 9px">⌫ Remove</button>';
+  var fl='';for(var f0=0;f0<x.mf;f0++)fl+='<button type="button" class="btn sbfloor'+(x.fsel===f0?' primary':'')+'" data-l="'+f0+'" style="font-size:12.5px;padding:5px 9px">'+fln(f0)+' <small class="muted">×'+flm(f0)+'</small></button>';
+  var used={};for(var i=0;i<SLN;i++){sbTypes(i).forEach(function(k,f){var key=k+'@'+(f+1);used[key]=(used[key]||0)+1})}
+  var keys=Object.keys(used).sort(function(a,b){return (+a.split('@')[1])-(+b.split('@')[1])||(a<b?-1:1)});
+  var prices=keys.length?keys.map(function(key){var kk=key.split('@')[0],f=+key.split('@')[1]-1,t=STT[kk];return '<div class="sbpr"><label style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><i style="width:12px;height:12px;border-radius:3px;background:'+t.c+';display:inline-block"></i><b>'+fln(f)+'</b> · '+t.n+' <small class="muted">'+used[key]+' section'+(used[key]>1?'s':'')+' · standard '+stMoney(t.pr)+'</small></label><input type="number" class="btn sbprice" data-k="'+key+'" min="0" max="50000" step="10" inputmode="numeric" value="'+stPrice(x,kk,f)+'"></div>'}).join(''):'<p class="muted">Place some stands to set their ticket prices.</p>';
   box.innerHTML='<div class="mhead"><div><span class="k">STADIUM BUILDER</span><h3>'+(x.id?'Edit stadium':'Build a stadium')+'</h3></div><button class="btn sbback" type="button">← Back</button></div>'+
    '<div class="ctl-row"><label>Name<input id="sbN" class="btn" maxlength="30" placeholder="Jasraj Oval" value="'+esc(x.n)+'"></label><label>City<input id="sbC" class="btn" maxlength="30" placeholder="Ludhiana" value="'+esc(x.c)+'"></label></div>'+
    '<div class="ctl-row" style="margin-top:8px"><label>Pitch'+sel('sbP',x.p,[['flat',STP.flat],['green',STP.green],['slow',STP.slow],['dry',STP.dry],['random',STP.random]])+'</label><label>Boundaries'+sel('sbZ',x.z,[['small',STZ.small],['std',STZ.std],['large',STZ.large]])+'</label></div>'+
-   '<p class="muted" style="margin:10px 0 6px">Pick a stand type, then tap the sections around the boundary to place it.</p><div style="display:flex;flex-wrap:wrap;gap:6px">'+pal+'</div>'+
+   '<div class="ctl-row" style="margin-top:10px"><label>Number of floors (1 to '+STMAXF+')<input id="sbMF" class="btn" type="number" min="1" max="'+STMAXF+'" step="1" inputmode="numeric" value="'+x.mf+'" style="width:90px"></label></div>'+
+   '<p class="muted" style="margin:10px 0 6px">1. Choose which floor you are building.</p><div style="display:flex;flex-wrap:wrap;gap:6px">'+fl+'</div>'+
+   '<p class="muted" style="margin:10px 0 6px">2. Choose the seat type for that floor.</p><div style="display:flex;flex-wrap:wrap;gap:6px">'+pal+'</div>'+
+   '<p class="muted" style="margin:10px 0 6px">3. Tap a section of the ground to put that seat type on that floor. Build the ground floor first, then add floors above it, each with its own seat type. Tap again to remove a floor (and any floors above it).</p>'+
    '<div style="margin:10px 0">'+sbSvg(x,true)+'</div>'+
-   '<div class="mact"><button class="btn sbfill" type="button">Fill every section</button><button class="btn sbclear" type="button">Clear all</button><label class="muted" style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" id="sbL"'+(x.fl?' checked':'')+'> 🌙 Floodlights</label><label class="muted" style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" id="sbS"'+(x.bs?' checked':'')+'> 📺 Big screen</label></div>'+
-   '<div class="card" style="margin-top:10px"><div class="mres"><b>👥 Capacity: '+cp.toLocaleString()+'</b> · Atmosphere: <b>'+stAtm(cp)+'</b></div><div class="mres">Enclosed: '+en+'% of the boundary · '+esc(STP[x.p])+' · '+esc(STZ[x.z])+'</div><div class="muted" style="font-size:12px;margin-top:4px">A more enclosed bowl holds the ball in a little: scores edge up with more stands. Floodlit grounds bring dew for the chasing side. A big crowd roars on sixes and wickets.</div></div>'+
+   '<div class="mact"><button class="btn sbfill" type="button">Fill this floor everywhere</button><button class="btn sbclear" type="button">Clear all</button><label class="muted" style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" id="sbL"'+(x.fl?' checked':'')+'> 🌙 Floodlights</label><label class="muted" style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" id="sbS"'+(x.bs?' checked':'')+'> 📺 Big screen</label></div>'+
+   '<div class="card" style="margin-top:10px"><h4 style="margin:0 0 6px">🎟️ Ticket prices by floor and seat type</h4><label class="muted">Pricing<select id="sbPre" class="btn" style="margin-left:6px"><option value="std"'+(x.pre==='std'?' selected':'')+'>Standard</option><option value="low"'+(x.pre==='low'?' selected':'')+'>Budget (about 40% cheaper)</option><option value="high"'+(x.pre==='high'?' selected':'')+'>Premium (about 80% dearer)</option><option value="cust"'+(x.pre==='cust'?' selected':'')+'>Custom</option></select></label>'+prices+'<div id="sbRev" style="margin-top:6px">'+sbRevHTML(x)+'</div></div>'+
+   '<div class="card" style="margin-top:10px"><div class="mres"><b>👥 Capacity: '+cp.toLocaleString()+'</b> · Atmosphere: <b>'+stAtm(cp)+'</b> · Tallest stand: '+(stMaxLv(x)||0)+' floor'+(stMaxLv(x)===1?'':'s')+'</div><div class="mres">Enclosed: '+en+'% of the boundary · '+esc(STP[x.p])+' · '+esc(STZ[x.z])+'</div><div class="muted" style="font-size:12px;margin-top:4px">A more enclosed bowl holds the ball in a little: scores edge up with more stands. Floodlit grounds bring dew for the chasing side. A big crowd roars on sixes and wickets.</div></div>'+
    '<div class="mact" style="margin-top:10px"><button class="btn primary sbsave" type="button">💾 Save stadium</button></div>'}
 function sbRefresh(){if(S&&S.play){paintPlayBar();pxRepaint()}}
-document.addEventListener('click',function(e){var t=e.target&&e.target.closest?e.target.closest('.stadopen,.stadnew,.stadedit,.staddel,.sbslot,.sbbrush,.sbfill,.sbclear,.sbsave,.sbback'):null;if(!t)return;
+document.addEventListener('click',function(e){var t=e.target&&e.target.closest?e.target.closest('.stadopen,.stadnew,.stadedit,.staddel,.sbslot,.sbbrush,.sbfloor,.sbfill,.sbclear,.sbsave,.sbback'):null;if(!t)return;
   var c=t.classList;
   if(c.contains('stadopen')){stadModal();return}
   if(c.contains('stadnew')){sbNew(null);sbPaint();return}
   if(c.contains('stadedit')){sbNew(t.getAttribute('data-id'));sbPaint();return}
-  if(c.contains('sbback')){stadModal();return}
+  if(c.contains('sbback')){SB=null;stadModal();return}
   if(!SB&&!c.contains('staddel'))return;
   if(c.contains('sbbrush')){SB.brush=t.getAttribute('data-b');sbPaint();return}
-  if(c.contains('sbslot')){var i=+t.getAttribute('data-i'),b=SB.brush;
-    if(b==='x')SB.sl[i]='';else{if(b==='pav')SB.sl=SB.sl.map(function(k){return k==='pav'?'':k});SB.sl[i]=SB.sl[i]===b?'':b}
-    sbPaint();return}
-  if(c.contains('sbfill')){var b2=SB.brush==='x'||SB.brush==='pav'?'stand':SB.brush;SB.sl=SB.sl.map(function(k){return k==='pav'?k:b2});sbPaint();return}
-  if(c.contains('sbclear')){SB.sl=SB.sl.map(function(){return ''});sbPaint();return}
+  if(c.contains('sbfloor')){SB.fsel=+t.getAttribute('data-l')||0;sbPaint();return}
+  if(c.contains('sbslot')){var i=+t.getAttribute('data-i'),b=SB.brush,f=SB.fsel,a=sbTypes(i);
+    if(b==='x'){a=a.slice(0,f);sbWrite(i,a);sbPaint();return}
+    if(b==='pav'&&f>0){toast('The pavilion is a ground-floor stand only.');return}
+    if(f>a.length){toast('Build the '+fln(a.length).toLowerCase()+' of this section first.');return}
+    if(b==='pav')SB.sl=SB.sl.map(function(k,j){if(k==='pav'&&j!==i){sbWrite(j,[]);return ''}return k});
+    a=sbTypes(i);
+    if(a[f]===b)a=a.slice(0,f);else a[f]=b;
+    if(f>0&&a.slice(1).some(function(k){return k==='pav'}))a=a.filter(function(k,j){return j===0||k!=='pav'});
+    sbWrite(i,a);sbPaint();return}
+  if(c.contains('sbfill')){var b2=SB.brush==='x'?'stand':SB.brush,f2=SB.fsel;
+    if(b2==='pav'&&f2>0){toast('The pavilion is a ground-floor stand only.');return}
+    if(b2==='pav'){toast('Only one pavilion is allowed. Tap a section to place it.');return}
+    for(var j=0;j<SLN;j++){var aj=sbTypes(j);if(SB.sl[j]==='pav'&&f2===0)continue;if(f2>aj.length)continue;aj[f2]=b2;sbWrite(j,aj)}sbPaint();return}
+  if(c.contains('sbclear')){for(var j2=0;j2<SLN;j2++)sbWrite(j2,[]);sbPaint();return}
   if(c.contains('sbsave')){var nm=(SB.n||'').trim().slice(0,30);if(!nm){toast('Give the stadium a name.');return}
-    var rec={id:SB.id||('c'+Date.now().toString(36)+Math.floor(Math.random()*1000)),n:nm,c:(SB.c||'').trim().slice(0,30),p:SB.p,z:SB.z,sl:SB.sl.slice(),fl:SB.fl,bs:SB.bs};
+    var pr={};for(var qi=0;qi<SLN;qi++)sbTypes(qi).forEach(function(k,f){pr[k+'@'+(f+1)]=stPrice(SB,k,f)});
+    var rec={id:SB.id||('c'+Date.now().toString(36)+Math.floor(Math.random()*1000)),n:nm,c:(SB.c||'').trim().slice(0,30),p:SB.p,z:SB.z,sl:SB.sl.slice(),up:SB.up.map(function(a){return a.slice()}),mf:SB.mf,pr:pr,pre:SB.pre,fl:SB.fl,bs:SB.bs};
     if(SB.id){STAD=STAD.map(function(q){return q.id===SB.id?rec:q})}else{if(STAD.length>=24){toast('You can keep up to 24 stadiums.');return}STAD.push(rec)}
     stSave();SB=null;stadModal();sbRefresh();toast(nm+' is ready to host.');return}
   if(c.contains('staddel')){var id=t.getAttribute('data-id');STAD=STAD.filter(function(q){return q.id!==id});
     if(KK.neu==='S:'+id)KK.neu='home';if(TO.neu==='S:'+id)TO.neu='home';if(TR.neu==='S:'+id)TR.neu='hostA';if(CT.v==='S:'+id)CT.v='hostB';
     stSave();stadModal();sbRefresh()}});
 document.addEventListener('change',function(e){var el=e.target;if(!SB||!el||!el.id)return;
-  if(el.id==='sbP'){SB.p=el.value;sbPaint()}else if(el.id==='sbZ'){SB.z=el.value;sbPaint()}else if(el.id==='sbL'){SB.fl=el.checked;sbPaint()}else if(el.id==='sbS'){SB.bs=el.checked;sbPaint()}});
-document.addEventListener('input',function(e){var el=e.target;if(!SB||!el)return;if(el.id==='sbN')SB.n=el.value;else if(el.id==='sbC')SB.c=el.value});
+  if(el.id==='sbP'){SB.p=el.value;sbPaint()}else if(el.id==='sbZ'){SB.z=el.value;sbPaint()}else if(el.id==='sbL'){SB.fl=el.checked;sbPaint()}else if(el.id==='sbS'){SB.bs=el.checked;sbPaint()}
+  else if(el.id==='sbMF'){var v=Math.max(1,Math.min(STMAXF,Math.floor(+el.value)||1));SB.mf=v;if(SB.fsel>=v)SB.fsel=v-1;for(var q=0;q<SLN;q++)sbWrite(q,sbTypes(q));sbPaint()}
+  else if(el.id==='sbPre'){SB.pre=el.value;var mu={std:1,low:.6,high:1.8}[el.value];if(mu){SB.pr={};Object.keys(STT).forEach(function(k){for(var f=1;f<=STMAXF;f++)SB.pr[k+'@'+f]=Math.max(10,Math.round(STT[k].pr*mu/10)*10)})}sbPaint()}});
+document.addEventListener('input',function(e){var el=e.target;if(!SB||!el)return;if(el.id==='sbN')SB.n=el.value;else if(el.id==='sbC')SB.c=el.value;
+  else if(el.classList&&el.classList.contains('sbprice')){var v=Math.max(0,Math.min(50000,+el.value||0));SB.pr[el.getAttribute('data-k')]=v;SB.pre='cust';var sp=$('sbPre');if(sp)sp.value='cust';var rv=$('sbRev');if(rv)rv.innerHTML=sbRevHTML(SB)}});
 function xnum(id,label,val){return '<label>'+label+'<input id="'+id+'" class="btn" type="number" min="1" max="25" step="1" inputmode="numeric" value="'+val+'" style="width:84px"></label>'}
 function pxLock(title){return '<h2>'+title+'</h2><div class="card"><p>These sections use the squads you build in the auction. Finish bidding first, or press <b>Sim to end</b> in the hall, then come back.</p></div>'}
 function xids(){return S.teams.map(function(x){return x.id})}
 function xsel(id,label,val){return '<label>'+label+'<select id="'+id+'" class="btn">'+xids().map(function(x){return '<option value="'+x+'"'+(x===val?' selected':'')+'>'+x+' · '+esc(T(x).name)+'</option>'}).join('')+'</select></label>'}
 function xopt(id,label,val,list){return '<label>'+label+'<select id="'+id+'" class="btn">'+list.map(function(o){return '<option value="'+o[0]+'"'+(String(o[0])===String(val)?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select></label>'}
-function xmNew(h,a,neu,label,fv,sv){pxS();var sd=stOf(sv);if(sd)neu=true;var i=S.xm.length,m={h:h,a:a,neutral:!!neu,venue:sd?sd.n+(sd.c?', '+sd.c:'')+(stCap(sd)?' · '+stCap(sd).toLocaleString()+' seats':''):neu?'Neutral venue':T(h).ground,x:i,label:label||'',fv:String(fv||fvDef())};if(sd)m.sd={n:sd.n,c:sd.c,p:sd.p,z:sd.z,cap:stCap(sd),en:stEnc(sd),fl:!!sd.fl,bs:!!sd.bs};S.xm.push(m);return i}
+function xmNew(h,a,neu,label,fv,sv){pxS();var sd=stOf(sv);if(sd)neu=true;var i=S.xm.length,m={h:h,a:a,neutral:!!neu,venue:sd?sd.n+(sd.c?', '+sd.c:'')+(stCap(sd)?' · '+stCap(sd).toLocaleString()+' seats':''):neu?'Neutral venue':T(h).ground,x:i,label:label||'',fv:String(fv||fvDef())};if(sd)m.sd={n:sd.n,c:sd.c,p:sd.p,z:sd.z,cap:stCap(sd),en:stEnc(sd),fl:!!sd.fl,bs:!!sd.bs,sl:(sd.sl||[]).slice(),lv:(sd.lv||[]).slice(),up:(sd.up||[]).map(function(a){return a.slice()}),pr:Object.assign({},sd.pr||{})};S.xm.push(m);return i}
 function xmPlay(i){var m=S.xm[i];if(m&&!m.done)simMatch(m,!!m.neutral);return m}
 function xCard(i,label){var m=S.xm[i];if(!m)return '';if(m.fv)label=(label||'')+' · '+esc(fvName(m.fv));
   if(!m.done)return fcard(m,label,'📍 '+esc(mVenue(m)),'X:'+i,!!m.neutral);
-  return mcard(m,label,'📍 '+esc(mVenue(m)),'X:'+i)}
+  return mcard(m,label,'📍 '+esc(mVenue(m))+(m.sd&&m.sd.sl&&m.sd.cap?' · 👥 '+sdAtt(m).toLocaleString():''),'X:'+i)}
 function xCardOld(i,label){var m=S.xm[i];if(!m)return '';
   if(!m.done){var p=winProb(m.h,m.a,!!m.neutral);
     return '<div class="mcard'+((m.h===S.me||m.a===S.me)?' mine':'')+'"><span class="k">'+label+'</span><div class="mres">📍 '+esc(mVenue(m))+'</div><div class="ml">'+chip(m.h)+'<small class="muted">'+p+'%</small></div><div class="ml">'+chip(m.a)+'<small class="muted">'+(100-p)+'%</small></div><div class="mact"><button class="btn xa" type="button" data-xa="simx" data-x="'+i+'">🎲 Sim this match</button></div></div>'}
@@ -4592,7 +4661,7 @@ function xTeamCheck(a,b){if(!a||!b||a===b){toast('Pick two different teams.');re
 function paintKick(){var el=$('view-kick');if(!S.done){el.innerHTML=pxLock('Kick-off matches');return}pxS();
   var ids=xids();if(!KK.a||!T(KK.a))KK.a=S.me||xids()[0];if(!KK.b||!T(KK.b)||KK.b===KK.a)KK.b=ids.filter(function(x){return x!==KK.a})[0];
   var p=winProb(KK.a,KK.b,KK.neu!=='home');
-  var h='<h2>Kick-off matches</h2><p class="muted">A one-off friendly between any two squads. No table, no trophy, just a game. '+XIN+' a side.</p>'+
+  var h='<h2>Kick-off matches</h2><p class="muted">A one-off friendly between any two squads. No table, no trophy, just a game. '+XIN+' a side.</p>'+earnHTML(S.px.kick.map(function(i){return S.xm[i]}),'Kick-off earnings')+
    '<div class="card xcard"><div class="ctl-row">'+xsel('kkA','Team A',KK.a)+xsel('kkB','Team B',KK.b)+xopt('kkV','Venue',KK.neu,[['home','Home of Team A'],['neutral','Neutral venue']].concat(stadOpts()))+xopt('kkF','Format',fvOf(KK),fvOpts())+'</div>'+
    '<div class="mres" style="margin-top:8px">Win probability by squad ratings: <b>'+KK.a+' '+p+'%</b> · <b>'+KK.b+' '+(100-p)+'%</b></div>'+
    '<div class="mact" style="margin-top:8px"><button class="btn primary xa" type="button" data-xa="kkmake">🏏 Set up match</button><button class="btn primary xa" type="button" data-xa="kkplay">🎮 Play match live</button><button class="btn xa" type="button" data-xa="kkquick">⚡ Quick sim</button><button class="btn xa" type="button" data-xa="kkme">🎲 My team vs random</button><button class="btn xa" type="button" data-xa="kkrand">🎲 Random match</button></div></div>';
@@ -4606,14 +4675,31 @@ function tourHost(v,i,a,b){return v==='hostB'?[b,a,0]:v==='split'?(i%2?[b,a,0]:[
 function tourNew(a,b,n,v,fv){if(!xTeamCheck(a,b))return;n=fvNum(n);fv=String(fv||fvDef());var P=pxS(),t={id:P.nid++,a:a,b:b,n:n,v:v,fv:fv,ms:[],name:a+' v '+b};
   for(var i=0;i<n;i++){var q=tourHost(v,i,a,b);t.ms.push(xmNew(q[0],q[1],q[2],(fvTest(fv)?'Test ':'Match ')+(i+1),fv,v))}
   P.tours.unshift(t);toast(a+' v '+b+': '+n+'-match tour created.')}
-function tourScore(t){var wa=0,wb=0,d=0,pl=0;t.ms.forEach(function(i){var m=S.xm[i];if(!m.done)return;pl++;if(m.win===t.a)wa++;else if(m.win===t.b)wb++;else d++});
-  var fin=pl===t.n;return{wa:wa,wb:wb,d:d,pl:pl,fin:fin,res:!fin?'':(wa>wb?t.a+' win the series '+wa+'–'+wb:wb>wa?t.b+' win the series '+wb+'–'+wa:'Series drawn '+wa+'–'+wb)}}
+function tourScore(t){var wa=0,wb=0,d=0,pl=0,ra=0,rb=0,ba=0,bb=0,ka=0,kb=0,gate=0,rows=[];
+  var none={r:0,w:0,balls:0,shown:0};
+  t.ms.forEach(function(i,k){var m=S.xm[i];if(!m.done)return;pl++;
+    var ia=(m.inn||[]).filter(function(x){return x.id===t.a})[0]||none,ib=(m.inn||[]).filter(function(x){return x.id===t.b})[0]||none;
+    if(m.win===t.a)wa++;else if(m.win===t.b)wb++;else d++;
+    ra+=ia.r;rb+=ib.r;ba+=ia.balls||0;bb+=ib.balls||0;ka+=ia.w;kb+=ib.w;gate+=sdGate(m);rows.push({k:k,m:m,ia:ia,ib:ib})});
+  var left=t.n-pl,fin=left===0,lead=Math.max(wa,wb),trail=Math.min(wa,wb),clinch=!fin&&(lead-trail)>left;
+  var st=!pl?'Not started':wa===wb?'Series level '+wa+'–'+wb:(wa>wb?t.a:t.b)+' lead '+lead+'–'+trail;if(clinch)st=(wa>wb?t.a:t.b)+' have won the series '+lead+'–'+trail+' with '+left+' to play';
+  return{wa:wa,wb:wb,d:d,pl:pl,fin:fin,left:left,clinch:clinch,st:st,ra:ra,rb:rb,ba:ba,bb:bb,ka:ka,kb:kb,gate:gate,rows:rows,pa:wa*2+d,pb:wb*2+d,
+    res:!fin?'':(wa>wb?t.a+' win the series '+wa+'–'+wb:wb>wa?t.b+' win the series '+wb+'–'+wa:'Series drawn '+wa+'–'+wb)}}
+function tourBoard(t,s){if(!s.pl)return '';var ts=fvTest(fvOf(t));
+  function rate(r,b,k){return ts?(k?(r/k).toFixed(1)+' avg':'–'):(b?(r/b*6).toFixed(2):'–')}
+  function row(id,w,l,dd,pts,r,k,b){return '<tr class="'+(id===S.me?'me':'')+'"><td>'+chip(id)+'</td><td class="r mono">'+s.pl+'</td><td class="r mono">'+w+'</td><td class="r mono">'+l+'</td><td class="r mono">'+dd+'</td><td class="r mono"><b>'+pts+'</b></td><td class="r mono">'+r+'/'+k+'</td><td class="r mono">'+rate(r,b,k)+'</td></tr>'}
+  var h='<div class="scroll"><table class="tbl"><thead><tr><th>Team</th><th class="r">P</th><th class="r">W</th><th class="r">L</th><th class="r">D</th><th class="r">Pts</th><th class="r">Runs/Wkts</th><th class="r">'+(ts?'Average':'Run rate')+'</th></tr></thead><tbody>'+
+   (s.pa>=s.pb?row(t.a,s.wa,s.wb,s.d,s.pa,s.ra,s.ka,s.ba)+row(t.b,s.wb,s.wa,s.d,s.pb,s.rb,s.kb,s.bb):row(t.b,s.wb,s.wa,s.d,s.pb,s.rb,s.kb,s.bb)+row(t.a,s.wa,s.wb,s.d,s.pa,s.ra,s.ka,s.ba))+'</tbody></table></div>'+
+   '<div class="scroll"><table class="tbl"><thead><tr><th>#</th><th>'+t.a+'</th><th>'+t.b+'</th><th>Result</th></tr></thead><tbody>'+
+   s.rows.map(function(q){return '<tr><td class="mono">'+(q.k+1)+'</td><td class="mono'+(q.m.win===t.a?' w':'')+'">'+q.ia.r+'/'+q.ia.w+'</td><td class="mono'+(q.m.win===t.b?' w':'')+'">'+q.ib.r+'/'+q.ib.w+'</td><td class="muted">'+esc(q.m.text||'')+'</td></tr>'}).join('')+'</tbody></table></div>'+
+   '<div class="muted" style="font-size:12px;margin:2px 0 6px">Series points: 2 for a win, 1 each for a draw or tie. The series goes to whoever wins more matches.</div>';
+  return h}
 function tourPlay(t,all){for(var k=0;k<t.ms.length;k++){var m=S.xm[t.ms[k]];if(!m.done){xmPlay(t.ms[k]);if(!all)break}}
   tourFinish(t)}
 function tourFinish(t){var s=tourScore(t);if(s.fin&&!t.done){t.done=true;var w=s.wa>s.wb?t.a:s.wb>s.wa?t.b:null;if(w&&w===S.me&&!S.spectate){toast('You won the series.');try{sfx('champ')}catch(e){}}}}
 function paintTours(){var el=$('view-tours');if(!S.done){el.innerHTML=pxLock('Tours');return}var P=pxS(),ids=xids();
   if(!TR.a||!T(TR.a))TR.a=S.me||xids()[0];if(!TR.b||!T(TR.b)||TR.b===TR.a)TR.b=ids.filter(function(x){return x!==TR.a})[0];
-  var h='<h2>Tours</h2><p class="muted">A bilateral series between two squads, with as many matches as you like. '+XIN+' a side.</p>'+
+  var h='<h2>Tours</h2><p class="muted">A bilateral series between two squads, with as many matches as you like. '+XIN+' a side.</p>'+earnHTML(tourMs(P),'Tour earnings')+
    '<div class="card xcard"><h3>Plan a tour</h3><div class="ctl-row">'+xsel('trA','Team A',TR.a)+xsel('trB','Team B',TR.b)+
    xnum('trN','Matches',TR.n)+xopt('trF','Format',fvOf(TR),fvOpts())+
    xopt('trV','Hosting',TR.neu,[['hostA','Team A host'],['hostB','Team B host'],['split','Home and away'],['neutral','Neutral venue']].concat(stadOpts(' (all matches)')))+
@@ -4623,7 +4709,7 @@ function paintTours(){var el=$('view-tours');if(!S.done){el.innerHTML=pxLock('To
   if(P.tours.length)h+='<h3 style="margin-top:18px">Series</h3>';
   P.tours.forEach(function(t){var s=tourScore(t);
     h+='<div class="card xcard"><div class="xhead"><div>'+chip(t.a)+' v '+chip(t.b)+' <span class="muted">· '+t.n+'-match series · '+esc(fvName(fvOf(t)))+'</span></div><div class="xscore">'+s.wa+' – '+s.wb+(s.d?' <small class="muted">('+s.d+' drawn)</small>':'')+'</div></div>'+
-     '<div class="mres" style="margin:6px 0"><b>'+(s.fin?esc(s.res):s.pl+' of '+t.n+' played')+'</b></div>'+
+     '<div class="mres" style="margin:6px 0"><b>'+esc(s.fin?s.res:s.st)+'</b> <span class="muted">· '+s.pl+' of '+t.n+' played'+(s.gate?' · 💰 total gate '+stMoney(s.gate):'')+'</span></div>'+tourBoard(t,s)+
      '<div class="mact">'+(s.fin?'':(function(){var nx=t.ms.filter(function(i){return !S.xm[i].done})[0];return nx==null?'':'<button class="btn primary mhwgo" type="button" data-hd="X:'+nx+'">🎮 Play next match live</button>'})()+'<button class="btn xa" type="button" data-xa="trnext" data-id="'+t.id+'">▶ Sim next match</button><button class="btn xa" type="button" data-xa="trall" data-id="'+t.id+'">⏩ Sim the rest</button>')+'<button class="btn xa" type="button" data-xa="trdel" data-id="'+t.id+'">🗑 Delete</button></div>'+
      '<div class="xgrid">'+t.ms.map(function(i,k){return xCard(i,(fvTest(fvOf(t))?'Test ':'Match ')+(k+1))}).join('')+'</div></div>'});
   el.innerHTML=h}
@@ -4649,7 +4735,7 @@ function ctHTML(){var P=pxS();P.ctours=P.ctours||[];var ids=xids();
       h+='<div class="card xcard"><div class="xhead"><div><b>'+esc(c.name)+'</b> · '+chip(c.team)+'</div><div class="mres"><b>'+fin+' of '+c.legs.length+' legs done · series '+sw+'W '+sl+'L '+sd+'D</b></div></div>'+
        '<div class="mact" style="margin-top:8px">'+(c.done?'':(function(){var nx=null;c.legs.forEach(function(l){l.ms.forEach(function(i){if(nx==null&&!S.xm[i].done)nx=i})});return nx==null?'':'<button class="btn primary mhwgo" type="button" data-hd="X:'+nx+'">🎮 Play next match live</button>'})()+'<button class="btn xa" type="button" data-xa="ctnext" data-id="'+c.id+'">▶ Sim next match</button><button class="btn xa" type="button" data-xa="ctall" data-id="'+c.id+'">⏩ Sim the whole tour</button>')+'<button class="btn xa" type="button" data-xa="ctdel" data-id="'+c.id+'">🗑 Delete</button></div>';
       c.legs.forEach(function(l,k){var s=tourScore(l);
-        h+='<h4 style="margin-top:14px">Leg '+(k+1)+': '+chip(l.a)+' v '+chip(l.b)+' · '+s.wa+' – '+s.wb+(s.d?' ('+s.d+' drawn)':'')+' <span class="muted">'+(s.fin?esc(s.res):s.pl+' of '+l.n+' played')+'</span></h4><div class="xgrid">'+l.ms.map(function(i,j){return xCard(i,'Leg '+(k+1)+' · '+(fvTest(fvOf(l))?'Test ':'Match ')+(j+1))}).join('')+'</div>'});
+        h+='<h4 style="margin-top:14px">Leg '+(k+1)+': '+chip(l.a)+' v '+chip(l.b)+' · '+s.wa+' – '+s.wb+(s.d?' ('+s.d+' drawn)':'')+' <span class="muted">'+(s.fin?esc(s.res):esc(s.st)+' · '+s.pl+' of '+l.n+' played')+'</span></h4>'+tourBoard(l,s)+'<div class="xgrid">'+l.ms.map(function(i,j){return xCard(i,'Leg '+(k+1)+' · '+(fvTest(fvOf(l))?'Test ':'Match ')+(j+1))}).join('')+'</div>'});
       h+='</div>'})}
   return h}
 function ctNew(){if(!CT.legs.length){toast('Add at least one leg first.');return}var P=pxS();P.ctours=P.ctours||[];
@@ -4716,6 +4802,7 @@ function tnStatus(t){return t.champ?'Champion: '+T(t.champ).name:(t.phase==='ko'
 function paintTourn(){var el=$('view-tourn');if(!S.done){el.innerHTML=pxLock('Custom tournaments');return}var P=pxS(),t=TNV!=null?P.tourns.filter(function(x){return x.id===TNV})[0]:null;
   if(t){
     var h='<div class="xhead"><h2 style="margin:0">'+esc(t.name)+'</h2><button class="btn xa" type="button" data-xa="tnback">← All tournaments</button></div><p class="muted">'+esc(tnName(t.fmt))+' · '+t.ids.length+' teams · '+XIN+' a side · '+esc(fvName(fvOf(t)))+' · '+(t.stn?'at '+esc(t.stn):t.neu?'neutral venues':'home advantage')+'</p>';
+    h+=earnHTML(t.ms.map(function(r){return S.xm[r.x]}),t.name+' earnings');
     if(t.champ)h+='<div class="champ" style="margin:12px 0"><span class="k">'+esc(t.name)+' champions</span><h3><em>'+esc(T(t.champ).name)+'</em></h3></div>';
     else h+='<div class="mres" style="margin:8px 0"><b>'+esc(tnStatus(t))+'</b></div>'+
       '<div class="mact">'+(function(){var nr=t.ms.filter(function(r){return !S.xm[r.x].done})[0];return nr?'<button class="btn primary mhwgo" type="button" data-hd="X:'+nr.x+'">🎮 Play next match live</button>':''})()+'<button class="btn xa" type="button" data-xa="tnnext" data-id="'+t.id+'">▶ Sim next match</button><button class="btn xa" type="button" data-xa="tnstage" data-id="'+t.id+'">⏩ Sim this stage</button><button class="btn xa" type="button" data-xa="tnall" data-id="'+t.id+'">⏭ Sim to the end</button></div>';
@@ -4726,7 +4813,7 @@ function paintTourn(){var el=$('view-tourn');if(!S.done){el.innerHTML=pxLock('Cu
     el.innerHTML=h;return}
   var N=S.teams.length,counts=[4,5,6,8,10,12,14,16,20].filter(function(c){return c<=N});if(counts.indexOf(+TO.n)<0)TO.n=counts[counts.length-1];
   TO.pick=TO.pick.filter(function(id){return !!T(id)});if(S.me&&TO.pick.indexOf(S.me)<0&&!S.spectate)TO.pick.unshift(S.me);if(TO.pick.length>TO.n)TO.pick.length=TO.n;
-  var h2='<h2>Custom tournaments</h2><p class="muted">Build your own cup: choose a format, the size and exactly which teams play, and which format it is played in. '+XIN+' a side.</p>'+
+  var h2='<h2>Custom tournaments</h2><p class="muted">Build your own cup: choose a format, the size and exactly which teams play, and which format it is played in. '+XIN+' a side.</p>'+earnHTML([].concat.apply([],P.tourns.map(function(x){return x.ms.map(function(r){return S.xm[r.x]})})),'Tournament earnings')+
    '<div class="card xcard"><h3>New tournament</h3><div class="ctl-row"><label>Name<input id="toName" class="btn" maxlength="30" placeholder="Cricket Cup" value="'+esc(TO.name)+'"></label>'+
    xopt('toFmt','Format',TO.fmt,TFMT)+xopt('toN','Teams',TO.n,counts.map(function(c){return [c,c+' teams']}))+
    (TO.fmt==='ko'||TO.fmt==='grp'?'':xopt('toDbl','League rounds',TO.dbl,[['1','Single round robin'],['2','Home and away']]))+
@@ -4739,7 +4826,7 @@ function paintTourn(){var el=$('view-tourn');if(!S.done){el.innerHTML=pxLock('Cu
   el.innerHTML=h2}
 
 var _paintTabPX=paintTab;
-paintTab=function(n){if(n==='kick')return paintKick();if(n==='tourn')return paintTourn();if(n==='tours')return paintTours();return _paintTabPX.apply(this,arguments)};
+paintTab=function(n){if(n==='stad'){if(SB)sbPaint();else stadModal();return}if(n==='kick')return paintKick();if(n==='tourn')return paintTourn();if(n==='tours')return paintTours();return _paintTabPX.apply(this,arguments)};
 /* a match runs under its own format; the page itself goes back to the default format after each repaint */
 (function(){
   var _r=resolveM;resolveM=function(h){var m=_r.apply(this,arguments);if(m&&h&&String(h).charAt(0)==='X'&&m.fv)fvSet(m.fv);return m};
@@ -4824,15 +4911,15 @@ function paintPlayBar(){
    xopt('pxMode','Teams',PXMODE,[['ipl','IPL franchises'],['wc','World Cup nations']])+
    xopt('pxFmt','Default format',fo?fo.value:'20',opts)+
    '<label>Following<select id="pxMe" class="btn"><option value="">Nobody</option>'+S.teams.map(function(x){return '<option value="'+x.id+'"'+(x.id===PXME?' selected':'')+'>'+x.id+' · '+esc(x.name)+'</option>'}).join('')+'</select></label><button class="btn stadopen" type="button" style="align-self:end">🏟️ Stadiums ('+STAD.length+')</button></div>'+
-   '<p class="muted" style="margin:8px 0 0">'+(PXMODE==='ipl'?'IPL franchises take their IPL 2026 squads; the newer franchises draft from the remaining players.':'World Cup nations pick their best players from their own country.')+'</p></div>'}
+   '<p class="muted" style="margin:8px 0 0">'+(PXMODE==='ipl'?'IPL franchises take their IPL 2026 squads; the newer franchises draft from the remaining players.':'World Cup nations pick their best players from their own country.')+'</p>'+pxOnHTML()+'</div>'}
 function menuGo(name){
-  var play=name==='kick'||name==='tourn'||name==='tours';
+  var play=name==='kick'||name==='tourn'||name==='tours'||name==='stad';
   Array.prototype.forEach.call(document.querySelectorAll('.modetab'),function(b){b.setAttribute('aria-selected',b.getAttribute('data-mode')===name?'true':'false')});
   if(!play){if(S&&S.play)S=null;$('play').hidden=true;$('pick').hidden=false;setMode(name);return}
   if(S&&!S.play)return;
   if(!S||!S.play)playState();
   S.tab=name;$('pick').hidden=true;$('play').hidden=false;
-  ['kick','tourn','tours'].forEach(function(n){$('view-'+n).hidden=n!==name});
+  ['kick','tourn','tours','stad'].forEach(function(n){$('view-'+n).hidden=n!==name});
   paintPlayBar();paintTab(name);if(window.__inj)window.__inj();window.scrollTo(0,0)}
 document.addEventListener('change',function(e){var el=e.target;if(!el||!S||!S.play||!el.id)return;
   if(el.id==='pxMode'||el.id==='pxFmt'||el.id==='pxMe'){var tab=S.tab;
@@ -4840,6 +4927,43 @@ document.addEventListener('change',function(e){var el=e.target;if(!el||!S||!S.pl
     else if(el.id==='pxFmt'){var f=$('ruleFmt');if(f){f.value=el.value;f.dispatchEvent(new Event('change'))}}
     else PXME=el.value;
     playState();S.tab=tab;paintPlayBar();paintTab(tab);if(window.__inj)window.__inj();pxSave()}});
+/* ===== ONLINE ROOM for Kick-off, Tournaments and Tours: the host plays, friends watch every result live ===== */
+var PX={r:null,host:false,code:'',peers:1,buf:{},tmr:0};
+function pxOnHTML(){
+  if(PX.r)return '<div class="mres" style="margin-top:8px">🌐 Online room <b class="mono">'+PX.code+'</b> · '+(PX.host?'you are the host and run the matches':'you are following the host live')+' · '+PX.peers+' connected <button class="btn" id="pxLeave" type="button" style="margin-left:6px">'+(PX.host?'Close room':'Leave')+'</button></div>'+(PX.host?'<div class="muted" style="font-size:12px">Share the code. Friends open Kick-off, Tournaments or Tours, press Join room and see each match, table and series as you play.</div>':'');
+  return '<div class="ctl-row" style="margin-top:8px"><button class="btn" id="pxHost" type="button" style="align-self:end">🌐 Host online room</button><label>Room code<input id="pxCode" class="btn" maxlength="4" autocomplete="off" style="text-transform:uppercase;width:90px" placeholder="ABCD"></label><button class="btn" id="pxJoin" type="button" style="align-self:end">Join room</button></div>'}
+function pxGuestUI(){document.body.classList.toggle('pxguest',!!PX.r&&!PX.host)}
+function pxBroadcast(){if(!PX.r||!PX.host||!S||!S.play)return;clearTimeout(PX.tmr);PX.tmr=setTimeout(function(){if(!PX.r)return;
+  var js=JSON.stringify({mode:PXMODE,fmt:fvDef(),xm:S.xm,px:S.px}),id=Date.now().toString(36),n=Math.ceil(js.length/12000);
+  for(var i=0;i<n;i++)PX.r.emit('pxc',{id:id,i:i,n:n,s:js.slice(i*12000,(i+1)*12000)})},300)}
+function pxApply(d){if(PX.host||!d)return;var tab=(S&&S.play)?S.tab:'kick';
+  if(d.mode&&d.mode!==PXMODE)PXMODE=d.mode;
+  var mem=PXMEM[PXMODE]||(PXMEM[PXMODE]={xm:[],px:{kick:[],tours:[],tourns:[],nid:1}});mem.xm=d.xm||[];mem.px=d.px||{kick:[],tours:[],tourns:[],nid:1};
+  if(d.fmt){var f=$('ruleFmt');if(f&&f.value!==d.fmt){f.value=d.fmt;f.dispatchEvent(new Event('change'))}}
+  playState();S.tab=tab;paintPlayBar();paintTab(tab);if(window.__inj)window.__inj();pxGuestUI()}
+function pxChunk(m){var c=m&&m.data;if(!c||PX.host)return;var b=PX.buf[c.id]=PX.buf[c.id]||{p:[],n:c.n,k:0};if(!b.p[c.i]){b.p[c.i]=c.s;b.k++}
+  if(b.k===b.n){var js=b.p.join('');PX.buf={};try{pxApply(JSON.parse(js))}catch(e){console.error(e)}}}
+async function pxOpen(host,code){
+  if(!NET.R){toast('The online library is still loading. Try again in a moment.');return}
+  if(!window.PeerRoom&&!NET.R){return}
+  var err=null,r=null;
+  for(var ti=0;ti<(host?3:1);ti++){
+    try{r=await NET.R.join('ipl-px'+code.toLowerCase(),host);err=null;break}
+    catch(e){err=e;if(host&&e&&e.type==='unavailable-id'){code='';for(var ci=0;ci<4;ci++)code+='ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.floor(Math.random()*24)];continue}if(e&&e.type==='peer-unavailable')break}}
+  if(err||!r){var et=err&&(err.type||err.message)||'unknown';toast(et==='peer-unavailable'?'No room found with that code. Check it and make sure the host tab is open.':'Could not reach the online server ('+et+'). Check your internet and try again.');return}
+  PX.r=r;PX.host=host;PX.code=code.toUpperCase();PX.peers=1;PX.buf={};
+  r.onPeers(function(c){PX.peers=c.peers.length;if(PX.host&&c.joined.length)pxBroadcast();if(S&&S.play)paintPlayBar()});
+  r.on('pxc',pxChunk);
+  try{r.presence({role:host?'host':'guest',kind:'px'})}catch(e){}
+  pxGuestUI();if(S&&S.play)paintPlayBar();
+  toast(host?'Room '+PX.code+' is open. Share the code.':'Joined room '+PX.code+'. Waiting for the host\'s matches.');
+  if(host)pxBroadcast()}
+function pxClose(){try{if(PX.r)PX.r.leave()}catch(e){}PX.r=null;PX.host=false;PX.code='';PX.peers=1;pxGuestUI();if(S&&S.play)paintPlayBar()}
+var _pxsv=pxSave;pxSave=function(){_pxsv();pxBroadcast()};
+document.addEventListener('click',function(e){var t=e.target&&e.target.closest?e.target.closest('button'):null;if(!t)return;
+  if(t.id==='pxHost'){var c='';for(var i=0;i<4;i++)c+='ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.floor(Math.random()*24)];pxOpen(true,c)}
+  else if(t.id==='pxJoin'){var v=(($('pxCode')||{}).value||'').trim().toUpperCase();if(v.length!==4){toast('Enter the 4-letter room code.');return}pxOpen(false,v)}
+  else if(t.id==='pxLeave')pxClose()});
 (function(){var r=$('room'),b=$('modeBar');if(r&&b)new MutationObserver(function(){b.style.display=r.hidden?'':'none'}).observe(r,{attributes:true,attributeFilter:['hidden']})})();
 
 renderPick();
@@ -4872,6 +4996,180 @@ renderPick();
     slow:{label:'🟫 Slow surface',desc:'Timing is harder; smart rotation matters',run:0.94,boundary:0.86,wicket:1.08},
     dry:{label:'🌀 Dry spin pitch',desc:'Spinners get extra grip through the middle overs',run:0.98,boundary:0.94,wicket:1.04}
   };
+
+
+  /* ===== HITWICKET-STYLE SHOT BUTTONS (user batting) ===== */
+  var SHOTS={
+    b:{k:'b',num:'0',name:'BLOCK',    runs:0,base:82,wf:0.04,txt:'Block'},
+    n:{k:'n',num:'1',name:'NUDGE',    runs:1,base:62,wf:0.05,txt:'Nudge'},
+    p:{k:'p',num:'2',name:'SQUARE PUSH',runs:2,base:40,wf:0.45,txt:'Square push'},
+    c:{k:'c',num:'4',name:'CUT SHOT', runs:4,base:30,wf:0.60,txt:'Cut shot'},
+    u:{k:'u',num:'6',name:'UPPER CUT',runs:6,base:22,wf:0.70,txt:'Upper cut'}
+  };
+  var SHOT_KEYS=['b','n','p','c','u'];
+  var DELIVERIES={
+    pace:[
+      {name:'Outswinger',tag:'-5% SHOT POWER',ic:'🌪️',m:{b:-6,n:-4,p:-3,c:-2,u:-5}},
+      {name:'Inswinger', tag:'-6% CUT POWER',ic:'🌀',m:{b:-4,n:-2,p:2,c:-6,u:-3}},
+      {name:'Bouncer',   tag:'+4% UPPER CUT',ic:'⬆️',m:{b:-2,n:-8,p:-4,c:3,u:4}},
+      {name:'Yorker',    tag:'-12% BIG SHOTS',ic:'🎯',m:{b:-5,n:-3,p:-6,c:-12,u:-14}},
+      {name:'Slower ball',tag:'-8% TIMING',ic:'🐌',m:{b:0,n:-2,p:-3,c:-4,u:-8}},
+      {name:'Full toss', tag:'+10% SHOT POWER',ic:'🎁',m:{b:4,n:8,p:10,c:8,u:12}},
+      {name:'Length ball',tag:'NEUTRAL',ic:'📏',m:{b:0,n:0,p:0,c:0,u:0}},
+      {name:'Short & wide',tag:'+16% CUT SHOT',ic:'✂️',m:{b:0,n:0,p:6,c:16,u:8}}
+    ],
+    spin:[
+      {name:'Googly',    tag:'-6% SHOT POWER',ic:'🌀',m:{b:-5,n:-6,p:-2,c:-4,u:-6}},
+      {name:'Flipper',   tag:'-5% PUSH',ic:'🛬',m:{b:-4,n:-4,p:-5,c:-3,u:-4}},
+      {name:'Arm ball',  tag:'-4% TIMING',ic:'🏹',m:{b:-3,n:-2,p:-2,c:-4,u:-5}},
+      {name:'Half volley',tag:'+12% CUT SHOT',ic:'🎁',m:{b:3,n:6,p:8,c:12,u:6}},
+      {name:'Length ball',tag:'NEUTRAL',ic:'📏',m:{b:0,n:0,p:0,c:0,u:0}},
+      {name:'Tossed up', tag:'+8% UPPER CUT',ic:'🎈',m:{b:-1,n:2,p:2,c:2,u:8}}
+    ]
+  };
+  function pickRand(a){return a[Math.floor(Math.random()*a.length)]}
+  function curBowlerObj(st){return st.bowlers.filter(function(b){return b.name===st.curBowler})[0]||st.bowlers[0]}
+  function makeDelivery(st){
+    var plan=aiBowlPlan(st);
+    var _bw=curBowlerObj(st),pool=DELIVERIES[bowlKind(_bw)];
+    var d=pickRand(pool),jit={};
+    SHOT_KEYS.forEach(function(k){jit[k]=Math.round((Math.random()*2-1)*7)});
+    var bowl=curBowlerObj(st);
+    return {name:d.name,tag:d.tag,ic:d.ic,m:d.m,jit:jit,plan:(bowlKind(bowl)==='spin'?'spin':plan),bowler:bowl.name};
+  }
+  function shotProbs(st){
+    var bat=st.batters[st.striker],bowl=curBowlerObj(st),d=st.dlv||(st.dlv=makeDelivery(st));
+    var diff=(bat.rating-bowl.rating)/100,pit=PITCHES[HW.pitch]||PITCHES.flat,plan=BOWL_PLANS[d.plan]||BOWL_PLANS.line;
+    var setB=Math.min(8,bat.b*0.4),out={};
+    SHOT_KEYS.forEach(function(k){
+      var v=SHOTS[k].base+diff*30+d.m[k]+d.jit[k]+setB;
+      if(k==='c'||k==='u')v+=(pit.boundary-1)*40;
+      if(k==='n'||k==='p')v+=(pit.run-1)*30;
+      v-=(plan.wktM-1)*12;
+      if((k==='c'||k==='u')&&d.plan==='york')v-=6;
+      if(HW.activeAbility==='blitz'&&(k==='c'||k==='u'))v+=10;
+      var lo=k==='b'?25:5,hi=k==='b'?96:92;
+      out[k]=Math.max(lo,Math.min(hi,Math.round(v)));
+    });
+    return out;
+  }
+  /* roll a chosen shot -> {out:'W'|'0'|'1'|'2'|'4'|'6', shot:key, ok:bool} */
+  function rollShot(st,key,freeHit){
+    var pr=shotProbs(st),d=st.dlv,sh=SHOTS[key],plan=BOWL_PLANS[d.plan]||BOWL_PLANS.line,pit=PITCHES[HW.pitch]||PITCHES.flat;
+    var ok=Math.random()*100<pr[key],out;
+    if(ok){out=key==='b'?'0':String(sh.runs)}
+    else{
+      var wf=sh.wf*plan.wktM*pit.wicket;
+      if(HW.activeAbility==='jaffa')wf*=1.65;
+      if(HW.activeAbility==='shield'&&key!=='u')wf*=0.25;
+      wf=Math.min((key==='b'||key==='n')?0.08:0.95,wf);
+      out=(!freeHit&&Math.random()<wf)?'W':'0';
+    }
+    if(key==='b'&&!ok&&freeHit)out='0';
+    return {out:out,shot:key,ok:ok};
+  }
+  window.__hwShotCss=window.__hwShotCss||(function(){
+    var st=document.createElement('style');
+    st.textContent=
+      '.hwdl{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin:2px 0 10px}'+
+      '.hwdl .dn{background:linear-gradient(180deg,#f7c948,#e4a521);color:#4a2d00;font-weight:800;border-radius:8px;padding:6px 12px;letter-spacing:.03em;text-transform:uppercase;font-size:13px;box-shadow:0 2px 0 rgba(0,0,0,.25)}'+
+      '.hwdl .dt{background:#fff6cf;color:#7a4b00;font-weight:800;border-radius:8px;padding:6px 12px;font-size:13px;box-shadow:0 2px 0 rgba(0,0,0,.2)}'+
+      '.hwshots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:6px}'+
+      '.hwshot{border:0;background:none;padding:0;cursor:pointer;display:flex;flex-direction:column;align-items:stretch;gap:4px;font-family:inherit}'+
+      '.hwshot .pc{font-size:11px;font-weight:800;text-align:center;color:var(--ink,#222)}'+
+      '.hwshot .bar{display:block;height:9px;flex:none;overflow:hidden;border-radius:6px;background:#3a3f4b;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}'+
+      '.hwshot .bar .hwfill{display:block;height:9px;border-radius:6px}'+
+      '.hwshot .bx{background:linear-gradient(180deg,#58b6ff,#1e7fe0);border-radius:10px;border-bottom:5px solid #0f4f9e;display:grid;place-items:center;aspect-ratio:1/.95;color:#fff;font-weight:900;font-size:clamp(30px,7vw,54px);line-height:1;text-shadow:0 3px 0 rgba(0,0,0,.35);transition:transform .08s}'+
+      '.hwshot:hover .bx{filter:brightness(1.1)}.hwshot:active .bx{transform:translateY(3px);border-bottom-width:2px}'+
+      '.hwshot .nm{font-size:11px;font-weight:800;text-align:center;letter-spacing:.03em;color:var(--ink,#222)}'+
+      '.hwrand{margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}'+
+      '@media(max-width:520px){.hwshots{gap:5px}.hwshot .nm{font-size:9.5px}}';
+    document.head.appendChild(st);return 1})();
+
+
+  /* ===== HITWICKET-STYLE BOWLING VARIATION BUTTONS (user bowling) =====
+     f = flames (1 safe, 2 medium, 3 risky); w = wicket x, b = boundary x, r = run x */
+  var BVARS={
+    pace:[
+      {n:'Half-volley',f:1,w:0.85,b:1.15,r:1.05},
+      {n:'Good length',f:1,w:0.95,b:0.90,r:0.92},
+      {n:'Back of a length',f:1,w:1.00,b:0.92,r:0.93},
+      {n:'Outswinger',f:2,w:1.30,b:1.00,r:0.98},
+      {n:'Inswinger',f:2,w:1.30,b:1.00,r:0.98},
+      {n:'Yorker',f:2,w:1.25,b:0.60,r:0.85},
+      {n:'Bouncer',f:2,w:1.35,b:1.15,r:0.95},
+      {n:'Slower ball',f:2,w:1.20,b:0.90,r:0.95},
+      {n:'Leg cutter',f:2,w:1.30,b:0.95,r:0.97},
+      {n:'Off cutter',f:2,w:1.28,b:0.95,r:0.97},
+      {n:'Knuckle ball',f:3,w:1.70,b:1.30,r:0.95},
+      {n:'Beehive bouncer',f:3,w:1.75,b:1.35,r:1.00},
+      {n:'Wide yorker',f:3,w:1.65,b:0.70,r:0.88}
+    ],
+    spin:[
+      {n:'Arm ball',f:1,w:1.00,b:0.90,r:0.92},
+      {n:'Stock off break',f:1,w:1.00,b:0.95,r:0.93},
+      {n:'Leg break',f:2,w:1.30,b:1.00,r:0.97},
+      {n:'Off break',f:2,w:1.30,b:1.00,r:0.97},
+      {n:'Flighted delivery',f:2,w:1.25,b:1.10,r:0.97},
+      {n:'Topspinner',f:2,w:1.30,b:0.95,r:0.96},
+      {n:'Googly',f:2,w:1.35,b:1.05,r:0.96},
+      {n:'Slider',f:2,w:1.25,b:0.90,r:0.94},
+      {n:'Doosra',f:3,w:1.70,b:1.30,r:0.96},
+      {n:'Carrom ball',f:3,w:1.70,b:1.30,r:0.95},
+      {n:'Flipper',f:3,w:1.75,b:1.25,r:0.95},
+      {n:'Teesra',f:3,w:1.70,b:1.30,r:0.96}
+    ]
+  };
+  /* every bowler is either a pacer or a spinner; all-rounders are fixed to one type by name so it never flips */
+  function bowlKind(b){
+    if(b.role==='SPIN')return 'spin';
+    if(b.role==='PACE')return 'pace';
+    return (hashStr(b.name)%2)?'spin':'pace';
+  }
+  function makeBowlOpts(st){
+    var b=curBowlerObj(st),pool=BVARS[bowlKind(b)].slice();
+    for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=pool[i];pool[i]=pool[j];pool[j]=t}
+    var pick=pool.slice(0,6);
+    pick.sort(function(a,c){return a.f-c.f});
+    return pick;
+  }
+  window.__hwBowlCss=window.__hwBowlCss||(function(){
+    var st=document.createElement('style');
+    st.textContent=
+      '.hwbv{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-top:8px}'+
+      '.hwbvb{border:0;cursor:pointer;font-family:inherit;border-radius:10px;border-bottom:5px solid rgba(0,0,0,.35);padding:8px 3px 7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:84px;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.35);font-weight:900;text-transform:uppercase;letter-spacing:.02em;font-size:clamp(10px,2.2vw,15px);line-height:1.1;text-align:center;transition:transform .08s}'+
+      '.hwbvb:hover{filter:brightness(1.08)}.hwbvb:active{transform:translateY(3px);border-bottom-width:2px}'+
+      '.hwbvb .fl{font-size:15px;letter-spacing:0;text-shadow:none;display:block;min-height:18px}'+
+      '.hwbvb.f1{background:linear-gradient(180deg,#6fdc4a,#37a62a)}'+
+      '.hwbvb.f2{background:linear-gradient(180deg,#ffd44d,#e6a50f);color:#5a3a00;text-shadow:0 1px 0 rgba(255,255,255,.4)}'+
+      '.hwbvb.f3{background:linear-gradient(180deg,#ff9a4a,#e0541c)}'+
+      '@media(max-width:560px){.hwbv{grid-template-columns:repeat(3,minmax(0,1fr))}}';
+    document.head.appendChild(st);return 1})();
+  function bowlPanel(st){
+    var o=st.bopts,bw=curBowlerObj(st);
+    var btns=o.map(function(v,i){
+      return '<button type="button" class="hwbvb f'+v.f+'" data-bv="'+i+'" title="'+v.f+' flame(s): more wickets, more risk of runs/wides">'+
+        '<span class="fl">'+'🔥'.repeat(v.f)+'</span><span>'+esc(v.n)+'</span></button>';
+    }).join('');
+    return '<div class="card"><span class="k">Pick your variation · '+(bowlKind(bw)==='spin'?'🌀 Spinner ':'⚡ Pacer ')+esc(bw.name)+' to '+esc(st.batters[st.striker].name)+'</span>'+
+      '<div class="hwbv">'+btns+'</div>'+
+      '<div class="hwrand"><button type="button" id="hwRandBowl" class="btn">🎲 Random variation</button>'+
+      '<span class="muted" style="font-size:12px;align-self:center">🔥 safe · 🔥🔥 medium · 🔥🔥🔥 risky: more wicket chance, but more boundaries and wides. Options change every ball.</span></div></div>';
+  }
+
+
+  var PHR={
+    '0':['Solid defence, no run.','Dot ball, straight to the fielder.','Beaten! Just misses the edge.','Watchful forward defence.','Good leave outside off.','Dead bat, blocked back to the bowler.'],
+    '1':['Nudged into the gap for a quick single.','Worked to the on side for one.','Soft hands, a sharp single.','Tucked away, they scamper through.'],
+    '2':['Pushed into the gap, they come back for two!','Excellent running, two runs.','Placed square, two taken.'],
+    '4':['FOUR! Cracked through the covers!','FOUR! Cut away, races to the rope!','FOUR! Timed to perfection, no chance for the fielder!','FOUR! Gorgeous shot along the ground!'],
+    '6':['SIX! Launched into the stands!','SIX! Sails over the rope, what a hit!','SIX! Absolutely smashed, out of the ground!','SIX! Huge hit, the crowd goes wild!'],
+    'W':['OUT!','GONE!','WICKET!','What a delivery, OUT!']
+  };
+  function recordEv(st,comm,shotKey,bv){
+    var tok=st.tokens[st.tokens.length-1]||'0';
+    st.lastEv={seq:++HW.seq,tok:tok,shot:shotKey||'',bv:bv?bv.n:'',text:comm,dir:Math.random()<.5?-1:1};
+  }
 
   function injectLiveButtons(){
     var host=(S&&S.play)?$('view-'+S.tab):$('view-season');
@@ -4986,6 +5284,7 @@ renderPick();
       maxOvers:maxOvers,
       maxBalls:maxOvers*6,
       batAgg:'bal',
+      seq:0,animShown:0,
       bowlPlan:'line',
       abilityUsed:{0:false,1:false},
       activeAbility:null,
@@ -5052,36 +5351,122 @@ renderPick();
     if(ov)ov.hidden=true;
   }
 
+  /* ===== FORMAT-AWARE AI: phases scale with the length of the innings, tactics follow the situation ===== */
+  var LADDER=['def','bal','att','slog'],AIWHY='';
+  function aiPick(i,why){AIWHY=why;return LADDER[Math.max(0,Math.min(3,i))]}
+  function fmtInfo(){
+    var mo=HW.maxOvers;
+    if(HW.testMode)return{k:'test',par:3.2,mo:mo};
+    var t20=mo<=25;
+    return{k:t20?'t20':'odi',par:t20?8.5:5.8,pp:t20?Math.max(1,Math.round(mo*.3)):Math.round(mo*.2),death:mo-Math.max(2,Math.round(mo*(t20?.2:.2))),mo:mo};
+  }
+  function chaseNeed(st){
+    if(HW.multiInnings){return(HW.innIdx===3&&st.batId===HW.teamB&&HW.target>0)?HW.target-st.runs:null}
+    return HW.innIdx===1?HW.innings[0].runs+1-st.runs:null;
+  }
+  function testClock(){var mb=testMatchBalls();return{mb:mb,over:mb/6,left:Math.max(0,(HW.maxBalls-mb)/6),day:Math.floor(mb/540)+1}}
+  function aiTestBat(st,over,wh){
+    var c=testClock(),inn=HW.innIdx,idx=1,why='';
+    var style=HW.aiStyle;
+    if(inn===3){
+      var need=HW.target-st.runs,req=c.left>0?need/c.left:99;
+      if(need<=0)return aiPick(1,'target reached');
+      if(req>4.6&&c.left>3){idx=0;why='playing for the draw: '+need+' needed, '+Math.round(c.left)+' overs left'}
+      else if(req>3.3){idx=wh>=5?2:1;why='chasing '+need+' in '+Math.round(c.left)+' overs'}
+      else if(req>2.4){idx=1;why='steady chase, '+need+' to get'}
+      else{idx=(c.left>140||wh<=4)?0:1;why=c.left>140?'no hurry in the chase':'closing in on the target'}
+      if(need<=70&&c.left<=20&&wh>=3)idx=Math.max(idx,2);
+    }else if(inn===2){
+      var lead=testRunsFor(HW.teamA,3)-testRunsFor(HW.teamB,2);
+      if(lead<=0){idx=0;why='still behind, rebuilding'}
+      else if(lead>=200&&c.left>70){idx=lead>=350&&c.left<110?3:2;why='building a lead of '+lead+' to declare on'}
+      else{idx=wh<=3?0:1;why='lead of '+lead+', adding runs'}
+    }else if(inn===1){
+      var aT=testRunsFor(HW.teamA,2),def=aT-st.runs;
+      if(c.day>=4){idx=0;why='time running out, batting for the draw'}
+      else if(def>250){idx=0;why='well behind, rebuilding'}
+      else{idx=wh<=3?0:1;why=def>0?'closing the gap':'building a lead'}
+    }else{
+      if(over<15){idx=0;why='seeing off the new ball'}
+      else if(c.day>=3){idx=2;why='pushing on, time matters'}
+      else if(wh>=7&&over>=45){idx=1;why='scoring on a good day for batting'}
+      else if(wh<=3){idx=0;why='tail exposed'}
+      else{idx=1;why='building a big total'}
+    }
+    var sh=(style==='fast'||style==='fearless')?1:(style==='patient'?-1:0);
+    if(sh>0&&(idx>=2||wh<=4))sh=0;
+    return aiPick(idx+sh,why);
+  }
   function aiBatMode(st){
-    var over=st.balls/6, remaining=Math.max(0,HW.maxOvers-over), rr=st.balls?st.runs/(st.balls/6):0;
-    var style=AI_STYLES[HW.aiStyle]||AI_STYLES.balanced;
-    if(style.bat==='fast'){
-      if(over>=HW.maxOvers-4)return st.wkts>=8?'att':'slog';
-      if(st.wkts>=6&&over<HW.maxOvers-4)return 'att';
-      return over<6?'att':'slog';
+    var F=fmtInfo(),over=st.balls/6,wh=XIN-1-st.wkts,wk=st.wkts;
+    if(F.k==='test')return aiTestBat(st,over,wh);
+    var left=Math.max(0,HW.maxOvers-over),rr=over>0?st.runs/over:F.par,need=chaseNeed(st),style=HW.aiStyle;
+    var ph=over<F.pp?'pp':over>=F.death?'death':'mid',idx=1,why='',ratio=1,bl=left*6,sh=0;
+    if(need!==null){
+      var req=left>0?need/left:99;ratio=req/F.par;
+      idx=ratio>1.35?3:ratio>1.1?2:ratio>.85?(ph==='death'?2:1):(ratio<.6&&wh>=3?0:1);
+      why='chasing '+need+' off '+Math.round(bl)+' balls';
+      if(wh<=3&&ratio<=1.1)idx=Math.min(idx,1);
+      if(wh<=2&&ratio<.9)idx=0;
+      if(ph==='pp'&&F.k==='t20'&&wh>=7&&ratio<1.4)idx=Math.max(idx,2);
+      if(bl<=12&&ratio>1)idx=3;
+      if(need<=4&&wh>=1)idx=Math.min(idx,1);
+    }else if(F.k==='t20'){
+      if(ph==='pp'){idx=wh>=8?2:(wk>=3?1:2);why='powerplay'}
+      else if(ph==='death'){idx=wh>=3?3:(wh>=1?2:1);why='death overs'}
+      else{idx=wk>=6?0:(wk>=4?1:((rr<F.par*.9&&wh>=6)||(wh>=8&&over>=F.pp+4)?2:1));why='middle overs'}
+    }else{
+      if(ph==='pp'){idx=wk>=2?0:(wk===0&&rr<4.2&&over>=4?2:1);why='powerplay'}
+      else if(ph==='death'){idx=wh>=4?(over>=HW.maxOvers-5?3:2):(wh>=2?2:1);why='slog overs'}
+      else if(over<F.death-8){idx=wk>=4?0:1;why='building the innings'}
+      else{idx=wk>=6?0:(wk>=5?1:2);why='launch pad for the slog'}
     }
-    if(style.bat==='patient'){
-      if(HW.innIdx===1){var need=HW.innings[0].runs+1-st.runs, req=remaining>0?need/remaining:99;if(req>12)return 'att';if(req>9)return 'bal';}
-      if(over<6)return st.wkts>=2?'def':'bal';
-      if(over<HW.maxOvers-4)return st.wkts>=5?'def':'def';
-      return st.wkts>=7?'bal':'att';
-    }
-    if(HW.innIdx===1){var need2=HW.innings[0].runs+1-st.runs, req2=remaining>0?need2/remaining:99;if(req2>11)return 'slog';if(req2>8)return 'att';if(req2<5&&st.wkts<5)return 'def';}
-    if(over>=HW.maxOvers-4)return st.wkts>=7?'bal':'att';
-    if(over<6)return st.wkts>=2?'def':'att';
-    if(st.wkts>=6)return 'def';
-    return rr<6?'att':'bal';
+    sh=(style==='fast'||style==='fearless')?1:(style==='patient'?-1:0);
+    if(need!==null){if(sh>0&&ratio<=.85)sh=0;if(sh<0&&ratio>1.1)sh=0}else if(ph==='death'&&sh<0)sh=0;
+    idx+=sh;if(wh<=1)idx=Math.min(idx,2);
+    return aiPick(idx,why);
   }
   function aiBowlPlan(st){
-    var over=st.balls/6, rr=st.balls?st.runs/(st.balls/6):0;
-    if(HW.aiStyle==='fast')return over>=HW.maxOvers-4?'york':(over<6?'pace':(st.wkts>=4?'spin':'pace'));
-    if(HW.aiStyle==='fearless')return over>=HW.maxOvers-4?'pace':(st.wkts>=3?'spin':'pace');
-    if(HW.aiStyle==='patient')return over>=HW.maxOvers-4?'york':(rr>8?'line':(over<6?'line':'spin'));
-    if(over>=HW.maxOvers-4)return 'york';
-    if(st.wkts>=5&&over>=6)return 'spin';
-    if(rr>9)return 'pace';
-    if(over<6)return 'line';
-    return 'spin';
+    var F=fmtInfo(),over=st.balls/6,wk=st.wkts,wh=XIN-1-wk,rr=over>0?st.runs/over:F.par,style=HW.aiStyle,pit=HW.pitch,plan;
+    if(F.k==='test'){
+      var c=testClock(),inn=HW.innIdx;
+      if(inn===3){var need=HW.target-st.runs,req=c.left>0?need/c.left:99;
+        if(wh<=4||c.left<60)plan=(pit==='dry'||c.day>=4)?'spin':'pace';else plan=req>3.5?'pace':'line'}
+      else if(inn===2&&testRunsFor(HW.teamA,3)-testRunsFor(HW.teamB,2)>=350)plan='line';
+      else if(over<15)plan='pace';
+      else if(wk>=6)plan='pace';
+      else if(rr>4)plan='line';
+      else if(pit==='dry'||pit==='slow'||c.day>=3)plan='spin';
+      else plan=Math.floor(over/12)%2?'spin':'pace';
+      if(style==='fearless'&&plan==='line'&&wh>=4)plan='pace';
+      return plan;
+    }
+    var left=Math.max(0,HW.maxOvers-over),ph=over<F.pp?'pp':over>=F.death?'death':'mid',need=chaseNeed(st);
+    if(need!==null){
+      var rq=left>0?need/left:99,ratio=rq/F.par;
+      if(ratio>1.3)return ph==='death'?'york':'line';
+      if(ratio<.8&&wh>=4)return (pit==='dry'||ph==='mid')?'spin':'pace';
+    }
+    if(ph==='pp')plan=(F.k==='odi'&&over>=F.pp/2)?'line':'pace';
+    else if(ph==='death')plan=wh<=2?'pace':'york';
+    else if(wk>=6)plan='pace';
+    else if(pit==='dry'||pit==='slow'||wk>=4)plan='spin';
+    else plan=rr>F.par*1.05?'line':(F.k==='odi'?'spin':'pace');
+    if(style==='fearless'&&plan==='line'&&wh>=4)plan='pace';
+    else if(style==='patient'&&plan==='pace'&&rr>F.par&&ph!=='pp')plan='line';
+    return plan;
+  }
+  function aiDeclares(st){
+    if(!HW.testMode||st.decl||st.batId===HW.userTeam||st!==HW.innings[HW.innIdx]||HW.innIdx>2)return false;
+    var c=testClock(),i=HW.innIdx,go=false,lead=0;
+    if(i>0&&st.balls<72)return false;
+    if(i===0)go=st.runs>=580||(st.balls/6>=150&&st.runs>=420);
+    else if(i===1){lead=st.runs-testRunsFor(HW.teamA,1);go=lead>=300&&c.over>=220}
+    else{lead=testRunsFor(HW.teamA,3)-testRunsFor(HW.teamB,2);go=(lead>=250&&c.left>=85)||(lead>=350&&c.left>=65)||(lead>=450&&c.left>=50)}
+    if(!go)return false;
+    st.decl=true;
+    st.commentary.unshift('🏳️ DECLARATION! '+st.batId+' declare on '+st.runs+'/'+st.wkts+(i>0?' (lead of '+lead+')':'')+'.');
+    return true;
   }
 
   function testRunsFor(team,upto){
@@ -5096,8 +5481,10 @@ renderPick();
     return HW.innings.reduce(function(total,inn){return total+(inn?inn.balls:0)},0);
   }
   function testInningsOver(st){
+    if(st.decl)return true;
     if(testMatchBalls()>=HW.maxBalls||st.wkts>=XIN-1)return true;
     if(HW.innIdx===3&&st.batId===HW.teamB&&st.runs>=HW.target)return true;
+    if(aiDeclares(st))return true;
     return false;
   }
   function finishTestLiveMatch(){
@@ -5115,7 +5502,7 @@ renderPick();
     function detail(st){
       var ex={wd:0,nb:0,b:0,lb:0,total:0};
       st.tokens.forEach(function(t){var mt=String(t).match(/^(wd|nb|b|lb)(\d*)$/);if(mt){var k=mt[1],v=Number(mt[2]||1);ex[k]+=v;ex.total+=v;}});
-      return {team:st.batId,bowlTeam:st.bowlId,runs:st.runs,wk:st.wkts,balls:st.balls,shown:st.balls,allOut:st.wkts>=XIN-1,decl:false,
+      return {team:st.batId,bowlTeam:st.bowlId,runs:st.runs,wk:st.wkts,balls:st.balls,shown:st.balls,allOut:st.wkts>=XIN-1,decl:!!st.decl,
         bat:st.batters.map(function(x){return {name:x.name,out:x.out,how:x.how,r:x.r,b:x.b,f:x.f,s:x.s,in:x.in};}),
         bowl:st.bowlers.map(function(x){return {name:x.name,b:x.b,r:x.r,w:x.w};}),
         fow:[],ph:[{name:'Match innings',n:1,r:st.runs,w:st.wkts}],ev:[{n:1,r:st.runs,w:st.wkts}],ex:ex};
@@ -5128,20 +5515,26 @@ renderPick();
     commitH(HW.hd);closeModal();paintSeason();
   }
 
-  function simulateDelivery(st){
+  function simulateDelivery(st,forced,shotKey,bv){
+    if(st.decl)return;
     if((HW.multiInnings?testMatchBalls()>=HW.maxBalls:st.balls>=HW.maxBalls)||st.wkts>=XIN-1)return;
     if(!HW.multiInnings&&HW.innIdx===1&&st.runs>HW.innings[0].runs)return;
 
     var overNum=Math.floor(st.balls/6);
     if(st.balls%6===0)st.overMap[overNum]=st.curBowler;
+    st.dlv=null;st.bopts=null;
 
     var bat=st.batters[st.striker];
     var bowl=st.bowlers.filter(function(b){return b.name===st.curBowler})[0]||st.bowlers[0];
     /* Player tactics apply only to the selected franchise; the opponent is AI-managed. */
     var userBatting=st.batId===HW.userTeam;
     var userBowling=st.bowlId===HW.userTeam;
-    var agg=BAT_MODES[userBatting?HW.batAgg:aiBatMode(st)];
-    var plan=BOWL_PLANS[userBowling?HW.bowlPlan:aiBowlPlan(st)];
+    var aiM=userBatting?null:aiBatMode(st),aiW=AIWHY;
+    var agg=BAT_MODES[userBatting?HW.batAgg:aiM];
+    var aiP=userBowling?null:aiBowlPlan(st);
+    var plan=BOWL_PLANS[userBowling?HW.bowlPlan:aiP];
+    if(aiM&&st.aiLast!==aiM){if(st.aiLast)st.commentary.unshift('🤖 '+st.batId+' switch to '+agg.label+' ('+aiW+').');st.aiLast=aiM}
+    if(aiP&&st.aiLastP!==aiP){if(st.aiLastP)st.commentary.unshift('🤖 '+st.bowlId+' go to '+plan.label+'.');st.aiLastP=aiP}
 
     var diff=(bat.rating-bowl.rating)/100;
     var ab=HW.activeAbility;
@@ -5153,11 +5546,15 @@ renderPick();
     var pOne=0.36*agg.runM*plan.runM;
     var pitch=PITCHES[HW.pitch]||PITCHES.flat;
     pSix*=pitch.boundary;pFour*=pitch.boundary;pWkt*=pitch.wicket;pOne*=pitch.run;pTwo*=pitch.run;
+    /* longer formats are scored and defended differently: slower runs, fewer boundaries, wickets that take longer to fall */
+    var _fm=HW.testMode?{b:.22,w:.31,r:.85}:(HW.maxOvers>25?{b:.45,w:.7,r:1}:null);
+    if(_fm){pSix*=_fm.b;pFour*=_fm.b;pWkt*=_fm.w;pOne*=_fm.r;pTwo*=_fm.r}
     var _z=HW.m&&HW.m.sd&&HW.m.sd.z;if(_z==='small'){pSix*=1.18;pFour*=1.1}else if(_z==='large'){pSix*=.85;pFour*=.92;pTwo*=1.08}
     if(HW.m&&HW.m.sd&&HW.m.sd.fl&&!HW.multiInnings&&HW.innIdx===1){pOne*=1.04;pFour*=1.05}
     if(HW.pitch==='dry'&&plan===BOWL_PLANS.spin)pWkt*=1.16;
     if(HW.pitch==='green'&&plan===BOWL_PLANS.pace)pWkt*=1.12;
 
+    if(bv){pWkt*=bv.w;pSix*=bv.b;pFour*=bv.b;pOne*=bv.r;pTwo*=bv.r}
     if(ab==='blitz'){pSix*=1.45;pFour*=1.35;pWkt*=0.85}
     if(ab==='jaffa'){pWkt*=1.65;pSix*=0.65;pFour*=0.70}
     if(ab==='shield'&&HW.batAgg!=='slog'){pWkt*=0.25}
@@ -5167,18 +5564,18 @@ renderPick();
     var tag=overNum+'.'+ballInOver;
     var comm='';
 
-    if(r<0.035&&HW.bowlPlan!=='line'){
+    if(r<(bv?(0.012+0.013*bv.f):0.035)&&(bv||HW.bowlPlan!=='line')){
       st.runs+=1;bowl.r+=1;
       st.tokens.push('wd0');st.recentBalls.push('1wd');
       comm=tag+' '+bowl.name+' to '+bat.name+': WIDE! Slips down the leg side.';
-      st.commentary.unshift(comm);
+      st.commentary.unshift(comm);recordEv(st,comm,shotKey,bv);
       return;
     }
     if(Math.random()<0.012){
       st.runs+=1;bowl.r+=1;st.freeHit=true;
       st.tokens.push('nb0');st.recentBalls.push('1nb');
       comm=tag+' '+bowl.name+' to '+bat.name+': NO BALL! Free hit coming up.';
-      st.commentary.unshift(comm);
+      st.commentary.unshift(comm);recordEv(st,comm,shotKey,bv);
       return;
     }
 
@@ -5186,6 +5583,19 @@ renderPick();
     var freeHit=!!st.freeHit;st.freeHit=false;
     st.balls+=1;bat.b+=1;bowl.b+=1;
     if(freeHit)pWkt=0;
+    var _shotTxt='';
+    if(forced){
+      var _o=forced.out;
+      if(_o==='W'&&freeHit)_o='0';
+      if(_o==='W')r=0;
+      else if(_o==='6')r=pWkt+pSix*0.5;
+      else if(_o==='4')r=pWkt+pSix+pFour*0.5;
+      else if(_o==='2')r=pWkt+pSix+pFour+pTwo*0.5;
+      else if(_o==='1')r=pWkt+pSix+pFour+pTwo+pOne*0.5;
+      else r=0.99999;
+      var _sh=SHOTS[shotKey||forced.shot];
+      _shotTxt=_sh?(' ['+_sh.txt+(forced.ok?'':' — mistimed')+']'):'';
+    }
 
     if(r<pWkt){
       st.wkts+=1;bat.out=true;bowl.w+=1;
@@ -5214,7 +5624,7 @@ renderPick();
       st.tokens.push('1');st.recentBalls.push('1');
       comm=tag+' '+bowl.name+' to '+bat.name+': Worked into the gap for a single.';
       var tmp=st.striker;st.striker=st.nonStriker;st.nonStriker=tmp;
-    }else if(Math.random()<0.035){
+    }else if(!forced&&Math.random()<0.035){
       var extraType=Math.random()<0.5?'b':'lb';
       st.runs+=1;st.tokens.push(extraType+'1');st.recentBalls.push(extraType==='b'?'1b':'1lb');
       comm=tag+' '+bowl.name+' to '+bat.name+': '+(extraType==='b'?'BYE':'LEG BYE')+'! They sneak through for one extra.';
@@ -5223,12 +5633,20 @@ renderPick();
       comm=tag+' '+bowl.name+' to '+bat.name+': Dot ball. Good tight delivery.';
     }
 
+    (function(){
+      var _t=st.tokens[st.tokens.length-1];
+      if(_t==='W'){comm=comm.replace(': OUT!',': '+pickRand(PHR.W))+(bv?' The '+bv.n.toLowerCase()+' did the job.':'')}
+      else if(PHR[_t])comm=tag+' '+bowl.name+' to '+bat.name+': '+pickRand(PHR[_t]);
+    })();
+    if(_shotTxt)comm+=_shotTxt;
+    if(bv)comm+=' ['+bv.n+']';
     var _lt=st.tokens[st.tokens.length-1],_sd=HW.m&&HW.m.sd;
     if(_sd&&_sd.cap>=6000&&(_lt==='6'||_lt==='W')&&Math.random()<.6){
       var _big=_sd.cap>=30000,_at=sdAtt(HW.m).toLocaleString();
       comm+=_lt==='6'?(_big?' The '+_at+' crowd goes wild!':' The stands roar!'):(_big?' A huge cheer rings around the ground!':' The crowd gets loud.');
     }
     st.commentary.unshift(comm);
+    recordEv(st,comm,shotKey||(forced&&forced.shot),bv);
 
     if(st.balls%6===0){
       var tmp2=st.striker;st.striker=st.nonStriker;st.nonStriker=tmp2;
@@ -5247,6 +5665,85 @@ renderPick();
     commitH(HW.hd);
     closeModal();
     paintSeason();
+  }
+
+
+  window.__hwFvCss=window.__hwFvCss||(function(){
+    var st=document.createElement('style');
+    st.textContent=
+      '.hwfv{padding:8px 8px 10px;overflow:hidden}'+
+      '.hwfv svg{width:100%;height:auto;max-height:300px;display:block;border-radius:10px}'+
+      '.hwfv .hwball{animation-duration:1.6s;animation-timing-function:ease-in;animation-fill-mode:forwards}'+
+      '@keyframes hwbDot{0%{transform:translate(0,0)}45%{transform:translate(0,100px)}65%{transform:translate(0,92px)}100%{transform:translate(0,96px);opacity:0}}'+
+      '@keyframes hwb1{0%{transform:translate(0,0)}45%{transform:translate(0,100px)}100%{transform:translate(calc(var(--d)*60px),50px);opacity:0}}'+
+      '@keyframes hwb2{0%{transform:translate(0,0)}45%{transform:translate(0,100px)}100%{transform:translate(calc(var(--d)*110px),25px);opacity:.1}}'+
+      '@keyframes hwb4{0%{transform:translate(0,0)}45%{transform:translate(0,100px)}100%{transform:translate(calc(var(--d)*172px),70px)}}'+
+      '@keyframes hwb6{0%{transform:translate(0,0) scale(1)}45%{transform:translate(0,100px) scale(1)}100%{transform:translate(calc(var(--d)*150px),-110px) scale(3.4);opacity:0}}'+
+      '@keyframes hwbW{0%{transform:translate(0,0)}45%{transform:translate(0,112px)}100%{transform:translate(0,112px);opacity:0}}'+
+      '@keyframes hwbWd{0%{transform:translate(0,0)}60%{transform:translate(calc(var(--d)*48px),96px)}100%{transform:translate(calc(var(--d)*52px),104px);opacity:0}}'+
+      '@keyframes hwSwing{0%{transform:rotate(-20deg)}40%{transform:rotate(-20deg)}55%{transform:rotate(70deg)}100%{transform:rotate(70deg)}}'+
+      '@keyframes hwSt1{0%,45%{transform:none}100%{transform:translate(-16px,-12px) rotate(-55deg)}}'+
+      '@keyframes hwSt2{0%,45%{transform:none}100%{transform:translate(2px,-34px) rotate(80deg)}}'+
+      '@keyframes hwSt3{0%,45%{transform:none}100%{transform:translate(16px,-10px) rotate(50deg)}}'+
+      '@keyframes hwFlash{0%,44%{opacity:0}50%{opacity:.55}100%{opacity:0}}'+
+      '@keyframes hwPop{0%,48%{transform:scale(0);opacity:0}65%{transform:scale(1.25);opacity:1}80%{transform:scale(1)}100%{transform:scale(1);opacity:1}}'+
+      '@keyframes hwGlow{0%,45%{opacity:0}60%{opacity:.5}100%{opacity:0}}'+
+      '.hwfv .hwpopt{transform-origin:200px 108px;animation:hwPop 1.8s ease-out forwards;font-weight:900;font-size:46px;text-anchor:middle;paint-order:stroke;stroke:rgba(0,0,0,.55);stroke-width:5px;stroke-linejoin:round}'+
+      '.hwfv .hwbat{transform-origin:190px 168px;animation:hwSwing 1.6s ease-in-out forwards}'+
+      '.hwlast{margin-top:8px;padding:9px 12px;border-radius:10px;background:rgba(30,60,120,.10);font-size:15px;line-height:1.35;font-weight:600;display:flex;gap:10px;align-items:center}'+
+      '.hwlast .chip6{flex:none;min-width:34px;text-align:center;padding:4px 8px;border-radius:8px;color:#fff;font-weight:900;background:#4a5568}'+
+      '.hwlast.o4 .chip6{background:#2b6cb0}.hwlast.o6 .chip6{background:#7b2cbf}.hwlast.oW .chip6{background:#d62f2f}.hwlast.o1 .chip6,.hwlast.o2 .chip6{background:#2f9e44}'+
+      '.hwlast.fresh{animation:hwLastIn .5s ease-out 1.0s both}@keyframes hwLastIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}';
+    document.head.appendChild(st);return 1})();
+  function fieldView(st,animate){
+    var ev=st.lastEv,tok=ev?ev.tok:'',d=ev?ev.dir:1,anim='',pop='',popCol='#fff',stumpAnim=['','',''],flash='';
+    if(animate&&ev){
+      var ab='hwbDot';
+      if(tok==='W'){ab='hwbW';pop='OUT!';popCol='#ff5a5a';stumpAnim=['hwSt1','hwSt2','hwSt3'];flash='#e03131'}
+      else if(tok==='6'){ab='hwb6';pop='SIX!';popCol='#d0a2ff';flash='#7b2cbf'}
+      else if(tok==='4'){ab='hwb4';pop='FOUR!';popCol='#7cc4ff';flash='#2b6cb0'}
+      else if(tok==='2'){ab='hwb2';pop='2 RUNS';popCol='#8ce99a'}
+      else if(tok==='1'){ab='hwb1';pop='1 RUN';popCol='#8ce99a'}
+      else if(tok==='wd0'){ab='hwbWd';pop='WIDE';popCol='#ffe066'}
+      else if(tok==='nb0'){ab='hwbDot';pop='NO BALL';popCol='#ffe066'}
+      else if(tok==='0'){pop='DOT';popCol='#e9ecef'}
+      anim='animation-name:'+ab+';--d:'+d+';';
+    }
+    var fielders=[[70,70],[330,70],[60,150],[340,150],[120,30],[280,30],[200,200],[110,185]].map(function(f){return '<circle cx="'+f[0]+'" cy="'+f[1]+'" r="4.5" fill="#7c4dff" stroke="#fff" stroke-width="1"/>'}).join('');
+    var stump=function(x,i){return '<rect x="'+x+'" y="160" width="3" height="20" rx="1" fill="#f5e6b8" style="transform-box:fill-box;transform-origin:center bottom;'+(stumpAnim[i]?'animation:'+stumpAnim[i]+' 1.6s ease-out forwards;':'')+'"/>'};
+    var svg='<svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ball animation">'+
+      '<defs><radialGradient id="hwg" cx="50%" cy="50%" r="70%"><stop offset="0" stop-color="#4fae4f"/><stop offset="1" stop-color="#2c7a35"/></radialGradient></defs>'+
+      '<rect width="400" height="220" fill="#1f5f2b"/><ellipse cx="200" cy="110" rx="192" ry="104" fill="url(#hwg)" stroke="#fff" stroke-width="2" stroke-dasharray="6 5"/>'+
+      '<rect x="178" y="28" width="44" height="166" fill="#d9b877" rx="3"/>'+
+      '<line x1="178" y1="46" x2="222" y2="46" stroke="#fff" stroke-width="1.5"/><line x1="178" y1="176" x2="222" y2="176" stroke="#fff" stroke-width="1.5"/>'+
+      fielders+
+      '<g><rect x="193" y="40" width="3" height="14" fill="#f5e6b8"/><rect x="200" y="40" width="3" height="14" fill="#f5e6b8"/><rect x="207" y="40" width="3" height="14" fill="#f5e6b8"/></g>'+
+      stump(193,0)+stump(200,1)+stump(207,2)+
+      '<circle cx="186" cy="166" r="6" fill="#1b2a49" stroke="#fff" stroke-width="1"/><rect x="181" y="171" width="10" height="14" rx="3" fill="#1b2a49"/>'+
+      '<g class="'+(animate?'hwbat':'')+'" style="'+(animate?'':'transform:rotate(-20deg);transform-origin:190px 168px;')+'"><rect x="188" y="168" width="4" height="26" rx="2" fill="#e8c27a"/></g>'+
+      '<circle cx="200" cy="141" r="0" fill="none"/>'+
+      '<circle class="hwball" cx="200" cy="52" r="4.5" fill="#d92b2b" stroke="#fff" stroke-width="1" style="'+(animate?anim:'opacity:0')+'"/>'+
+      (flash?'<rect width="400" height="220" fill="'+flash+'" style="opacity:0;animation:hwFlash 1.8s ease-out forwards;pointer-events:none"/>':'')+
+      (pop?'<text class="hwpopt" x="200" y="120" fill="'+popCol+'">'+pop+'</text>':'')+
+      '</svg>';
+    var t=(st.commentary[0]||''),cls=ev?('o'+ev.tok):'';
+    var chip=ev?(ev.tok==='W'?'W':(ev.tok==='wd0'?'Wd':(ev.tok==='nb0'?'Nb':ev.tok))):'•';
+    return '<div class="card hwfv">'+svg+'<div class="hwlast '+cls+(animate?' fresh':'')+'"><span class="chip6">'+esc(chip)+'</span><span>'+esc(t)+'</span></div></div>';
+  }
+
+  function shotPanel(st){
+    var pr=shotProbs(st),d=st.dlv,bowl=curBowlerObj(st);
+    var btns=SHOT_KEYS.map(function(k){
+      var v=pr[k],col=v>=60?'#38c24a':(v>=30?'#f0b323':'#e0372f');
+      return '<button type="button" class="hwshot" data-shot="'+k+'" title="'+SHOTS[k].name+' · '+v+'% success">'+
+        '<span class="pc">'+v+'%</span><span class="bar"><span class="hwfill" style="display:block;height:9px;border-radius:6px;width:'+v+'%;background:'+col+'"></span></span>'+
+        '<span class="bx">'+SHOTS[k].num+'</span><span class="nm">'+SHOTS[k].name+'</span></button>';
+    }).join('');
+    return '<div class="card"><span class="k">Pick your shot · '+esc(bowl.name)+' to '+esc(st.batters[st.striker].name)+'</span>'+
+      '<div class="hwdl"><span class="dn">'+d.ic+' '+esc(d.name)+'</span><span class="dt">'+esc(d.tag)+'</span></div>'+
+      '<div class="hwshots">'+btns+'</div>'+
+      '<div class="hwrand"><button type="button" id="hwRandShot" class="btn">🎲 Random shot</button>'+
+      '<span class="muted" style="font-size:12px;align-self:center">Percentages are the chance each shot comes off. Riskier shots lose the wicket when they fail.</span></div></div>';
   }
 
   function renderLiveModal(){
@@ -5274,9 +5771,15 @@ renderPick();
     var bowlerOpts=st.bowlers.map(function(b){
       var disabled=(b.name===st.lastBowler&&st.balls%6===0)||b.b>=maxB;
       return '<option value="'+esc(b.name)+'"'+(b.name===st.curBowler?' selected':'')+(disabled?' disabled':'')+'>'+
-        esc(b.name)+' ('+Math.floor(b.b/6)+'.'+(b.b%6)+'-'+b.r+'-'+b.w+')</option>';
+        (bowlKind(b)==='spin'?'🌀 ':'⚡ ')+esc(b.name)+' ('+Math.floor(b.b/6)+'.'+(b.b%6)+'-'+b.r+'-'+b.w+')</option>';
     }).join('');
 
+    var animNow=!!(st.lastEv&&st.lastEv.seq!==HW.animShown);
+    if(animNow){
+      HW.animShown=st.lastEv.seq;
+      try{var _tk=st.lastEv.tok,_sn={W:'wicket','6':'six','4':'four','0':'dot',wd0:'wide',nb0:'noball'}[_tk];if(_sn)setTimeout(function(){sfx(_sn)},700);
+        var _sy={W:'Out!','6':'Six!','4':'Four!',wd0:'Wide ball'}[_tk];if(_sy)setTimeout(function(){say(_sy)},800)}catch(e){}
+    }
     var userBatting=st.batId===HW.userTeam;
     var userBowling=st.bowlId===HW.userTeam;
     var batBtns=Object.keys(BAT_MODES).map(function(k){
@@ -5304,8 +5807,9 @@ renderPick();
       var nextLabel=HW.multiInnings?(['Start 2nd Innings','Start 3rd Innings','Start 4th Innings'][HW.innIdx]||'Continue'):'▶ Start 2nd Innings (Chase '+(st.runs+1)+')';
       actionRow='<button type="button" id="hwNextInnBtn" class="btn primary" style="font-size:18px;padding:10px 18px">▶ '+nextLabel+'</button>';
     }else{
-      actionRow=
-        '<button type="button" id="hwBallBtn" class="btn primary" style="font-size:18px;padding:10px 18px">🏏 Bowl Next Ball</button>'+
+      if(userBatting&&!st.dlv)st.dlv=makeDelivery(st);
+      if(userBowling&&!st.bopts)st.bopts=makeBowlOpts(st);
+      actionRow=((userBatting||userBowling)?'':'<button type="button" id="hwBallBtn" class="btn primary" style="font-size:18px;padding:10px 18px">🏏 Bowl Next Ball</button>')+
         '<button type="button" id="hwOverBtn" class="btn">⏩ Sim Over</button>'+
         '<button type="button" id="hwInnBtn" class="btn">⏭️ Sim Innings</button>';
     }
@@ -5324,6 +5828,7 @@ renderPick();
           '<div><span class="k">'+esc(st.batId)+' Batting · '+(HW.multiInnings?(['1st','2nd','3rd','4th'][HW.innIdx]+' innings'):'')+'</span><div class="bigscore mono">'+st.runs+'/'+st.wkts+' <small style="font-size:18px">('+ovStr+' ov)</small></div><div class="muted" style="font-size:13px">'+targetInfo+'</div></div>'+
           '<div style="text-align:right"><div style="font-weight:700">🏏 '+esc(striker.name)+'* '+striker.r+'('+striker.b+')</div><div class="muted" style="font-size:13px">'+esc(nonStriker.name)+' '+nonStriker.r+'('+nonStriker.b+')</div></div>'+
         '</div>'+
+        fieldView(st,animNow)+
         '<div class="card">'+
           '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">'+
             '<div><span class="k">Batting Aggression ('+esc(st.batId)+')</span>'+(userBatting?'<div class="pkrow" style="margin-top:4px">'+batBtns+'</div><div class="muted" style="font-size:12px;margin-top:4px">'+BAT_MODES[HW.batAgg].desc+'</div>':'<div class="muted" style="margin-top:8px">🤖 Opposition AI chooses batting aggression</div>')+'</div>'+
@@ -5334,6 +5839,8 @@ renderPick();
             '<div><span class="k">Tactical Superpower (1/inn)</span>'+abilityHtml+'</div>'+
           '</div>'+
         '</div>'+
+        (userBatting&&!innOver&&!matchOver&&st.dlv?shotPanel(st):'')+
+        (userBowling&&!innOver&&!matchOver&&st.bopts?bowlPanel(st):'')+
         '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">'+actionRow+'</div>'+
         '<div><span class="k">Recent Balls</span><div style="margin-top:4px">'+(recentHtml||'<span class="muted">No balls bowled yet</span>')+'</div></div>'+
         '<div class="card"><span class="k">Live Ball-by-Ball Commentary</span><div class="clog" style="max-height:170px;overflow:auto;margin-top:6px">'+
@@ -5356,8 +5863,23 @@ renderPick();
       };
     });
     var bSel=$('hwBowlerSel');
-    if(bSel)bSel.onchange=function(){st.curBowler=bSel.value};
+    if(bSel)bSel.onchange=function(){st.curBowler=bSel.value;st.bopts=null;renderLiveModal()};
 
+    function playShot(key){
+      var fh=!!st.freeHit;
+      var res=rollShot(st,key,fh);
+      simulateDelivery(st,res,key);
+      renderLiveModal();
+    }
+    ov.querySelectorAll('[data-shot]').forEach(function(b){
+      b.onclick=function(){playShot(b.getAttribute('data-shot'))};
+    });
+    function playVar(i){var v=st.bopts&&st.bopts[i];if(!v)return;simulateDelivery(st,null,null,v);renderLiveModal()}
+    ov.querySelectorAll('[data-bv]').forEach(function(b){b.onclick=function(){playVar(+b.getAttribute('data-bv'))}});
+    var rbBtn=$('hwRandBowl');
+    if(rbBtn)rbBtn.onclick=function(){playVar(Math.floor(Math.random()*(st.bopts?st.bopts.length:1)))};
+    var rndBtn=$('hwRandShot');
+    if(rndBtn)rndBtn.onclick=function(){playShot(pickRand(SHOT_KEYS))};
     var ballBtn=$('hwBallBtn');
     if(ballBtn)ballBtn.onclick=function(){simulateDelivery(st);renderLiveModal()};
 
@@ -5367,6 +5889,7 @@ renderPick();
       while(st.balls<target&&st.wkts<XIN-1&&!(HW.multiInnings?testInningsOver(st):(HW.innIdx===1&&st.runs>HW.innings[0].runs))){
         simulateDelivery(st);
       }
+      if(st.lastEv)HW.animShown=st.lastEv.seq;
       renderLiveModal();
     };
 
@@ -5375,6 +5898,7 @@ renderPick();
       while((HW.multiInnings?testMatchBalls()<HW.maxBalls:st.balls<HW.maxBalls)&&st.wkts<XIN-1&&!(HW.multiInnings?testInningsOver(st):(HW.innIdx===1&&st.runs>HW.innings[0].runs))){
         simulateDelivery(st);
       }
+      if(st.lastEv)HW.animShown=st.lastEv.seq;
       renderLiveModal();
     };
 
@@ -5461,7 +5985,7 @@ renderPick();
       '<div class="season-kpi"><b>'+fours+' / '+sixes+'</b><span>Fours / sixes</span></div>'+
       '</div><div class="season-mini">'+
       '<div class="card"><h3>🏆 Championship race</h3><ol>'+leaders.map(function(x){return '<li>'+chip(x.id)+' — <b>'+x.pts+' pts</b> · NRR '+(x.nrr>=0?'+':'')+x.nrr.toFixed(3)+'</li>'}).join('')+'</ol><p class="muted">The table updates after every completed match.</p></div>'+
-      '<div class="card"><h3>📅 Next fixture</h3>'+(upcoming?'<p class="season-highlight">Matchday '+upcoming.md+'</p><p>'+chip(upcoming.m.h)+' <b>vs</b> '+chip(upcoming.m.a)+'</p><p class="muted">Venue: '+safeText(T(upcoming.m.h).ground||'Home ground')+'</p>':'<p class="muted">All league fixtures are complete.</p>')+'</div>'+
+      '<div class="card"><h3>📅 Next fixture</h3>'+(upcoming?'<p class="season-highlight">Matchday '+upcoming.md+'</p><p>'+chip(upcoming.m.h)+' <b>vs</b> '+chip(upcoming.m.a)+'</p><p class="muted">Venue: '+safeText(mVenue(upcoming.m)||'Home ground')+'</p>':'<p class="muted">All league fixtures are complete.</p>')+'</div>'+
       '<div class="card"><h3>📣 Recent results</h3>'+(latest.length?'<ol>'+latest.map(resultLine).join('')+'</ol>':'<p class="muted">Results will appear here after the first match.</p>')+'</div>'+
       '<div class="card"><h3>📊 Season records</h3><p>Highest team total: <b>'+top+'</b>'+(topMatch?' — '+chip(topMatch.inn[0].r>=topMatch.inn[1].r?topMatch.inn[0].id:topMatch.inn[1].id):'')+'</p><p>Closest score difference: <b>'+(Number.isFinite(closest)?closest:'—')+'</b>'+(closeMatch?' runs · '+safeText(closeMatch.h)+' v '+safeText(closeMatch.a):'')+'</p><p class="muted">Records include completed league and playoff matches.</p></div>'+
       '</div></section>';
@@ -5714,6 +6238,35 @@ function inj(){
 paintSeason=function(){_ps.apply(this,arguments);inj()};
 window.__inj=inj;
 })();
+
+/* ===== HOME GROUND for IPL and World Cup seasons: pick your home ground from your stadiums, like Venue in Kick-off ===== */
+function hgMeta(m){return '📍 '+esc(mVenue(m))+(m.sd&&m.sd.sl&&m.sd.cap&&m.done?' · 👥 '+sdAtt(m).toLocaleString():'')}
+function hgApply(){
+  if(!S||!S.season||!S.me||ONL())return;
+  var sd=stOf(S.homeGround);if(S.homeGround&&!sd)S.homeGround='';
+  S.season.fixtures.forEach(function(md){md.forEach(function(m){
+    if(m.done)return;
+    if(sd&&m.h===S.me){
+      m.sd={n:sd.n,c:sd.c,p:sd.p,z:sd.z,cap:stCap(sd),en:stEnc(sd),fl:!!sd.fl,bs:!!sd.bs,sl:(sd.sl||[]).slice(),lv:(sd.lv||[]).slice(),up:(sd.up||[]).map(function(a){return a.slice()}),pr:Object.assign({},sd.pr||{})};
+      m.venue=sd.n+(sd.c?', '+sd.c:'')+(stCap(sd)?' · '+stCap(sd).toLocaleString()+' seats':'');m.hg=1}
+    else if(m.hg){delete m.sd;delete m.venue;delete m.hg}
+  })})}
+var _smHG=simMatch;simMatch=function(m){hgApply();return _smHG.apply(this,arguments)};
+var _psHG=paintSeason;paintSeason=function(){
+  hgApply();_psHG.apply(this,arguments);
+  var el=$('view-season');if(!el||!S||!S.season||!S.done||ONL())return;
+  var old=el.querySelector('.hgcard');if(old)old.remove();
+  var sd=stOf(S.homeGround),opts=[['','Default · '+T(S.me).ground]].concat(stadOpts()),hm=[];
+  S.season.fixtures.forEach(function(md){md.forEach(function(m){if(m.done&&m.h===S.me)hm.push(m)})});
+  var info=sd?'<div class="mres" style="margin-top:8px">'+(stCap(sd)?'👥 '+stCap(sd).toLocaleString()+' seats · '+stAtm(stCap(sd)):'No stands built yet')+' · '+esc(STP[sd.p]||STP.random)+' · '+esc(STZ[sd.z]||STZ.std)+(sd.fl?' · 🌙 floodlit':'')+(sd.bs?' · 📺 big screen':'')+'</div>':'';
+  var card=document.createElement('div');card.className='card hgcard';card.style.margin='10px 0';
+  card.innerHTML='<div class="ctl-row"><label>🏟️ Home ground ('+esc(S.me)+')<select id="hgSel" class="btn">'+opts.map(function(o){return '<option value="'+esc(o[0])+'"'+(o[0]===(S.homeGround||'')?' selected':'')+'>'+esc(o[1])+'</option>'}).join('')+'</select></label><button class="btn stadopen" type="button" style="align-self:end">🏗️ Build or edit stadiums</button></div>'+info+
+    '<p class="muted" style="font-size:12.5px;margin:8px 0 0">Applies to your home league matches that are still to be played. You keep home advantage, and the ground’s pitch, boundaries, floodlights and crowd shape those games. Playoff venues stay as scheduled.</p>'+
+    (sd&&hm.length?earnHTML(hm,'Home ground earnings'):'');
+  var a=el.querySelector('.sbar');if(a&&a.parentNode)a.parentNode.insertBefore(card,a);else el.appendChild(card)};
+document.addEventListener('change',function(e){var el=e.target;if(!el||el.id!=='hgSel'||!S)return;
+  S.homeGround=el.value;hgApply();var sd=stOf(S.homeGround);toast(sd?sd.n+' is now your home ground.':'Back to your default home ground.');paintTab('season')});
+var _sbrHG=sbRefresh;sbRefresh=function(){_sbrHG.apply(this,arguments);if(S&&!S.play&&S.done&&S.tab==='season')paintTab('season')};
 
 })();
 </script>
