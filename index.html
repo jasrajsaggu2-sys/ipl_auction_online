@@ -3824,7 +3824,7 @@ document.addEventListener('change',function(e){var t=e.target;if(!t||!t.classLis
 document.addEventListener('input',function(e){if(e.target&&e.target.id==='tdCash'){(NET.tr=NET.tr||{with:null,give:{},get:{}}).cash=e.target.value}});
 
 /* ---- lobby ---- */
-async function netOpen(code,host){
+async function netOpenCore(code,host){
   var tries=host?3:1,err=null;
   for(var ti=0;ti<tries;ti++){
     try{NET.r=await NET.R.join('ipl-'+code.toLowerCase(),host);err=null;break}
@@ -3842,6 +3842,14 @@ async function netOpen(code,host){
   $('onRow').hidden=true;$('onLobby').hidden=false;
   ['.hero','#teamGrid','.startrow'].forEach(function(q){var e=document.querySelector(q);if(e)e.hidden=true});
   lobbyPaint();return true}
+async function netOpen(code,host){
+  var joinBtn=$('onJoin'),hostBtn=$('onHost');
+  if(joinBtn&&joinBtn.disabled)return false;
+  if(joinBtn){joinBtn.disabled=true;joinBtn.textContent=host?'Opening…':'Joining…'}
+  if(hostBtn)hostBtn.disabled=true;
+  try{return await netOpenCore(code,host)}
+  finally{if(joinBtn){joinBtn.disabled=false;joinBtn.textContent='Join party'}if(hostBtn)hostBtn.disabled=false}
+}
 function taken(){var o={};NET.peers.forEach(function(p){if(!p.isMe&&p.presence&&p.presence.team)o[p.presence.team]=1});return o}
 function lobbyPaint(){var el=$('onLobby');if(!NET.r||el.hidden||NET.live)return;
   var mine=NET.host?picked:NET.my;if(mine!==NET.lastTeam){NET.lastTeam=mine;NET.r.presence({team:mine||null})}
@@ -3935,14 +3943,28 @@ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.c
   else if(b.hasAttribute('data-graisec')){var v=parseFloat($('gRaiseAmt').value);if(isNaN(v)){toast('Enter an amount in crore.');return}NET.r.emit('act',{t:'raise',team:NET.my,v:1,x:Math.round(v*100)}).catch(function(){})}
   else if(b.hasAttribute('data-graise'))act('raise',+b.getAttribute('data-graise'));
   else{var id=b.getAttribute('data-gt');NET.sel=NET.sel===id?null:id;gSquad();if(NET.my)act('sq',NET.sel||NET.my);else NET.r.emit('act',{t:'sq',team:'',v:NET.sel}).catch(function(){})}});
-function loadPeerLib(cb){var U=['https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js','https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js','https://fastly.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://gcore.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://cdn.jsdelivr.net/npm/peerjs@1.5.3/dist/peerjs.min.js'],i=0;
-  (function next(){if(window.Peer)return cb(true);if(i>=U.length)return cb(false);var sc=document.createElement('script');sc.src=U[i++];sc.onload=function(){window.Peer?cb(true):next()};sc.onerror=function(){sc.remove();next()};document.head.appendChild(sc)})()}
+var peerLibPromise=null;
+function loadPeerLib(cb){
+  if(window.Peer){cb(true);return}
+  if(peerLibPromise){peerLibPromise.then(cb);return}
+  var urls=['https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js','https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js'];
+  peerLibPromise=new Promise(function(resolve){
+    var settled=false,remaining=urls.length;
+    function finish(ok){if(settled)return;settled=true;resolve(ok)}
+    urls.forEach(function(url){var sc=document.createElement('script');sc.src=url;sc.async=true;sc.onload=function(){if(window.Peer)finish(true);else if(--remaining===0)finish(false)};sc.onerror=function(){sc.remove();if(--remaining===0)finish(false)};document.head.appendChild(sc)});
+    setTimeout(function(){finish(!!window.Peer)},6500);
+  });
+  peerLibPromise.then(function(ok){if(!ok)peerLibPromise=null;cb(ok)});
+}
+
 function onlineInit(){var o=$('onl');
   if(NET.R){o.hidden=false;return}
   o.hidden=false;var msg=o.querySelector('.note');if(msg)msg.textContent='Loading the online connection…';
   loadPeerLib(function(ok){if(ok&&window.PeerRoom){NET.R=window.PeerRoom;if(msg)msg.textContent='Host a party and share the code. Friends take a franchise each. Every other franchise is run by the AI. Only the host\'s tab runs the auction, so keep it open.';return}
     if(msg)msg.innerHTML='Could not load the online library (your network may block the CDNs). <button id="onRetry" class="btn" type="button">Retry</button>'})}
 document.addEventListener('click',function(e){if(e.target&&e.target.id==='onRetry')onlineInit()});
+document.addEventListener('input',function(e){if(e.target&&e.target.id==='onCode'){var v=e.target.value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,4);if(e.target.value!==v)e.target.value=v}});
+document.addEventListener('keydown',function(e){if(e.target&&e.target.id==='onCode'&&e.key==='Enter'){e.preventDefault();var b=$('onJoin');if(b&&!b.disabled)b.click()}});
 (async function(){try{if(window.claude&&claude.use){var R=await claude.use('room');if(R)NET.R=R}}catch(e){}onlineInit()})();
 
 /* ===== AUCTION CHAT: auctioneer calls every sale (online + offline); friends can chat online only ===== */
