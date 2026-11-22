@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><style id="perfFix">
+<!doctype html><html><head><meta charset=utf8><link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin><link rel="preconnect" href="https://0.peerjs.com" crossorigin><link rel="dns-prefetch" href="https://stun.l.google.com"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><style id="perfFix">
 /* smooth stadium backdrop: pre-rendered image on its own fixed-size GPU layer (no vector redraw, no resize on mobile address-bar changes) */
 body::after{position:fixed!important;left:0!important;top:0!important;right:auto!important;bottom:auto!important;width:100%!important;height:100vh!important;height:100lvh!important;background:var(--bgimg) center bottom/cover no-repeat!important;transform:translateZ(0);will-change:transform;backface-visibility:hidden;contain:strict}
 .top{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:color-mix(in srgb,var(--bg) 84%,transparent)!important}
@@ -384,6 +384,7 @@ select:focus,input:focus{border-color:var(--cyan);outline:2px solid color-mix(in
     <div class="wrap tabbar-inner">
       <nav id="tabs" class="tabs" role="tablist" aria-label="Auction sections" hidden>
         <button class="tab" role="tab" data-tab="hall" aria-selected="true">Hall</button>
+        <button class="tab" role="tab" data-tab="career" aria-selected="false">🏆 Career</button>
         <button class="tab" role="tab" data-tab="sets" aria-selected="false">Sets</button>
         <button class="tab" role="tab" data-tab="squad" aria-selected="false">My squad</button>
         <button class="tab" role="tab" data-tab="teams" aria-selected="false">Franchises</button>
@@ -398,7 +399,8 @@ select:focus,input:focus{border-color:var(--cyan);outline:2px solid color-mix(in
 </header>
 
 <main class="wrap">
-  <div class="modebar" id="modeBar" role="tablist" aria-label="Cricket Auction sections"><button class="modetab" type="button" role="tab" data-mode="ipl" aria-selected="true">🏏 IPL Auction<small>20 franchises</small></button><button class="modetab" type="button" role="tab" data-mode="wc" aria-selected="false">🌍 World Cup Auction<small>20 T20 World Cup nations</small></button><button class="modetab" type="button" role="tab" data-mode="kick" aria-selected="false">⚡ Kick-off<small>One-off matches</small></button><button class="modetab" type="button" role="tab" data-mode="tourn" aria-selected="false">🏆 Tournaments<small>Build your own cup</small></button><button class="modetab" type="button" role="tab" data-mode="tours" aria-selected="false">✈️ Tours<small>Bilateral series</small></button><button class="modetab" type="button" role="tab" data-mode="stad" aria-selected="false">🏟️ Stadiums<small>Build your ground</small></button></div>
+  <div class="modebar" id="modeBar" role="tablist" aria-label="Cricket Auction sections"><button class="modetab" type="button" role="tab" data-mode="ipl" aria-selected="true">🏏 IPL Auction<small>20 franchises</small></button><button class="modetab" type="button" role="tab" data-mode="wc" aria-selected="false">🌍 World Cup Auction<small>20 T20 World Cup nations</small></button><button class="modetab" type="button" role="tab" data-mode="kick" aria-selected="false">⚡ Kick-off<small>One-off matches</small></button><button class="modetab" type="button" role="tab" data-mode="tourn" aria-selected="false">🏆 Tournaments<small>Build your own cup</small></button><button class="modetab" type="button" role="tab" data-mode="tours" aria-selected="false">✈️ Tours<small>Bilateral series</small></button><button class="modetab" type="button" role="tab" data-mode="stad" aria-selected="false">🏟️ Stadiums<small>Build your ground</small></button><button class="modetab" type="button" role="tab" data-mode="career" aria-selected="false">🏆 Career<small>Manager &amp; player legacy</small></button></div>
+  <section id="careerHome" class="page" hidden></section>
   <section id="pick">
     <div class="hero">
       <img class="herologo" alt="IPL" src="data:image/jpeg;base64,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">
@@ -505,6 +507,7 @@ select:focus,input:focus{border-color:var(--cyan);outline:2px solid color-mix(in
     <div id="view-trades" class="page" hidden></div>
     <div id="view-training" class="page" hidden></div>
     <div id="view-season" class="page" hidden></div>
+    <div id="view-career" class="page" hidden></div>
     <div id="view-results" class="page" hidden></div>
     <div id="view-rules" class="page" hidden></div>
   </section>
@@ -543,15 +546,39 @@ function mk(host,peer,code,done,fail){
       c.on('data',function(m){if(!m)return;if(m.k==='pres'){pres[c.peer]=m.p||{};bcast()}else if(m.k==='ev')deliver(m.t,m.d,c.peer)});
       c.on('close',function(){delete conns[c.peer];delete pres[c.peer];bcast()})});
   }else{
-    peer.on('open',function(){gc=peer.connect('iplauction-'+code,{serialization:'json',reliable:true});
-      gc.on('open',function(){done(R)});
-      gc.on('data',function(m){if(!m)return;if(m.k==='peers')fire(m.l);else if(m.k==='ev')deliver(m.t,m.d,gc.peer)});
-      gc.on('close',function(){fire([])})});
+    var fin=false;
+    function wire(c){
+      c.on('open',function(){if(c!==gc||fin)return;fin=true;done(R)});
+      c.on('data',function(m){if(c!==gc||!m)return;if(m.k==='peers')fire(m.l);else if(m.k==='ev')deliver(m.t,m.d,c.peer)});
+      c.on('close',function(){if(c===gc&&fin)fire([])});
+    }
+    function connectNow(){
+      var tries=0;
+      (function go(){
+        var c=peer.connect('iplauction-'+code,{serialization:'json',reliable:true});gc=c;wire(c);
+        setTimeout(function(){if(c===gc&&!c.open&&!fin&&tries++<2){try{c.close()}catch(e){}go()}},3500);
+      })();
+    }
+    if(peer.open)connectNow();else peer.on('open',connectNow);
   }
 }
-window.PeerRoom={join:function(name,host){return new Promise(function(res,rej){
-  var code=String(name).replace(/^ipl-/,'').toLowerCase(),to=setTimeout(function(){rej(new Error('timeout'))},12000);
-  var peer=host?new Peer('iplauction-'+code):new Peer();
+var PCFG={config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:stun.cloudflare.com:3478'},{urls:['turn:eu-0.turn.peerjs.com:3478','turn:us-0.turn.peerjs.com:3478'],username:'peerjs',credential:'peerjsp'}],iceCandidatePoolSize:4,sdpSemantics:'unified-plan'}};
+var WARM=null;
+function warmUp(){
+  if(WARM&&!WARM.dead)return;
+  try{
+    var p=new Peer(undefined,PCFG),w={peer:p,dead:false};
+    var kill=function(){w.dead=true};
+    p.on('error',kill);p.on('close',kill);p.on('disconnected',kill);
+    WARM=w;
+  }catch(e){}
+}
+window.PeerRoom={warm:warmUp,join:function(name,host){return new Promise(function(res,rej){
+  var code=String(name).replace(/^ipl-/,'').toLowerCase(),to=setTimeout(function(){rej(new Error('timeout'))},host?12000:16000);
+  var peer;
+  if(host)peer=new Peer('iplauction-'+code,PCFG);
+  else if(WARM&&!WARM.dead&&!WARM.peer.destroyed&&!WARM.peer.disconnected){peer=WARM.peer;WARM=null}
+  else peer=new Peer(undefined,PCFG);
   mk(!!host,peer,code,function(r){clearTimeout(to);res(r)},function(e){clearTimeout(to);rej(e)})})}};
 })();
 </script>
@@ -2719,10 +2746,10 @@ function rat(t){
   t._rt={bat:avg(bat),bowl:avg(bowl)};return t._rt;
 }
 function sc(bat,bowl,home){
-  var F=SF(),mean=(168+(bat-bowl)*1.8+(bat-70)*.6+(home?4:0))*F;
-  return Math.max(Math.round(85*F),Math.min(Math.round(265*F),Math.round(mean+gauss()*24*F)));
+  var F=SF(),mean=(190+(bat-bowl)*2.0+(bat-70)*.7+(home?5:0))*F;
+  return Math.max(Math.round(70*F),Math.round(mean+gauss()*34*F));
 }
-function wk(r){var F=SF(),b=11-(r/F-80)/22+gauss()*1.4;b=b*(XIN-1)/10*Math.pow(BALLS/120,.3);return Math.max(2,Math.min(XIN-1,Math.round(b)))}
+function wk(r){var F=SF(),b=9.4-(r/F-80)/24+gauss()*1.3;b=b*(XIN-1)/10*Math.pow(BALLS/120,.3);return Math.max(2,Math.min(XIN-1,Math.round(b)))}
 function ov(b){return Math.floor(b/6)+(b%6?'.'+(b%6):'')}
 function toks(x){return Array.isArray(x)?x:(x||'').split('')}
 var XRE=/^(wd|nb|lb|b)(\d)$/;
@@ -3120,12 +3147,13 @@ function paintTab(name){
   else if(name==='squad')paintSquad();
   else if(name==='teams')paintTeams();
   else if(name==='season')paintSeason();
+  else if(name==='career')paintCareer();
   else if(name==='results')paintResults();
   else if(name==='rules')paintRules();
 }
-function showTab(name){if(NET.live&&!NET.host){S.tab=name;$('room').hidden=name==='hall';$('gview').hidden=name!=='hall';['hall','sets','squad','teams','trades','training','season','results','rules'].forEach(function(n){$('view-'+n).hidden=(n!==name)||n==='hall'});Array.prototype.forEach.call(document.querySelectorAll('.tab'),function(b){b.setAttribute('aria-selected',b.getAttribute('data-tab')===name?'true':'false')});if(name!=='hall')paintTab(name);else window.scrollTo(0,0);return}
+function showTab(name){if(NET.live&&!NET.host){S.tab=name;$('room').hidden=name==='hall';$('gview').hidden=name!=='hall';['hall','sets','squad','teams','trades','training','season','career','results','rules'].forEach(function(n){$('view-'+n).hidden=(n!==name)||n==='hall'});Array.prototype.forEach.call(document.querySelectorAll('.tab'),function(b){b.setAttribute('aria-selected',b.getAttribute('data-tab')===name?'true':'false')});if(name!=='hall')paintTab(name);else window.scrollTo(0,0);return}
   S.tab=name;
-  ['hall','sets','squad','teams','trades','training','season','results','rules'].forEach(function(n){$('view-'+n).hidden=n!==name});
+  ['hall','sets','squad','teams','trades','training','season','career','results','rules'].forEach(function(n){$('view-'+n).hidden=n!==name});
   Array.prototype.forEach.call(document.querySelectorAll('.tab'),function(b){b.setAttribute('aria-selected',b.getAttribute('data-tab')===name?'true':'false')});
   paintTab(name);
 }
@@ -3824,7 +3852,8 @@ document.addEventListener('change',function(e){var t=e.target;if(!t||!t.classLis
 document.addEventListener('input',function(e){if(e.target&&e.target.id==='tdCash'){(NET.tr=NET.tr||{with:null,give:{},get:{}}).cash=e.target.value}});
 
 /* ---- lobby ---- */
-async function netOpenCore(code,host){
+async function netOpen(code,host){
+  try{toast(host?'Opening your party...':'Joining party '+code+'...')}catch(e_){}
   var tries=host?3:1,err=null;
   for(var ti=0;ti<tries;ti++){
     try{NET.r=await NET.R.join('ipl-'+code.toLowerCase(),host);err=null;break}
@@ -3842,14 +3871,6 @@ async function netOpenCore(code,host){
   $('onRow').hidden=true;$('onLobby').hidden=false;
   ['.hero','#teamGrid','.startrow'].forEach(function(q){var e=document.querySelector(q);if(e)e.hidden=true});
   lobbyPaint();return true}
-async function netOpen(code,host){
-  var joinBtn=$('onJoin'),hostBtn=$('onHost');
-  if(joinBtn&&joinBtn.disabled)return false;
-  if(joinBtn){joinBtn.disabled=true;joinBtn.textContent=host?'Opening…':'Joining…'}
-  if(hostBtn)hostBtn.disabled=true;
-  try{return await netOpenCore(code,host)}
-  finally{if(joinBtn){joinBtn.disabled=false;joinBtn.textContent='Join party'}if(hostBtn)hostBtn.disabled=false}
-}
 function taken(){var o={};NET.peers.forEach(function(p){if(!p.isMe&&p.presence&&p.presence.team)o[p.presence.team]=1});return o}
 function lobbyPaint(){var el=$('onLobby');if(!NET.r||el.hidden||NET.live)return;
   var mine=NET.host?picked:NET.my;if(mine!==NET.lastTeam){NET.lastTeam=mine;NET.r.presence({team:mine||null})}
@@ -3943,28 +3964,18 @@ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.c
   else if(b.hasAttribute('data-graisec')){var v=parseFloat($('gRaiseAmt').value);if(isNaN(v)){toast('Enter an amount in crore.');return}NET.r.emit('act',{t:'raise',team:NET.my,v:1,x:Math.round(v*100)}).catch(function(){})}
   else if(b.hasAttribute('data-graise'))act('raise',+b.getAttribute('data-graise'));
   else{var id=b.getAttribute('data-gt');NET.sel=NET.sel===id?null:id;gSquad();if(NET.my)act('sq',NET.sel||NET.my);else NET.r.emit('act',{t:'sq',team:'',v:NET.sel}).catch(function(){})}});
-var peerLibPromise=null;
-function loadPeerLib(cb){
-  if(window.Peer){cb(true);return}
-  if(peerLibPromise){peerLibPromise.then(cb);return}
-  var urls=['https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js','https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js'];
-  peerLibPromise=new Promise(function(resolve){
-    var settled=false,remaining=urls.length;
-    function finish(ok){if(settled)return;settled=true;resolve(ok)}
-    urls.forEach(function(url){var sc=document.createElement('script');sc.src=url;sc.async=true;sc.onload=function(){if(window.Peer)finish(true);else if(--remaining===0)finish(false)};sc.onerror=function(){sc.remove();if(--remaining===0)finish(false)};document.head.appendChild(sc)});
-    setTimeout(function(){finish(!!window.Peer)},6500);
-  });
-  peerLibPromise.then(function(ok){if(!ok)peerLibPromise=null;cb(ok)});
-}
-
+function loadPeerLib(cb){var U=['https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js','https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js','https://fastly.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://gcore.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js','https://cdn.jsdelivr.net/npm/peerjs@1.5.3/dist/peerjs.min.js'],i=0;
+  (function(){var done=false,left=U.length;if(window.Peer)return cb(true);
+    U.forEach(function(u){var sc=document.createElement('script');sc.src=u;sc.async=true;
+      sc.onload=function(){if(done)return;if(window.Peer){done=true;cb(true)}else if(--left<=0){done=true;cb(false)}};
+      sc.onerror=function(){sc.remove();if(done)return;if(--left<=0){done=true;cb(false)}};
+      document.head.appendChild(sc)})})()}
 function onlineInit(){var o=$('onl');
   if(NET.R){o.hidden=false;return}
   o.hidden=false;var msg=o.querySelector('.note');if(msg)msg.textContent='Loading the online connection…';
-  loadPeerLib(function(ok){if(ok&&window.PeerRoom){NET.R=window.PeerRoom;if(msg)msg.textContent='Host a party and share the code. Friends take a franchise each. Every other franchise is run by the AI. Only the host\'s tab runs the auction, so keep it open.';return}
+  loadPeerLib(function(ok){if(ok&&window.PeerRoom){NET.R=window.PeerRoom;try{window.PeerRoom.warm()}catch(e_){}if(msg)msg.textContent='Host a party and share the code. Friends take a franchise each. Every other franchise is run by the AI. Only the host\'s tab runs the auction, so keep it open.';return}
     if(msg)msg.innerHTML='Could not load the online library (your network may block the CDNs). <button id="onRetry" class="btn" type="button">Retry</button>'})}
 document.addEventListener('click',function(e){if(e.target&&e.target.id==='onRetry')onlineInit()});
-document.addEventListener('input',function(e){if(e.target&&e.target.id==='onCode'){var v=e.target.value.toUpperCase().replace(/[^A-Z]/g,'').slice(0,4);if(e.target.value!==v)e.target.value=v}});
-document.addEventListener('keydown',function(e){if(e.target&&e.target.id==='onCode'&&e.key==='Enter'){e.preventDefault();var b=$('onJoin');if(b&&!b.disabled)b.click()}});
 (async function(){try{if(window.claude&&claude.use){var R=await claude.use('room');if(R)NET.R=R}}catch(e){}onlineInit()})();
 
 /* ===== AUCTION CHAT: auctioneer calls every sale (online + offline); friends can chat online only ===== */
@@ -4140,8 +4151,8 @@ function retLobby(){var el=$('onLobby');if(!NET.r||el.hidden||NET.live)return;
 /*TESTENGINE-START*/
 var TOT_BALLS=2700;
 function tRuns(bat,bowl,home,k){
-  var mean=(300+(bat-bowl)*3.2+(bat-70)*1.2+(home?12:0))*(1+(XIN-11)*.01)*[1,1,.95,.78][k];
-  return Math.max(70,Math.min(760,Math.round(mean+gauss()*85*(k===3?.8:1))));
+  var mean=(365+(bat-bowl)*3.6+(bat-70)*1.4+(home?14:0))*(1+(XIN-11)*.01)*[1,1,.95,.78][k];
+  return Math.max(90,Math.round(mean+gauss()*105*(k===3?.8:1)));
 }
 function lrem(a,tot){
   var sum=a.reduce(function(x,y){return x+y},0)||1,out=a.map(function(w){return Math.floor(tot*w/sum)}),left=tot-out.reduce(function(x,y){return x+y},0);
@@ -4493,7 +4504,7 @@ function setMode(m,quiet){
 }
 (function(){
   var b=document.querySelector('.brand');
-  var bar=$('modeBar');if(bar)bar.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('.modetab');if(!t||(S&&!S.play))return;menuGo(t.getAttribute('data-mode'))});
+  var bar=$('modeBar');if(bar)bar.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('.modetab');if(t&&t.getAttribute('data-mode')==='career'&&S&&!S.play){showTab('career');return}if(!t||(S&&!S.play))return;menuGo(t.getAttribute('data-mode'))});
   var saved=null;try{saved=localStorage.getItem('auctionMode')}catch(e){}
   if(saved==='wc'){setMode('wc',false)}
 })();
@@ -4543,16 +4554,23 @@ function stEnc(x){return (x&&x.sl||[]).filter(function(k){return STT[k]}).length
 function stAtm(c){return c<=0?'Open ground':c<10000?'Intimate':c<30000?'Lively':c<50000?'Roaring':'Cauldron'}
 function sdR(m){return (((m.seed||1)%1000)/1000)}
 function sdAtt(m){var d=m&&m.sd;if(!d||!d.cap)return 0;if(d.sl)return stSim(d,sdR(m)).att;return Math.round(d.cap*(.72+sdR(m)*.28))}
-function mEarn(m){var d=m&&m.sd,r=sdR(m),att,rev;
-  if(d&&d.sl){var q=stSim(d,r);att=q.att;rev=q.rev}else{att=Math.round(40000*(.72+.28*r));rev=att*1200}
-  var h=Math.round(rev*(((d&&!m.hg)||m.neutral)?.5:.6));return{att:att,rev:rev,h:h,a:rev-h}}
+/* Estimated capacity and ticket prices (₹) of home grounds: general stand price 'lo', premium 'hi'. Seats split 60% general, 30% stand (x2.5), 10% premium. */
+var GRD={CSK:{cap:38000,lo:900,hi:7500},MI:{cap:33000,lo:1000,hi:9000},RCB:{cap:35000,lo:1100,hi:10000},KKR:{cap:66000,lo:700,hi:6000},DC:{cap:35000,lo:800,hi:7000},SRH:{cap:39000,lo:700,hi:6000},RR:{cap:30000,lo:800,hi:6500},PBKS:{cap:38000,lo:900,hi:7000},GT:{cap:100000,lo:600,hi:5000},LSG:{cap:50000,lo:700,hi:6000}};
+var GRD_DEF={cap:35000,lo:700,hi:5500},GRD_NEU={cap:40000,lo:900,hi:7000};
+function grdOf(id){return GRD[id]||GRD_DEF}
+function grdAvg(g){var gen=Math.round(g.cap*.6),stn=Math.round(g.cap*.3),pre=g.cap-gen-stn;return (gen*g.lo+stn*g.lo*2.5+pre*g.hi)/g.cap}
+function mEarn(m){var d=m&&m.sd,r=sdR(m),att,rev,g=null,custom=false;
+  if(d&&d.sl){var q=stSim(d,r);att=q.att;rev=q.rev;custom=true}
+  else{g=m&&m.neutral?GRD_NEU:grdOf(m&&m.h);att=Math.round(g.cap*(.72+.28*r));rev=Math.round(att*grdAvg(g))}
+  var h=Math.round(rev*(((d&&!m.hg)||m.neutral)?.5:.6));
+  return{att:att,rev:rev,h:h,a:rev-h,avg:att?rev/att:0,g:g,custom:custom,cap:d&&d.sl?stCap(d):g.cap}}
 function earnTotals(list){var tot=0,by={},n=0;list.forEach(function(m){if(!m||!m.done)return;var e=mEarn(m);n++;tot+=e.rev;
   [[m.h,e.h],[m.a,e.a]].forEach(function(q){var o=by[q[0]]=by[q[0]]||{e:0,n:0};o.e+=q[1];o.n++})});return{tot:tot,by:by,n:n}}
 function earnHTML(list,label){var t=earnTotals(list);if(!t.n)return '';
   var ids=Object.keys(t.by).sort(function(a,b){return t.by[b].e-t.by[a].e});
   return '<div class="card xcard"><span class="k">'+esc(label)+'</span><div style="font-size:24px;font-weight:800;margin-top:2px">💰 Total earnings '+stMoney(t.tot)+'</div><div class="muted">'+t.n+' match'+(t.n>1?'es':'')+' played · gate split: home side 60%, away side 40%, or 50-50 at neutral and custom grounds</div>'+
    '<div class="xchips" style="margin-top:8px">'+ids.map(function(id){var c=T(id)?T(id).color:'#888';return '<span class="xchip" style="border-left:6px solid '+c+'"><b>'+id+'</b> '+stMoney(t.by[id].e)+' <small class="muted">'+t.by[id].n+' m</small></span>'}).join('')+'</div></div>'}
-function earnLine(m){if(!m||!m.done||!m.inn)return '';var e=mEarn(m);return '<div class="mres">💰 '+m.h+' '+stMoney(e.h)+' · '+m.a+' '+stMoney(e.a)+' <small class="muted">(gate '+stMoney(e.rev)+')</small></div>'}
+function earnLine(m){if(!m||!m.done||!m.inn)return '';var e=mEarn(m);return '<div class="mres">💰 '+m.h+' '+stMoney(e.h)+' · '+m.a+' '+stMoney(e.a)+' <small class="muted">(gate '+stMoney(e.rev)+' = '+e.att.toLocaleString('en-IN')+' fans × avg ticket '+stMoney(e.avg)+')</small></div>'}
 function tourMs(P){var o=[];P.tours.forEach(function(t){t.ms.forEach(function(i){o.push(S.xm[i])})});(P.ctours||[]).forEach(function(c){c.legs.forEach(function(l){l.ms.forEach(function(i){o.push(S.xm[i])})})});return o}
 function sdGate(m){var d=m&&m.sd;if(!d||!d.sl)return 0;return stSim(d,sdR(m)).rev}
 /* top-down plan of the ground; interactive in the builder */
@@ -4935,6 +4953,11 @@ function paintPlayBar(){
    '<label>Following<select id="pxMe" class="btn"><option value="">Nobody</option>'+S.teams.map(function(x){return '<option value="'+x.id+'"'+(x.id===PXME?' selected':'')+'>'+x.id+' · '+esc(x.name)+'</option>'}).join('')+'</select></label><button class="btn stadopen" type="button" style="align-self:end">🏟️ Stadiums ('+STAD.length+')</button></div>'+
    '<p class="muted" style="margin:8px 0 0">'+(PXMODE==='ipl'?'IPL franchises take their IPL 2026 squads; the newer franchises draft from the remaining players.':'World Cup nations pick their best players from their own country.')+'</p>'+pxOnHTML()+'</div>'}
 function menuGo(name){
+  var dd0=$('careerDrawer');if(dd0&&name==='career')dd0.hidden=true;
+  var chm=$('careerHome');if(chm)chm.hidden=name!=='career';
+  if(name==='career'){
+    Array.prototype.forEach.call(document.querySelectorAll('.modetab'),function(b){b.setAttribute('aria-selected',b.getAttribute('data-mode')==='career'?'true':'false')});
+    $('pick').hidden=true;$('play').hidden=true;chPaint($('careerHome'));window.scrollTo(0,0);return}
   var play=name==='kick'||name==='tourn'||name==='tours'||name==='stad';
   Array.prototype.forEach.call(document.querySelectorAll('.modetab'),function(b){b.setAttribute('aria-selected',b.getAttribute('data-mode')===name?'true':'false')});
   if(!play){if(S&&S.play)S=null;$('play').hidden=true;$('pick').hidden=false;setMode(name);return}
@@ -4966,6 +4989,7 @@ function pxApply(d){if(PX.host||!d)return;var tab=(S&&S.play)?S.tab:'kick';
 function pxChunk(m){var c=m&&m.data;if(!c||PX.host)return;var b=PX.buf[c.id]=PX.buf[c.id]||{p:[],n:c.n,k:0};if(!b.p[c.i]){b.p[c.i]=c.s;b.k++}
   if(b.k===b.n){var js=b.p.join('');PX.buf={};try{pxApply(JSON.parse(js))}catch(e){console.error(e)}}}
 async function pxOpen(host,code){
+  try{toast(host?'Opening room...':'Joining room '+code+'...')}catch(e_){}
   if(!NET.R){toast('The online library is still loading. Try again in a moment.');return}
   if(!window.PeerRoom&&!NET.R){return}
   var err=null,r=null;
@@ -5022,11 +5046,11 @@ renderPick();
 
   /* ===== HITWICKET-STYLE SHOT BUTTONS (user batting) ===== */
   var SHOTS={
-    b:{k:'b',num:'0',name:'BLOCK',    runs:0,base:82,wf:0.04,txt:'Block'},
-    n:{k:'n',num:'1',name:'NUDGE',    runs:1,base:62,wf:0.05,txt:'Nudge'},
-    p:{k:'p',num:'2',name:'SQUARE PUSH',runs:2,base:40,wf:0.30,txt:'Square push'},
-    c:{k:'c',num:'4',name:'CUT SHOT', runs:4,base:30,wf:0.42,txt:'Cut shot'},
-    u:{k:'u',num:'6',name:'UPPER CUT',runs:6,base:22,wf:0.52,txt:'Upper cut'}
+    b:{k:'b',num:'0',name:'BLOCK',    runs:0,base:90,wf:0.01,txt:'Block'},
+    n:{k:'n',num:'1',name:'NUDGE',    runs:1,base:76,wf:0.015,txt:'Nudge'},
+    p:{k:'p',num:'2',name:'SQUARE PUSH',runs:2,base:60,wf:0.04,txt:'Square push'},
+    c:{k:'c',num:'4',name:'CUT SHOT', runs:4,base:46,wf:0.08,txt:'Cut shot'},
+    u:{k:'u',num:'6',name:'UPPER CUT',runs:6,base:35,wf:0.14,txt:'Upper cut'}
   };
   var SHOT_KEYS=['b','n','p','c','u'];
   var DELIVERIES={
@@ -5062,9 +5086,11 @@ renderPick();
   function shotProbs(st){
     var bat=st.batters[st.striker],bowl=curBowlerObj(st),d=st.dlv||(st.dlv=makeDelivery(st));
     var diff=(bat.rating-bowl.rating)/100,pit=PITCHES[HW.pitch]||PITCHES.flat,plan=BOWL_PLANS[d.plan]||BOWL_PLANS.line;
-    var setB=Math.min(8,bat.b*0.4),out={};
+    var setB=Math.min(12,bat.b*0.8),out={};
+    /* every format gets its own tempo: long formats favour rotating the strike, short ones reward big hits */
+    var fmtM=HW.testMode?{b:6,n:6,p:2,c:-10,u:-16}:(HW.maxOvers>25?{b:4,n:4,p:2,c:-6,u:-9}:(HW.maxOvers<=10?{b:0,n:-2,p:-1,c:2,u:4}:{b:0,n:0,p:0,c:0,u:0}));
     SHOT_KEYS.forEach(function(k){
-      var v=SHOTS[k].base+diff*30+d.m[k]+d.jit[k]+setB;
+      var v=SHOTS[k].base+diff*30+d.m[k]+d.jit[k]+setB+fmtM[k];
       if(k==='c'||k==='u')v+=(pit.boundary-1)*40;
       if(k==='n'||k==='p')v+=(pit.run-1)*30;
       v-=(plan.wktM-1)*12;
@@ -5084,6 +5110,7 @@ renderPick();
       var wf=sh.wf*plan.wktM*pit.wicket;
       if(HW.activeAbility==='jaffa')wf*=1.65;
       if(HW.activeAbility==='shield'&&key!=='u')wf*=0.25;
+      wf*=HW.testMode?0.40:(HW.maxOvers>25?0.55:1);
       wf=Math.min((key==='b'||key==='n')?0.08:0.95,wf);
       out=(!freeHit&&Math.random()<wf)?'W':'0';
     }
@@ -5586,7 +5613,7 @@ renderPick();
     var diff=(bat.rating-bowl.rating)/100;
     var ab=HW.activeAbility;
 
-    var pWkt=Math.max(0.015,Math.min(0.28,(0.052-diff*0.04)*agg.wktM*plan.wktM));
+    var pWkt=Math.max(0.012,Math.min(0.24,(0.031-diff*0.025)*agg.wktM*plan.wktM));
     var pSix=Math.max(0.01,Math.min(0.32,(0.065+diff*0.06)*agg.bndM*plan.bndM));
     var pFour=Math.max(0.03,Math.min(0.38,(0.125+diff*0.08)*agg.bndM*plan.bndM));
     var pTwo=0.08*agg.runM;
@@ -5594,7 +5621,7 @@ renderPick();
     var pitch=PITCHES[HW.pitch]||PITCHES.flat;
     pSix*=pitch.boundary;pFour*=pitch.boundary;pWkt*=pitch.wicket;pOne*=pitch.run;pTwo*=pitch.run;
     /* longer formats are scored and defended differently: slower runs, fewer boundaries, wickets that take longer to fall */
-    var _fm=HW.testMode?{b:.22,w:.31,r:.85}:(HW.maxOvers>25?{b:.45,w:.7,r:1}:null);
+    var _fm=HW.testMode?{b:.34,w:.26,r:1.0}:(HW.maxOvers>25?{b:.62,w:.55,r:1.06}:null);
     if(_fm){pSix*=_fm.b;pFour*=_fm.b;pWkt*=_fm.w;pOne*=_fm.r;pTwo*=_fm.r}
     var _z=HW.m&&HW.m.sd&&HW.m.sd.z;if(_z==='small'){pSix*=1.18;pFour*=1.1}else if(_z==='large'){pSix*=.85;pFour*=.92;pTwo*=1.08}
     if(HW.m&&HW.m.sd&&HW.m.sd.fl&&!HW.multiInnings&&HW.innIdx===1){pOne*=1.04;pFour*=1.05}
@@ -6316,10 +6343,1480 @@ document.addEventListener('change',function(e){var el=e.target;if(!el||el.id!=='
   S.homeGround=el.value;hgApply();var sd=stOf(S.homeGround);toast(sd?sd.n+' is now your home ground.':'Back to your default home ground.');paintTab('season')});
 var _sbrHG=sbRefresh;sbRefresh=function(){_sbrHG.apply(this,arguments);if(S&&!S.play&&S.done&&S.tab==='season')paintTab('season')};
 
+/* ===== CAREER MODE: manager career + player career (kept on this device between seasons) ===== */
+var CAREER_KEY='iplCareerV1',CAR=null,CSUB='mgr';
+function carLoad(){
+  if(CAR)return CAR;
+  try{CAR=JSON.parse(localStorage.getItem(CAREER_KEY)||'null')}catch(e){CAR=null}
+  if(!CAR||typeof CAR!=='object')CAR={};
+  CAR.mgr=CAR.mgr||{name:'Manager',xp:0,seasons:[]};
+  CAR.plr=CAR.plr||{cur:null,retired:[]};
+  CAR.logged=CAR.logged||{};
+  return CAR;
+}
+function carSave(){try{localStorage.setItem(CAREER_KEY,JSON.stringify(CAR))}catch(e){}}
+function carNo(){if(!S.carId)S.carId=Math.random().toString(36).slice(2,8);if(!S.carNo)S.carNo=1;return S.carNo}
+function carKey(){carNo();return S.carId+':'+S.carNo}
+function carMatches(Z){var a=[];Z.fixtures.forEach(function(md){md.forEach(function(m){a.push(m)})});Z.po.forEach(function(m){a.push(m)});return a}
+
+function carBlank(){return{m:0,bi:0,r:0,b:0,f:0,s:0,no:0,hs:0,fifty:0,hundred:0,duck:0,bb:0,br:0,w:0,bowls:0,bestW:0,bestR:0,w3:0,w5:0,pom:0}}
+function carPlayerStats(name,Z){
+  var o=carBlank(),has=false;
+  if(!Z)return o;
+  carMatches(Z).forEach(function(m){
+    if(!m.done||!m.b)return;
+    var C;try{C=cardOf(m)}catch(e){return}
+    var inXI=false;
+    [m.h,m.a].forEach(function(id){if(m.xi&&m.xi[id]&&m.xi[id].indexOf(name)>=0)inXI=true});
+    C.inn.forEach(function(d){
+      d.bat.forEach(function(p){
+        if(p.name!==name||!p.in)return;
+        inXI=true;o.bi++;o.r+=p.r;o.b+=p.b;o.f+=p.f;o.s+=p.s;if(!p.out)o.no++;
+        if(p.r>o.hs)o.hs=p.r;if(p.r>=100)o.hundred++;else if(p.r>=50)o.fifty++;if(p.out&&p.r===0)o.duck++;
+      });
+      d.bowl.forEach(function(p){
+        if(p.name!==name||!p.b)return;
+        inXI=true;o.bb+=p.b;o.br+=p.r;o.w+=p.w;o.bowls++;
+        if(!has||p.w>o.bestW||(p.w===o.bestW&&p.r<o.bestR)){o.bestW=p.w;o.bestR=p.r;has=true}
+        if(p.w>=5)o.w5++;else if(p.w>=3)o.w3++;
+      });
+    });
+    if(inXI)o.m++;
+    if(C.pom&&C.pom.n===name)o.pom++;
+  });
+  return o;
+}
+function carAdd(a,b){
+  var o=carBlank();
+  ['m','bi','r','b','f','s','no','fifty','hundred','duck','bb','br','w','bowls','w3','w5','pom'].forEach(function(k){o[k]=(a[k]||0)+(b[k]||0)});
+  o.hs=Math.max(a.hs||0,b.hs||0);
+  var A=a.bowls?a:null,B=b.bowls?b:null;
+  if(A&&B)o.bestW=(A.bestW>B.bestW||(A.bestW===B.bestW&&A.bestR<=B.bestR))?(o.bestR=A.bestR,A.bestW):(o.bestR=B.bestR,B.bestW);
+  else if(A){o.bestW=A.bestW;o.bestR=A.bestR}else if(B){o.bestW=B.bestW;o.bestR=B.bestR}
+  return o;
+}
+function carBatLine(o){
+  var outs=o.bi-o.no;
+  return{avg:outs>0?(o.r/outs).toFixed(1):(o.bi?'-':'-'),sr:o.b?(o.r/o.b*100).toFixed(1):'-'};
+}
+function carBest(o){return o.bowls?o.bestW+'/'+o.bestR:'-'}
+
+/* snapshot of the season for the manager's franchise */
+function carSeasonSummary(){
+  var Z=S.season;if(!Z)return null;
+  var tb=standings(),pos=tb.map(function(x){return x.id}).indexOf(S.me)+1,e=Z.table[S.me]||{p:0,w:0,l:0,pts:0},q=Z.plv&&Z.plv[S.me];
+  var nrr=0;tb.forEach(function(x){if(x.id===S.me)nrr=x.nrr});
+  var res,champ=Z.champ===S.me;
+  if(champ)res='Champions';
+  else if(q&&q.outAt==='Final'&&Z.champ)res='Runners-up';
+  else if(q&&q.out)res='Playoffs: out at '+String(q.outAt||'knockouts').split(' ·')[0];
+  else if(q)res='Playoffs';
+  else res='Missed the playoffs';
+  var xp=e.w*4+(q?30:0)+(champ?150:0)+(res==='Runners-up'?60:0)+Math.max(0,(S.teams.length-pos))*3;
+  var obj=!!q;
+  if(obj)xp+=40;
+  return{team:S.me,pos:pos,p:e.p,w:e.w,l:e.l,pts:e.pts,nrr:+nrr.toFixed(3),res:res,champ:champ,po:!!q,obj:obj,xp:xp,teams:S.teams.length,done:!!Z.champ};
+}
+var CAR_TITLES=['Rookie coach','Assistant coach','Head coach','Strategist','Mastermind','Franchise legend','Cricket icon'];
+function carLevel(xp){var lv=1+Math.floor(Math.sqrt(Math.max(0,xp)/60));return{lv:lv,title:CAR_TITLES[Math.min(CAR_TITLES.length-1,Math.floor((lv-1)*.8))],cur:Math.pow(lv-1,2)*60,next:Math.pow(lv,2)*60}}
+function carMgrTotals(){
+  var M=carLoad().mgr,t={s:M.seasons.length,w:0,l:0,titles:0,final:0,po:0,best:99};
+  M.seasons.forEach(function(x){t.w+=x.w;t.l+=x.l;if(x.champ)t.titles++;if(x.champ||x.res==='Runners-up')t.final++;if(x.po)t.po++;if(x.pos<t.best)t.best=x.pos});
+  return t;
+}
+function carAchievements(){
+  var M=carLoad().mgr,t=carMgrTotals(),ss=M.seasons,back=false;
+  for(var i=1;i<ss.length;i++)if(ss[i].champ&&ss[i-1].champ)back=true;
+  var best=0;ss.forEach(function(x){if(x.w>best)best=x.w});
+  return[
+    ['🎬','First season',t.s>=1,'Complete one season'],
+    ['🏆','Champion',t.titles>=1,'Win a title'],
+    ['🔁','Back-to-back',back,'Win titles in two seasons running'],
+    ['👑','Dynasty',t.titles>=3,'Win 3 titles'],
+    ['🎯','Playoff regular',t.po>=3,'Reach the playoffs 3 times'],
+    ['💯','100 wins',t.w>=100,'Win 100 matches as manager'],
+    ['🔥','Dominant season',best>=18,'Win 18 or more matches in a season'],
+    ['⭐','Level 5',carLevel(M.xp).lv>=5,'Reach manager level 5']
+  ];
+}
+
+/* rating changes between seasons */
+function carProgress(plrName,st){
+  var change=null;
+  S.teams.forEach(function(t){
+    t.squad.forEach(function(sq){
+      var p=sq.p,d=Math.round(gauss()*1.0+0.2);
+      if(p.rating>=90)d-=1;if(p.rating<60)d+=1;
+      if(plrName&&p.name===plrName){
+        var perf=0,bowler=p.role==='PACE'||p.role==='SPIN';
+        if(st){
+          if(!bowler){perf=st.r>=450?3:st.r>=300?2:st.r>=150?1:(st.m>=8&&st.r<70?-1:0)}
+          if(p.role==='AR'||bowler){var w=st.w>=18?3:st.w>=12?2:st.w>=7?1:0;perf=Math.max(perf,w)}
+          if(bowler&&st.m>=8&&st.w<3)perf=-1;
+        }
+        d=perf+(Math.random()<.35?1:0)-(p.rating>=92?1:0);
+        change={from:p.rating,to:Math.max(40,Math.min(99,p.rating+d))};
+        p.rating=change.to;return;
+      }
+      p.rating=Math.max(40,Math.min(99,p.rating+d));
+    });
+    delete t._rt;
+  });
+  return change;
+}
+function carFinish(){
+  var C=carLoad(),Z=S.season,sm=carSeasonSummary();
+  if(!Z||!sm||!sm.done){toast('Finish the playoffs first.');return}
+  var key=carKey();
+  if(C.logged[key]){toast('This season is already in your career.');return}
+  var no=carNo(),plr=C.plr.cur,pst=null;
+  if(plr){pst=carPlayerStats(plr.name,Z)}
+  var prog=carProgress(plr&&!plr.stage?plr.name:null,plr&&!plr.stage?pst:null);
+  var M=C.mgr;
+  M.seasons.push({no:no,team:sm.team,pos:sm.pos,w:sm.w,l:sm.l,pts:sm.pts,nrr:sm.nrr,res:sm.res,champ:sm.champ,po:sm.po,xp:sm.xp,fmt:fmtLabel()});
+  M.xp+=sm.xp;
+  var mr=carMgrRate(M,carMgrGain(sm.pos,sm.teams,sm.champ,sm.res==='Runners-up',sm.po,sm.w,sm.l));
+  if(plr&&plr.stage){
+    var fq2=carFind(plr.name);if(fq2)plr.team=fq2.team;
+    chLadder(plr,no,{iplStats:(pst&&pst.m)?pst:null,iplGames:pst&&pst.m||14,champ:sm.champ});
+    if(fq2)fq2.p.rating=plr.rating;
+  }else if(plr&&pst){
+    var fq=carFind(plr.name),rs=fq&&{p:fq.p};
+    plr.seasons.push({no:no,team:fq?fq.team:(plr.team||S.me),stats:pst,rFrom:prog?prog.from:null,rTo:prog?prog.to:null,champ:sm.champ});
+    try{carDomSeason(plr,no)}catch(e_){}
+    if(rs){plr.rating=rs.p.rating;plr.team=fq.team}
+  }
+  C.logged[key]=1;
+  S.carNo=no+1;S.season=null;
+  try{M.fo=carGenFOffers(sm)}catch(e_){M.fo=[]}
+  carSave();
+  toast('Season '+no+' saved to your career. '+((M.fo||[]).length?'New job offers have arrived.':'Season '+(no+1)+' is ready.'));
+  CSUB=CSUB||'mgr';paintCareer();
+}
+
+
+/* ===== Domestic teams in careers: District -> State -> Franchise pathway ===== */
+var DOM_STATES=['Andhra', 'Arunachal Pradesh', 'Assam', 'Baroda', 'Bengal', 'Bihar', 'Chandigarh', 'Chhattisgarh', 'Delhi', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Hyderabad', 'Jammu & Kashmir', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Mumbai', 'Nagaland', 'Odisha', 'Puducherry', 'Punjab', 'Railways', 'Rajasthan', 'Saurashtra', 'Services', 'Sikkim', 'Tamil Nadu', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'Vidarbha'];
+var DOM_DIST={'Andhra': ['Visakhapatnam', 'Vijayawada', 'Guntur', 'Tirupati', 'Kakinada', 'Nellore', 'Kurnool'], 'Arunachal Pradesh': ['Itanagar', 'Naharlagun', 'Pasighat'], 'Assam': ['Guwahati', 'Dibrugarh', 'Jorhat', 'Silchar', 'Tezpur'], 'Baroda': ['Vadodara', 'Anand', 'Bharuch'], 'Bengal': ['Kolkata', 'Howrah', 'Siliguri', 'Durgapur', 'Asansol', 'Kalyani'], 'Bihar': ['Patna', 'Gaya', 'Muzaffarpur', 'Bhagalpur'], 'Chandigarh': ['Chandigarh', 'Panchkula'], 'Chhattisgarh': ['Raipur', 'Bilaspur', 'Bhilai', 'Durg'], 'Delhi': ['New Delhi', 'Dwarka', 'Rohini', 'Najafgarh', 'Karol Bagh'], 'Goa': ['Panaji', 'Margao', 'Vasco', 'Mapusa'], 'Gujarat': ['Ahmedabad', 'Surat', 'Rajkot', 'Gandhinagar', 'Vadodara'], 'Haryana': ['Rohtak', 'Gurugram', 'Faridabad', 'Karnal', 'Hisar', 'Panipat', 'Ambala', 'Sonipat'], 'Himachal Pradesh': ['Dharamshala', 'Shimla', 'Una', 'Mandi', 'Solan', 'Kangra'], 'Hyderabad': ['Hyderabad', 'Secunderabad', 'Warangal', 'Karimnagar', 'Nizamabad'], 'Jammu & Kashmir': ['Jammu', 'Srinagar', 'Anantnag', 'Baramulla', 'Kathua'], 'Jharkhand': ['Ranchi', 'Jamshedpur', 'Dhanbad', 'Bokaro'], 'Karnataka': ['Bengaluru', 'Mysuru', 'Hubballi', 'Mangaluru', 'Belagavi', 'Shivamogga'], 'Kerala': ['Thiruvananthapuram', 'Kochi', 'Kozhikode', 'Thrissur', 'Kannur'], 'Madhya Pradesh': ['Indore', 'Bhopal', 'Gwalior', 'Jabalpur', 'Ujjain'], 'Maharashtra': ['Pune', 'Nagpur', 'Nashik', 'Kolhapur', 'Aurangabad', 'Solapur'], 'Manipur': ['Imphal', 'Thoubal'], 'Meghalaya': ['Shillong', 'Tura'], 'Mizoram': ['Aizawl', 'Lunglei'], 'Mumbai': ['Mumbai City', 'Thane', 'Navi Mumbai', 'Kalyan', 'Borivali'], 'Nagaland': ['Kohima', 'Dimapur'], 'Odisha': ['Bhubaneswar', 'Cuttack', 'Rourkela', 'Puri', 'Sambalpur'], 'Puducherry': ['Puducherry', 'Karaikal'], 'Punjab': ['Ludhiana', 'Amritsar', 'Jalandhar', 'Patiala', 'Bathinda', 'Mohali', 'Hoshiarpur', 'Pathankot', 'Sangrur', 'Moga', 'Ferozepur', 'Kapurthala'], 'Railways': ['Delhi Railways', 'Mumbai Railways', 'Chennai Railways', 'Kolkata Railways'], 'Rajasthan': ['Jaipur', 'Jodhpur', 'Udaipur', 'Kota', 'Ajmer', 'Bikaner'], 'Saurashtra': ['Rajkot', 'Jamnagar', 'Bhavnagar', 'Junagadh'], 'Services': ['Army', 'Navy', 'Air Force'], 'Sikkim': ['Gangtok', 'Namchi'], 'Tamil Nadu': ['Chennai', 'Coimbatore', 'Madurai', 'Tiruchirappalli', 'Salem', 'Tirunelveli'], 'Tripura': ['Agartala', 'Udaipur (Tripura)'], 'Uttar Pradesh': ['Lucknow', 'Kanpur', 'Varanasi', 'Noida', 'Agra', 'Meerut', 'Prayagraj', 'Ghaziabad'], 'Uttarakhand': ['Dehradun', 'Haldwani', 'Nainital', 'Haridwar', 'Rudrapur'], 'Vidarbha': ['Nagpur', 'Amravati', 'Akola', 'Wardha']};
+function domFrName(cur){try{return T(cur.team||S.me).name}catch(e){var t=chTeams().filter(function(x){return x.id===cur.team})[0];return t?t.name:(cur.team||'')}}
+function carDom(cur){if(!cur.dom)cur.dom={state:'Punjab',dist:'Ludhiana',seasons:[]};if(!cur.dom.seasons)cur.dom.seasons=[];return cur.dom}
+function domOpts(list,sel,none){return (none?'<option value="">'+none+'</option>':'')+list.map(function(x){return '<option value="'+esc(x)+'"'+(x===sel?' selected':'')+'>'+esc(x)+'</option>'}).join('')}
+var DOMX={'AUS': {'New South Wales': ['Sydney', 'Newcastle', 'Wollongong'], 'Victoria': ['Melbourne', 'Geelong'], 'Queensland': ['Brisbane', 'Gold Coast', 'Cairns'], 'South Australia': ['Adelaide'], 'Western Australia': ['Perth'], 'Tasmania': ['Hobart', 'Launceston']}, 'ENG': {'Surrey': ['London (Oval)'], 'Yorkshire': ['Leeds', 'Sheffield'], 'Lancashire': ['Manchester'], 'Warwickshire': ['Birmingham'], 'Nottinghamshire': ['Nottingham'], 'Hampshire': ['Southampton'], 'Essex': ['Chelmsford'], 'Kent': ['Canterbury'], 'Sussex': ['Hove'], 'Somerset': ['Taunton']}, 'SA': {'Gauteng': ['Johannesburg', 'Pretoria'], 'Western Province': ['Cape Town'], 'KwaZulu-Natal': ['Durban', 'Pietermaritzburg'], 'Eastern Cape': ['Gqeberha', 'East London'], 'Free State': ['Bloemfontein']}, 'NZ': {'Auckland': ['Auckland'], 'Canterbury': ['Christchurch'], 'Wellington': ['Wellington'], 'Otago': ['Dunedin'], 'Northern Districts': ['Hamilton', 'Tauranga'], 'Central Districts': ['Napier', 'Palmerston North']}, 'WI': {'Barbados': ['Bridgetown'], 'Jamaica': ['Kingston'], 'Trinidad & Tobago': ['Port of Spain'], 'Guyana': ['Georgetown'], 'Leeward Islands': ['St Kitts', 'Antigua'], 'Windward Islands': ['St Lucia', 'Grenada']}, 'PAK': {'Punjab': ['Lahore', 'Faisalabad', 'Multan', 'Rawalpindi'], 'Sindh': ['Karachi', 'Hyderabad'], 'Khyber Pakhtunkhwa': ['Peshawar'], 'Balochistan': ['Quetta'], 'Islamabad': ['Islamabad']}, 'AFG': {'Kabul Region': ['Kabul'], 'Kandahar Region': ['Kandahar'], 'Nangarhar Region': ['Jalalabad'], 'Balkh Region': ['Mazar-i-Sharif']}, 'SL': {'Western Province': ['Colombo', 'Negombo'], 'Central Province': ['Kandy'], 'Southern Province': ['Galle', 'Matara'], 'Northern Province': ['Jaffna']}, 'BAN': {'Dhaka Division': ['Dhaka'], 'Chattogram Division': ['Chattogram'], 'Khulna Division': ['Khulna'], 'Sylhet Division': ['Sylhet'], 'Rajshahi Division': ['Rajshahi']}, 'ZIM': {'Mashonaland': ['Harare'], 'Matabeleland': ['Bulawayo'], 'Manicaland': ['Mutare'], 'Midlands': ['Gweru']}, 'IRE': {'Leinster': ['Dublin'], 'Munster': ['Cork'], 'Northern Knights': ['Belfast'], 'North-West': ['Derry']}, 'SCO': {'East': ['Edinburgh'], 'West': ['Glasgow'], 'North': ['Aberdeen']}, 'NED': {'Noord-Holland': ['Amsterdam'], 'Zuid-Holland': ['Rotterdam', 'The Hague'], 'Utrecht': ['Utrecht']}, 'NEP': {'Bagmati': ['Kathmandu'], 'Gandaki': ['Pokhara'], 'Koshi': ['Biratnagar'], 'Lumbini': ['Butwal']}, 'USA': {'California': ['Los Angeles', 'San Francisco'], 'Texas': ['Dallas', 'Houston'], 'New York': ['New York City'], 'Florida': ['Fort Lauderdale', 'Orlando']}, 'CAN': {'Ontario': ['Toronto', 'Brampton'], 'British Columbia': ['Vancouver'], 'Alberta': ['Calgary'], 'Quebec': ['Montreal']}, 'ITA': {'Lazio': ['Rome'], 'Lombardy': ['Milan'], 'Tuscany': ['Florence']}, 'NAM': {'Khomas': ['Windhoek'], 'Erongo': ['Walvis Bay', 'Swakopmund']}, 'OMA': {'Muscat': ['Muscat'], 'Dhofar': ['Salalah'], 'Al Batinah': ['Sohar']}};
+/* ===== Named state leagues (Sher-e-Punjab T20 Cup, Delhi Premier League ...). States without one keep "<State> State League" ===== */
+var STATE_LEAGUES={'Punjab':'Sher-e-Punjab T20 League','Delhi':'Delhi Premier League','Tamil Nadu':'Tamil Nadu Premier League','Karnataka':'Maharaja Trophy T20','Maharashtra':'Maharashtra Premier League','Mumbai':'T20 Mumbai League','Uttar Pradesh':'UP T20 League','Uttarakhand':'Uttarakhand Premier League','Andhra':'Andhra Premier League','Kerala':'Kerala Cricket League','Bengal':'Bengal T20 League','Odisha':'Odisha T20 League (CM Trophy)','Saurashtra':'Saurashtra Pro T20 League','Madhya Pradesh':'MP Premier League','Assam':'Assam Premier League','Rajasthan':'Rajasthan Premier League'};
+var STATE_LEAGUE_TEAMS={
+'Punjab':['Amritsar Soormas','Bathinda Royals','Fazilka Falcons','Jalandhar Warriors','Ludhiana Lions','Mohali Kings'],
+'Delhi':['Purani Dilli 6','South Delhi Superstarz','Outer Delhi Warriors','East Delhi Riders','West Delhi Lions','North Delhi Strikers','Central Delhi Kings','New Delhi Tigers'],
+'Tamil Nadu':['Chepauk Super Gillies','Lyca Kovai Kings','Dindigul Dragons','Nellai Royal Kings','Salem Spartans','Siechem Madurai Panthers','Ruby Trichy Warriors','IDream Tiruppur Tamizhans'],
+'Karnataka':['Bengaluru Blasters','Gulbarga Mystics','Hubli Tigers','Mysuru Warriors','Mangaluru Dragons','Shivamogga Lions'],
+'Maharashtra':['Puneri Bappa','Ratnagiri Jets','Eagle Nashik Titans','Kolhapur Tuskers','Chhatrapati Sambhaji Kings','Raigad Royals'],
+'Uttar Pradesh':['Gorakhpur Lions','Kanpur Superstars','Lucknow Falcons','Meerut Mavericks','Noida Super Kings','Kashi Rudras'],
+'Kerala':['Aries Kollam Sailors','Kochi Blue Tigers','Trivandrum Royals','Calicut Globstars','Alleppey Ripples','Thrissur Titans'],
+'Mumbai':['Aakash Tigers MWS','ARCS Andheri','Bandra Blasters','Eagle Thane Strikers','MSC Maratha Royals','North Mumbai Panthers','SoBo Mumbai Falcons','Triumph Knights Mumbai North East'],
+'Andhra':['Simhadri Vizag Lions','Kakinada Kings','Capital Amaravati Royals','Vijayawada Sunshiners','Bhimavaram Bulls','Tungabhadra Warriors','Royals of Rayalaseema'],
+'Bengal':['Adamas Howrah Warriors','Novus Royals Purulia','Murshidabad Kings','Sobisco Smashers Malda','Shrachi Tribes Rarh Tigers','Servotech Siliguri Strikers','Rashmi Nes Medinipur Wizards','Kolkata Royal Tigers'],
+'Madhya Pradesh':['Bhopal Leopards','Bundelkhand Bulls','Chambal Ghariyals','Gwalior Cheetahs','Indore Pink Panthers','Jabalpur Royal Lions','Rewa Jaguars','Malwa Stallions','Ujjain Falcons','Royal Nimar Eagles'],
+'Saurashtra':['Anmol Kings Halar','Aryan Sorath Lions','Dita Gohilwad Titans','Zalawad Strikers','JMD Kutch Riders'],
+'Uttarakhand':['Dehradun Warriors','USN Indians','Haridwar Elmas','Tehri Titans','Rishikesh River Kings','Pithoragarh Hurricanes','Nainital Tigers'],
+'Odisha':['Bhubaneswar Tigers','Puri Titans','Keonjhar Miners','Rourkela Superstars','Sambalpur Warriors','Cuttack Panthers'],
+'Assam':['Jorhat Stallions','Tezpur Titans','Dibrugarh Warriors','Barak Legends','Nagaon Rangers','Barpeta Braves','Guwahati Royals','Charaideo Sunrisers'],
+'Rajasthan':['Bhilwara Bulls','Jodhpur Sunrisers','Jaipur Indians','Jaanbaaz Kota Challengers','Shekhawati Soldiers Sikar','Udaipur Lakecity Warriors']};
+var _LGT={};
+/* Internal franchises of a state league. Real franchise names where known; other leagues get simulator-made teams from the state's cities. */
+function domLeagueTeams(st){
+  if(_LGT[st])return _LGT[st];
+  var out;
+  if(STATE_LEAGUE_TEAMS[st])out=STATE_LEAGUE_TEAMS[st].slice();
+  else{
+    var cs=[];for(var k in DOMX){if(DOMX[k][st]){cs=DOMX[k][st];break}}if(!cs.length)cs=DOM_DIST[st]||[];
+    var nk=['Kings','Strikers','Titans','Warriors','Royals','Riders','Lions','Hawks'],pad=['North','South','East','West','Central','Capital'],i=0;
+    out=cs.slice(0,8).map(function(c,j){return c+' '+nk[j%nk.length]});
+    while(out.length<6){out.push(st+' '+pad[i%pad.length]+' '+nk[(i+3)%nk.length]);i++}
+  }
+  return _LGT[st]=out;
+}
+function domLg(d){return d.lgState||d.state||'State'}
+function domLeagueFr(d){
+  var lg=domLg(d),t=domLeagueTeams(lg);
+  if(!d.lfr||d.lfrSt!==lg||t.indexOf(d.lfr)<0){d.lfr=t[Math.floor(Math.random()*t.length)];d.lfrSt=lg}
+  return d.lfr;
+}
+function domLeagueName(st){return STATE_LEAGUES[st]||(st+' State League')}
+function domLeagueState(name){for(var k in STATE_LEAGUES)if(STATE_LEAGUES[k]===name)return k;return String(name).replace(/ State League$/,'')}
+function domStatesOf(c){return (c&&c!=='IND'&&DOMX[c])?Object.keys(DOMX[c]):DOM_STATES}
+function domCitiesOf(c,st){return (c&&c!=='IND'&&DOMX[c])?(DOMX[c][st]||[]):(DOM_DIST[st]||[])}
+function domDefault(c){if(!c||c==='IND'||!DOMX[c])return{state:'Punjab',dist:'Ludhiana'};var st=Object.keys(DOMX[c])[0];return{state:st,dist:DOMX[c][st][0]||''}}
+function chCountries(){var a=[];try{a=WC_TEAMS.map(function(x){return{id:x.id,name:x.name}})}catch(e){a=[{id:'IND',name:'India'}]}return a}
+function domCountryHtml(c,id){
+  var list=chCountries();if(!list.some(function(x){return x.id===c}))list.unshift({id:c,name:c});
+  return '<select id="'+id+'" style="padding:8px;border-radius:8px" title="Country he represents">'+list.map(function(x){return '<option value="'+esc(x.id)+'"'+(x.id===c?' selected':'')+'>🌍 '+esc(x.name)+'</option>'}).join('')+'</select>';
+}
+function domRefresh(c){
+  var st=$('carDomState'),dd=$('carDomDist');if(!st)return;var df=domDefault(c);
+  st.setAttribute('data-c',c);st.innerHTML=domOpts(domStatesOf(c),df.state);
+  if(dd)dd.innerHTML=domOpts(domCitiesOf(c,df.state),df.dist,'No city team');
+}
+function chSyncC(){
+  try{
+    var pk=$('chPick'),cs=$('chCountry');
+    if(pk&&cs&&pk.value){var p=chPool().filter(function(x){return x.name===pk.value})[0];if(p&&p.c&&cs.value!==p.c){if(!Array.prototype.some.call(cs.options,function(o){return o.value===p.c})){var o=document.createElement('option');o.value=p.c;o.textContent='🌍 '+p.c;cs.appendChild(o)}cs.value=p.c;domRefresh(p.c)}}
+    var ap=$('carPick'),ac=$('carCountry');
+    if(ap&&ac&&ap.value&&typeof S!=='undefined'&&S){var f=carFind(ap.value);if(f&&f.p.c&&ac.value!==f.p.c){if(!Array.prototype.some.call(ac.options,function(o){return o.value===f.p.c})){var o2=document.createElement('option');o2.value=f.p.c;o2.textContent='🌍 '+f.p.c;ac.appendChild(o2)}ac.value=f.p.c;domRefresh(f.p.c)}}
+  }catch(e){}
+}
+function domSelHtml(state,dist,c){
+  c=c||'IND';var sl=domStatesOf(c);if(sl.indexOf(state)<0)state=domDefault(c).state;
+  var cl=domCitiesOf(c,state);if(dist&&cl.indexOf(dist)<0)dist=cl[0]||'';
+  return '<select id="carDomState" data-c="'+esc(c)+'" style="padding:8px;border-radius:8px" title="State team">'+domOpts(sl,state)+'</select>'+
+    '<select id="carDomDist" style="padding:8px;border-radius:8px" title="City team">'+domOpts(cl,dist,'No city team')+'</select>'}
+function domPoisson(l){var L=Math.exp(-l),k=0,p=1;do{k++;p*=Math.random()}while(p>L&&k<12);return k-1}
+function domComp(plr,team,tier,m){
+  var r=plr.rating||plr.startRating||60,role=plr.role,o=carBlank();
+  var bat=(role==='BAT'||role==='WK')?r:role==='AR'?r*.8:r*.35;
+  var bowl=(role==='PACE'||role==='SPIN')?r:role==='AR'?r*.7:r*.1;
+  var avg=Math.max(4,6+bat*.3-({'State league':1,State:2,League:3,IPL:3,International:4}[tier]||0)),l=bowl/100*1.7;
+  o.m=m;
+  for(var i=0;i<m;i++){
+    var x=Math.min(145,Math.floor(-Math.log(1-Math.random())*avg)),w=0;
+    o.bi++;o.r+=x;o.b+=Math.max(1,Math.round(x/(1.1+Math.random()*.5)));if(x>o.hs)o.hs=x;if(x>=100)o.hundred++;else if(x>=50)o.fifty++;if(x===0)o.duck++;
+    if(bowl>30){o.bowls++;w=Math.min(5,domPoisson(l));var b=18+Math.floor(Math.random()*7);o.w+=w;o.bb+=b;o.br+=Math.round(b/6*(7+Math.random()*2.5));if(w>o.bestW){o.bestW=w;o.bestR=8+Math.floor(Math.random()*26)}}
+    if(w>=5)o.w5++;else if(w>=3)o.w3++;
+  }
+  return {team:team,tier:tier,stats:o};
+}
+function carDomSeason(plr,no){
+  var d=carDom(plr),a=[];
+  if(d.dist)a.push(domComp(plr,d.dist,'District',6+Math.floor(Math.random()*4)));
+  if(d.state)a.push(domComp(plr,d.state,'State',8+Math.floor(Math.random()*5)));
+  d.seasons.push({no:no,comps:a});
+}
+function carDomTotals(d){
+  var by={};
+  d.seasons.forEach(function(x){x.comps.forEach(function(c){var k=c.team+'|'+c.tier;if(!by[k])by[k]={team:c.team,tier:c.tier,st:carBlank()};by[k].st=carAdd(by[k].st,c.stats)})});
+  return Object.keys(by).map(function(k){return by[k]});
+}
+function carDomHtml(cur){
+  var d=carDom(cur),h='';
+  h+='<div class="card"><span class="k">Domestic pathway</span><p class="muted" style="margin:6px 0">Every season you finish, '+esc(cur.name)+' also plays domestic cricket for his city and state teams. Pick where he plays; you can change teams any time.</p>'+
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">'+domCountryHtml(cur.c||'IND','carCountry')+domSelHtml(d.state,d.dist,cur.c||'IND')+'<button id="carDomSave" class="btn primary" type="button">Save teams</button></div>'+
+    '<div class="comp" style="margin-top:10px">'+carBox('City',d.dist?esc(d.dist):'-')+carBox('State',d.state?esc(d.state):'-')+carBox('Franchise',esc(domFrName(cur)||'-'))+'</div>'+
+    '<div class="muted" style="font-size:12px;margin-top:6px">'+(d.dist?esc(d.dist)+' → ':'')+esc(d.state||'-')+' → '+esc(domFrName(cur))+'</div></div>';
+  var tot=carDomTotals(d);
+  h+='<h3 class="role-h">Domestic career by team</h3>';
+  if(!tot.length)h+='<div class="card"><p class="muted">No domestic seasons yet. Finish a season in the Manager tab to log his first domestic season.</p></div>';
+  else h+=carTbl(['Team','Level','M','Runs','HS','Avg','50s','Wkts','Best'],tot.map(function(t){var o=t.st,b=carBatLine(o);
+    return '<tr><td><b>'+esc(t.team)+'</b></td><td class="muted">'+t.tier+'</td><td class="mono">'+o.m+'</td><td class="mono">'+o.r+'</td><td class="mono">'+o.hs+'</td><td class="mono">'+b.avg+'</td><td class="mono">'+(o.fifty+o.hundred)+'</td><td class="mono">'+o.w+'</td><td class="mono">'+carBest(o)+'</td></tr>'}));
+  h+='<h3 class="role-h">Domestic season by season</h3>';
+  if(!d.seasons.length)h+='<div class="card"><p class="muted">Nothing logged yet.</p></div>';
+  else{var rows=[];d.seasons.slice().reverse().forEach(function(x){x.comps.forEach(function(c){var o=c.stats,b=carBatLine(o);
+    rows.push('<tr><td class="mono">'+x.no+'</td><td><b>'+esc(c.team)+'</b></td><td class="muted">'+c.tier+'</td><td class="mono">'+o.m+'</td><td class="mono">'+o.r+'</td><td class="mono">'+o.hs+'</td><td class="mono">'+b.avg+'</td><td class="mono">'+b.sr+'</td><td class="mono">'+o.w+'</td><td class="mono">'+carBest(o)+'</td></tr>')})});
+    h+=carTbl(['#','Team','Level','M','Runs','HS','Avg','SR','Wkts','Best'],rows)}
+  h+='<p class="muted" style="font-size:12px;margin-top:8px">Domestic figures are simulated from his rating and role, and are not real statistics.</p>';
+  return h;
+}
+
+/* ===== Career hub: choose or create a manager and a player and play career seasons, before, during or after an auction ===== */
+var CH='mgr',CHSRC='any',CHTF='ALL',CHQ='',CHPOOL=null;
+var CHTABS=[['mgr','🧑‍💼 Manager'],['hist','📅 Season history'],['ach','🏅 Achievements'],['plr','🏏 Player'],['dom','🏟️ Domestic teams'],['hof','🏛️ Hall of fame'],['pearn','💰 Player earnings'],['mearn','💰 Manager earnings'],['mkt','🛒 Manager market'],['pauc','🔨 Player auctions'],['shop','🛍️ Shop']];
+function chTeams(){try{return (typeof IPL_TEAMS!=='undefined'&&IPL_TEAMS.length)?IPL_TEAMS:TEAMS}catch(e){return TEAMS}}
+function chPool(){
+  if(!CHPOOL){try{CHPOOL=buildPool().map(function(p){return{name:p.name,role:p.role,rating:p.rating,c:p.c,team:(typeof P26!=='undefined'&&P26[p.name])||''}})}catch(e){CHPOOL=[]}}
+  return CHPOOL;
+}
+function chStrength(id){
+  var names=(typeof RET2026!=='undefined'&&RET2026[id])||[];
+  if(!names.length)return 60+((id.charCodeAt(0)*7+id.length*3)%9);
+  var by={};chPool().forEach(function(p){by[p.name]=p.rating});
+  var r=names.map(function(n){return by[n]||60}).sort(function(x,y){return y-x}).slice(0,14);
+  return r.reduce(function(a,x){return a+x},0)/r.length;
+}
+function chWin(a,b){return Math.random()<1/(1+Math.exp(-(a-b)/5))}
+function chNatStrength(id){
+  var r=chPool().filter(function(p){return p.c===id}).map(function(p){return p.rating}).sort(function(x,y){return y-x}).slice(0,14);
+  if(!r.length)return 58+((id.charCodeAt(0)*5+id.length*3)%8);
+  return r.reduce(function(a,x){return a+x},0)/r.length;
+}
+function chSimSeason(myId,idsIn,strFn,fx){
+  var ids=idsIn||chTeams().map(function(t){return t.id}),st={},G=14;strFn=strFn||chStrength;
+  ids.forEach(function(id){st[id]={id:id,w:0,l:0,pts:0,nrr:0,str:strFn(id),po:0,out:''}});
+  ids.forEach(function(id){for(var g=0;g<G;g++){var o;do{o=ids[Math.floor(Math.random()*ids.length)]}while(o===id);if(chWin(st[id].str,st[o].str))st[id].w++;else st[id].l++}
+    if(fx&&id===myId){st[id].w=fx.w;st[id].l=fx.l}
+    st[id].pts=st[id].w*2;st[id].nrr=(fx&&id===myId&&fx.nrr!=null)?fx.nrr:+(((st[id].w-st[id].l)*.07)+(Math.random()-.5)*.3).toFixed(3)});
+  var tb=ids.map(function(id){return st[id]}).sort(function(a,b){return b.pts-a.pts||b.nrr-a.nrr});
+  var top=tb.slice(0,4);top.forEach(function(x){x.po=1;x.out='Playoffs'});
+  function duel(a,b,lab){var w=chWin(a.str,b.str)?a:b,l=w===a?b:a;l.out='Playoffs: out at '+lab;l.po++;return w}
+  var f1=duel(top[0],top[3],'Semi-final'),f2=duel(top[1],top[2],'Semi-final'),ch=duel(f1,f2,'Final');
+  var ru=ch===f1?f2:f1;ru.out='Runners-up';ch.out='Champions';
+  var table=tb.map(function(x,i){return{id:x.id,w:x.w,l:x.l,pts:x.pts,nrr:x.nrr,pos:i+1,po:x.po,out:x.out||'Missed the playoffs'}});
+  var me=table.filter(function(x){return x.id===myId})[0]||null;
+  return{table:table,champ:ch.id,ru:ru.id,me:me,n:ids.length};
+}
+var CH_MSTAGES=[['city','🏙️ City team'],['league','🏆 State league'],['state','🏛️ State team'],['ipl','💰 IPL'],['intl','🌍 International']];
+function chHash(x){var h=0;for(var i=0;i<x.length;i++)h=(h*31+x.charCodeAt(i))%997;return h}
+function chShuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function chMStage(M){var k=CH_MSTAGES.map(function(x){return x[0]}).indexOf(M.stage||'city');return k<0?0:k}
+function chMSetup(M){
+  M.nat=M.nat||'IND';var sl=domStatesOf(M.nat);
+  if(sl.indexOf(M.state)<0){var df=domDefault(M.nat);M.state=df.state;M.dist=df.dist}
+  var cl=domCitiesOf(M.nat,M.state);if(M.dist&&cl.indexOf(M.dist)<0)M.dist=cl[0]||'';
+  if(!M.stage)M.stage='city';return M;
+}
+function chMTeamName(M,stage){
+  var k=stage==null?chMStage(M):stage;
+  return [M.dist||M.state,(M.lteam?M.lteam+' · ':'')+domLeagueName(M.state),M.state,M.team,null][k]||'';
+}
+function chLadderCtx(M){
+  chMSetup(M);var idx=chMStage(M),lv=carLevel(M.xp).lv,c=M.nat,state=M.state,my,ids,kind='txt',str;
+  function sx(id){var b=[50,54,58][idx]||55;return b+chHash(id)%9+(id===my?Math.min(6,lv*.6):0)+Math.random()*2}
+  if(idx===0){my=M.dist||state;var cs=domCitiesOf(c,state).slice();if(cs.indexOf(my)<0)cs.unshift(my);var n=cs.length;while(cs.length<8){n++;cs.push(state+' Club '+(cs.length+1))}ids=cs.slice(0,10);if(ids.indexOf(my)<0)ids[0]=my;str=sx}
+  else if(idx===1){var lt=domLeagueTeams(state);if(lt.indexOf(M.lteam)<0)M.lteam=lt[Math.floor(Math.random()*lt.length)];my=M.lteam;ids=lt.slice();str=sx}
+  else if(idx===2){my=state;ids=[my].concat(chShuf(domStatesOf(c).filter(function(x){return x!==state})).slice(0,9));str=sx}
+  else if(idx===3){ids=chTeams().map(function(t){return t.id});if(!M.team)M.team=chShuf(ids)[0];my=M.team;kind='';str=chStrength}
+  else{my=c;ids=chCountries().map(function(x){return x.id});kind='nat';str=chNatStrength}
+  while(ids.length<6)ids.push(state+' Side '+ids.length);
+  var Dm=chDiff(M),base0=str;str=function(id){return base0(id)+(id===my?chMBonus(M):Dm.opp)};
+  return{idx:idx,my:my,ids:ids,kind:kind,str:str,label:CH_MSTAGES[idx][1]};
+}
+
+
+/* ===== Career wallet strip: earnings, budget and shortcuts, visible on every tab ===== */
+function chStripPaint(){
+  var bar=$('modeBar');if(!bar)return;var el=$('careerStrip');
+  if(!el){el=document.createElement('div');el.id='careerStrip';el.style.cssText='display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0;padding:8px 12px;border-radius:10px;background:rgba(0,0,0,.06);font-size:13px';bar.parentNode.insertBefore(el,bar.nextSibling)}
+  var C=carLoad(),cur=C.plr&&C.plr.cur,M=C.mgr,parts=[];
+  if(cur&&cur.stage)parts.push('<span>🏏 <b>'+esc(cur.name)+'</b> · balance <b>'+money(Math.round(((cur.earn||0)-(cur.spent||0))*10)/10)+'</b></span>');
+  if(M&&!M.pend&&M.mIdx!=null)parts.push('<span>🧑‍💼 Manager budget <b>'+money(M.budget||0)+'</b></span>');
+  if(!parts.length)parts.push('<span class="muted">🛍️ Market &amp; shop: start a player or manager career to earn money to spend.</span>');
+  el.hidden=false;
+  el.innerHTML=parts.join('<span class="muted">·</span>')+'<span style="flex:1"></span><button class="btn" type="button" data-stripgo="pearn">💰 Player earnings</button><button class="btn" type="button" data-stripgo="mearn">💰 Manager earnings</button><button class="btn" type="button" data-stripgo="mkt">🛒 Manager market</button><button class="btn" type="button" data-stripgo="pauc">🔨 Player auctions</button><button class="btn" type="button" data-stripgo="shop">🛍️ Shop</button><button class="btn" type="button" data-stripgo="plr">🏆 Career</button>';
+}
+var _carSave0=carSave;carSave=function(){_carSave0();try{chStripPaint()}catch(e){}};
+document.addEventListener('click',function(e){
+  if(e.target&&e.target.closest&&e.target.closest('[data-drawerclose]')){var d0=$('careerDrawer');if(d0)d0.hidden=true;return}
+  var b=e.target&&e.target.closest?e.target.closest('[data-stripgo]'):null;if(!b)return;var k=b.getAttribute('data-stripgo'),dr=$('careerDrawer');
+  if(k==='plr'){CH='plr';if(dr)dr.hidden=true;menuGo('career');return}
+  if(!dr){dr=document.createElement('section');dr.id='careerDrawer';dr.className='page';dr.hidden=true;var st=$('careerStrip');st.parentNode.insertBefore(dr,st.nextSibling)}
+  if(!dr.hidden&&dr.getAttribute('data-k')===k){dr.hidden=true;return}
+  dr.setAttribute('data-k',k);dr.hidden=false;chPaint(dr)});
+/* the strip and drawer are not shown on the Career page itself, so Career never repeats inside Career */
+setInterval(function(){try{var ch=$('careerHome'),vc=$('view-career'),on=(ch&&!ch.hidden)||(vc&&!vc.hidden),st=$('careerStrip'),dr=$('careerDrawer');if(st)st.style.display=on?'none':'flex';if(dr&&on)dr.hidden=true}catch(e){}},300);
+setTimeout(function(){try{chStripPaint()}catch(e){}},300);
+
+/* ===== Shop: sports equipment, fitness, tech and lifestyle. Players spend earnings, managers spend the team budget ===== */
+var SHOP_CATS=[['equip','🏏 Sports equipment'],['fit','💪 Fitness &amp; coaching'],['tech','📱 Tech &amp; analysis'],['life','🚗 Lifestyle']];
+var SHOP=[
+ {id:'bat',c:'equip',n:'Pro willow bat',i:'🏏',p:3,f:.6,t:.5,d:'Better timing and power.'},
+ {id:'pads',c:'equip',n:'Pads &amp; gloves set',i:'🧤',p:2,f:.3,t:.3,d:'Protection and confidence.'},
+ {id:'shoes',c:'equip',n:'Spikes &amp; shoes',i:'👟',p:1.5,f:.3,t:.2,d:'Grip and speed between the wickets.'},
+ {id:'helmet',c:'equip',n:'Titanium helmet',i:'⛑️',p:1.5,f:.2,t:.2,d:'Safer against pace.'},
+ {id:'kit',c:'equip',n:'Bowling kit &amp; seam balls',i:'🔴',p:4,f:.5,t:.5,d:'Quality match balls for practice.'},
+ {id:'mach',c:'equip',n:'Bowling machine',i:'🎯',p:12,f:.8,t:1,d:'Unlimited batting practice.'},
+ {id:'nets',c:'equip',n:'Indoor practice nets',i:'🥅',p:35,f:1,t:1.5,d:'Practice in any weather.'},
+ {id:'trainer',c:'fit',n:'Personal trainer',i:'🏋️',p:8,f:.6,t:.6,d:'Strength and fitness.'},
+ {id:'gym',c:'fit',n:'Gym &amp; conditioning room',i:'💪',p:15,f:.6,t:.8,d:'Year-round conditioning.'},
+ {id:'physio',c:'fit',n:'Physio &amp; recovery',i:'🩺',p:12,f:.5,t:.6,d:'Fewer niggles, faster recovery.'},
+ {id:'nutri',c:'fit',n:'Nutritionist',i:'🥗',p:6,f:.4,t:.4,d:'Fuel for long seasons.'},
+ {id:'coach',c:'fit',n:'Specialist coach',i:'📋',p:30,f:1,t:1.2,d:'Technique work with an expert.'},
+ {id:'sw',c:'tech',n:'Video analysis software',i:'📊',p:5,f:.5,t:.8,d:'Study opponents and your own game.'},
+ {id:'mac',c:'tech',n:'MacBook Pro',i:'💻',p:2.5,f:.3,t:.4,d:'Edit and review match footage.',inc:.03},
+ {id:'band',c:'tech',n:'Smartwatch fitness tracker',i:'⌚',p:.5,f:.2,t:.2,d:'Track load, sleep and recovery.'},
+ {id:'sens',c:'tech',n:'Smart ball sensors',i:'📡',p:8,f:.4,t:.6,d:'Spin, seam and speed data.'},
+ {id:'iph',c:'tech',n:'iPhone',i:'📱',p:1.5,f:0,t:0,d:'Grows your social media following. Brands pay for it.',inc:.12,pers:1},
+ {id:'car',c:'life',n:'Luxury car',i:'🚗',p:60,f:0,t:0,d:'Status symbol. Attracts brand deals.',inc:.04,pers:1},
+ {id:'bike',c:'life',n:'Superbike',i:'🏍️',p:20,f:0,t:0,d:'Adds to your star image.',inc:.04,pers:1},
+ {id:'watch',c:'life',n:'Luxury watch',i:'⌚',p:25,f:0,t:0,d:'A collector&rsquo;s piece.',inc:.04,pers:1},
+ {id:'home',c:'life',n:'Apartment',i:'🏠',p:250,f:0,t:0,d:'Your own home. Steady brand appeal.',inc:.03,pers:1}];
+var SHOPW='';
+function shopItem(id){return SHOP.filter(function(x){return x.id===id})[0]}
+function chGearF(cur){return Math.min(3,(cur.gear||[]).reduce(function(a,id){var x=shopItem(id);return a+(x?x.f:0)},0))}
+function chEndorse(cur){return Math.round((cur.gear||[]).reduce(function(a,id){var x=shopItem(id);return a+(x&&x.inc?x.p*x.inc:0)},0)/5)*5}
+function chShopT(M){return Math.min(4,(M.mShop||[]).reduce(function(a,id){var x=shopItem(id);return a+(x?x.t:0)},0))}
+function chShopMul(M){return [.5,1,2,6,6][M.mIdx==null?0:M.mIdx]}
+function chShopPrice(x,who,M){return who==='mgr'?Math.max(1,Math.round(x.p*chShopMul(M)*10)/10):x.p}
+function chShopHtml(){
+  var C=carLoad(),cur=C.plr.cur&&C.plr.cur.stage?C.plr.cur:null,M=C.mgr,hasM=M&&!M.pend&&M.mIdx!=null;
+  if(!cur&&!hasM)return '<div class="card"><span class="k">🛍️ Shop</span><p class="muted">Start a player career or accept a manager job first. Players spend their earnings and managers spend the team budget.</p></div>';
+  if(SHOPW==='plr'&&!cur)SHOPW='';if(SHOPW==='mgr'&&!hasM)SHOPW='';if(!SHOPW)SHOPW=cur?'plr':'mgr';
+  var who=SHOPW,own=who==='plr'?(cur.gear=cur.gear||[]):(M.mShop=M.mShop||[]),wallet=who==='plr'?(cur.earn||0)-(cur.spent||0):(M.budget||0);
+  var h='<div class="card"><span class="k">🛍️ Shop</span> '+(cur&&hasM?'<button class="btn'+(who==='plr'?' primary':'')+'" type="button" data-shopwho="plr">🏏 Player</button> <button class="btn'+(who==='mgr'?' primary':'')+'" type="button" data-shopwho="mgr">🧑‍💼 Manager team</button> ':'')+
+   '<span class="pill">'+(who==='plr'?'Balance ':'Budget ')+money(Math.round(wallet*10)/10)+'</span> <span class="pill">'+(who==='plr'?'Form boost +'+chGearF(cur).toFixed(1)+(chEndorse(cur)?' · brand income '+money(chEndorse(cur))+'/season':''):'Team boost +'+chShopT(M).toFixed(1))+'</span>'+
+   '<p class="muted" style="margin:6px 0 0">'+(who==='plr'?'Spend your earnings. Equipment, coaching and tech raise his form and rating growth, while cars, watches, an iPhone and a home bring brand deals each season. Selling returns 60%.':'Spend the team budget on facilities and staff to strengthen the team in the season sim. They are sold off when you move up a level. Selling returns 60%.')+'</p></div>';
+  SHOP_CATS.forEach(function(cat){
+    var items=SHOP.filter(function(x){return x.c===cat[0]&&(who==='plr'||(!x.pers&&x.t>0))});if(!items.length)return;
+    h+='<div class="card" style="margin-top:12px"><span class="k">'+cat[1]+'</span>'+items.map(function(x){
+      var pr=chShopPrice(x,who,M),has=own.indexOf(x.id)>=0,can=!has&&wallet>=pr;
+      var eff=who==='plr'?(x.f?'+'+x.f+' form':'')+(x.inc?(x.f?' · ':'')+'brand income '+Math.round(x.inc*100)+'%/season':''):'+'+x.t+' team';
+      return '<div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:8px"><span>'+x.i+' <b>'+x.n+'</b><div class="muted" style="font-size:12px">'+x.d+(eff?' · '+eff:'')+'</div></span>'+
+       (has?'<button class="btn" type="button" data-shopsell="'+x.id+'">Owned · sell '+money(Math.round(pr*.6*10)/10)+'</button>':'<button class="btn'+(can?' primary':'')+'" type="button" data-shopbuy="'+x.id+'"'+(can?'':' disabled')+'>Buy '+money(pr)+'</button>')+'</div>'}).join('')+'</div>'});
+  return h;
+}
+/* ===== Manager player market: every level (city, state league, state, IPL, international) ===== */
+var MK_BASE=[100,300,800,12000,6000],MK_SCALE=[.08,.14,.25,.85,.85],MK_MAX=[4,5,6,8,8];
+var MK_FN=['Aarav','Rohan','Vikram','Kabir','Arjun','Dev','Harsh','Karan','Manav','Nikhil','Pranav','Rahul','Sahil','Tarun','Uday','Yash','Ishan','Gaurav','Mohit','Suresh'],MK_LN=['Sharma','Verma','Singh','Patel','Reddy','Nair','Iyer','Gill','Mehta','Yadav','Das','Roy','Khan','Joshi','Rao','Bhat','Kaur','Chauhan','Pillai','Thakur'],MK_ROLES=['BAT','WK','AR','PACE','SPIN'];
+function chMEnsure(M){
+  var idx=chMStage(M);
+  if(M.mIdx!==idx){
+    M.mSquad=[];M.mShop=[];M.budget=MK_BASE[idx];M.mIdx=idx;M.mkt=null;
+  }
+  var no=(M.seasons||[]).length+1;
+  if(!M.mkt||M.mkt.no!==no){
+    var list=[],R=Math.random;
+    if(idx>=3){
+      var pool=chPool().filter(function(p){return p.rating>=64&&!(M.mSquad||[]).some(function(q){return q.name===p.name})});
+      list=chShuf(pool).slice(0,14).map(function(p){return{name:p.name,role:p.role,rating:p.rating,from:p.team||'Free agent'}});
+    }else{
+      var lo=[44,52,58][idx],hi=[62,68,76][idx],ct=M.dist||M.state||'Local';
+      for(var i=0;i<14;i++){list.push({name:MK_FN[Math.floor(R()*MK_FN.length)]+' '+MK_LN[Math.floor(R()*MK_LN.length)],role:MK_ROLES[Math.floor(R()*5)],rating:lo+Math.floor(R()*(hi-lo+1)),from:idx===0?ct:(idx===1?(M.state||'State'):'Other states')})}
+    }
+    list.forEach(function(p){p.price=Math.max(5,Math.round(valueOf(p.rating)*MK_SCALE[idx]*(.85+R()*.3)/5)*5)});
+    list.sort(function(a,b){return b.rating-a.rating});
+    M.mkt={no:no,list:list};
+  }
+  return M;
+}
+function chMBonus(M){return Math.min(8,(M.mSquad||[]).reduce(function(a,p){return a+Math.max(0,(p.rating-55)/12)},0))+chShopT(M)}
+function chMSeasonIncome(M,champ,runner){chMEnsure(M);var i=M.mIdx;M.budget=(M.budget||0)+Math.round(MK_BASE[i]*(.45+(champ?.3:runner?.15:0)))}
+function chMMarketHtml(M){
+  if((M.mode||'ladder')!=='ladder'||M.pend)return '';
+  chMEnsure(M);var idx=M.mIdx,lab=CH_MSTAGES[idx][1],sq=M.mSquad||[];
+  var h='<div class="card" style="margin-top:12px"><span class="k">🛒 Player market · '+esc(lab)+'</span> <span class="pill">Budget '+money(M.budget||0)+'</span> <span class="pill">Squad boost +'+chMBonus(M).toFixed(1)+'</span>'+
+   '<p class="muted" style="margin:6px 0">Sign players to strengthen your team in the season sim, up to '+MK_MAX[idx]+' signings. The market is refreshed every season and your budget grows with results. Selling returns 70% of the price. Signings are released when you move to a new level.</p>';
+  if(sq.length)h+='<div style="margin-top:6px"><b>Your signings</b></div>'+sq.map(function(p,i){return '<div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:6px"><span><b>'+esc(p.name)+'</b> <span class="pill">'+esc(p.role)+'</span> · '+p.rating+' · bought '+money(p.price)+'</span><button class="btn" type="button" data-chmks="'+i+'">Sell for '+money(Math.round(p.price*.7))+'</button></div>'}).join('');
+  h+='<div style="margin-top:10px"><b>Available this season</b></div>';
+  if(!M.mkt.list.length)h+='<p class="muted">Everyone has been signed.</p>';
+  h+=M.mkt.list.map(function(p,i){var can=(M.budget||0)>=p.price&&sq.length<MK_MAX[idx];return '<div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:6px"><span><b>'+esc(p.name)+'</b> <span class="pill">'+esc(p.role)+'</span> · '+p.rating+' <span class="muted">('+esc(p.from)+')</span></span><button class="btn'+(can?' primary':'')+'" type="button" data-chmk="'+i+'"'+(can?'':' disabled')+'>Sign '+money(p.price)+'</button></div>'}).join('');
+  return h+'</div>';
+}
+function chMPathHtml(M){
+  var idx=chMStage(M);
+  return '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:8px 0">'+CH_MSTAGES.map(function(x,i){return '<span class="pill" style="'+(i===idx?'border:2px solid var(--accent);font-weight:800':i<idx?'':'opacity:.5')+'">'+(i<idx?'✅ ':i===idx?'▶ ':'')+x[1]+'</span>'}).join('<span class="muted">→</span>')+'</div>'+
+   (M.pend?'<div>Waiting for a job offer at the <b>'+CH_MSTAGES[idx][1].replace(/^\S+\s/,'')+'</b> level.</div>':'<div>Now managing <b>'+(idx===4?chTn(M.nat,'nat'):esc(chMTeamName(M)))+'</b> ('+CH_MSTAGES[idx][1].replace(/^\S+\s/,'')+')</div>')+
+   '<div class="muted" style="font-size:12px;margin-top:4px">'+(idx<4?'Next: '+CH_MSTAGES[idx+1][1]+'. Finish near the top of the table or win the title to be promoted.':'You have reached the top: you manage your country.')+'</div>';
+}
+function chPlay(fx){
+  var C=carLoad(),M=C.mgr,cur=C.plr.cur;if(M.pend){toast('Accept a job offer first (Manager tab).');return}var mode=M.mode||'ladder',nat=mode==='nat',lad=mode==='ladder',ctx=lad?chLadderCtx(M):null,team=lad?ctx.my:(nat?M.nat:(M.team||(cur&&cur.team))),kind=lad?ctx.kind:(nat?'nat':'');
+  if(!team){toast(nat?'Choose the country you manage first (Manager tab).':'Choose the franchise you manage first (Manager tab).');return}
+  if(fx&&fx.ids&&lad)ctx.ids=fx.ids;var no=M.seasons.length+1,R=lad?chSimSeason(team,ctx.ids,ctx.str,fx):nat?chSimSeason(team,chCountries().map(function(x){return x.id}),chNatStrength):chSimSeason(team),me=R.me;if(!me)return;
+  var champ=R.champ===team,runner=R.ru===team,po=me.po>0;
+  var xp=me.w*4+(po?70:0)+(champ?150:0)+(runner?60:0)+Math.max(0,R.n-me.pos)*3;xp=Math.round(xp*chDiff(M).xp);
+  M.seasons.push({no:no,team:team,pos:me.pos,w:me.w,l:me.l,pts:me.pts,nrr:me.nrr,res:champ?'Champions':runner?'Runners-up':me.out,champ:champ,po:po,xp:xp,fmt:lad?ctx.label.replace(/^\S+\s/,''):nat?'National team':'Career league',nat:nat,kind:kind});
+  var rStart=(fx&&M.live&&M.live.r0!=null)?M.live.r0:(M.rating==null?50:M.rating);if(!fx)carRateAdd(M,me.w*12+me.l*3);
+  delete M.live;M.xp+=xp;try{chMSeasonIncome(M,champ,runner)}catch(e_){}var mrt=carMrtRate0(M,me,R,champ,runner,po);if(!nat&&!lad)M.team=team;M.last={no:no,table:R.table,champ:R.champ,nat:nat,kind:kind,my:team};
+  var msg0=0;
+  var msg='Season '+no+': '+(kind?chTn(team,kind).replace(/<[^>]+>/g,''):team)+' finished #'+me.pos+(champ?' and won the title!':'.')+' Manager rating '+rStart+(mrt.to>rStart?' → '+mrt.to+' (+'+(mrt.to-rStart)+')':' (no change)')+'.';
+  var promoted=false;
+  if(lad&&ctx.idx<4&&(champ||runner||me.pos<=Math.max(1,Math.round(R.n*chDiff(M).pos)))){promoted=true;var from=CH_MSTAGES[ctx.idx][1].replace(/^\S+\s/,''),to=CH_MSTAGES[ctx.idx+1][1].replace(/^\S+\s/,'');M.stage=CH_MSTAGES[ctx.idx+1][0];(M.log=M.log||[]).push({no:no,text:'Promoted from '+from+' to '+to});msg+=' Promoted to '+to+'! Choose from the new job offers.';M.pend=true;M.offers=chGenStageOffers(M)}
+  if(lad&&!promoted){try{M.offers=chGenMgrOffers(M,ctx,R,me,champ,runner,promoted)}catch(e_){}}
+  if(cur&&cur.stage){var rw=R.table.filter(function(x){return x.id===cur.team})[0];var o2={iplGames:rw?rw.w+rw.l+rw.po:14,champ:R.champ===cur.team};if(cur.live&&cur.live.played>0){while(cur.live.played<cur.live.total)chPlayMatch(cur);o2.pre={stats:cur.live.stats,team:cur.live.team,tier:cur.live.tier,r0:cur.live.r0}}msg+=' '+chLadder(cur,no,o2);delete cur.live}
+  else if(cur){
+    var row=R.table.filter(function(x){return x.id===cur.team})[0],games=row?row.w+row.l+row.po:14;
+    var comp=domComp(cur,cur.team,'League',games),st=comp.stats,r0=cur.rating||cur.startRating,bowler=cur.role==='PACE'||cur.role==='SPIN',perf=0;
+    st.pom=Math.max(0,Math.round(Math.max(0,r0-62)/12*Math.random()*1.5));
+    if(!bowler)perf=st.r>=450?3:st.r>=300?2:st.r>=150?1:(st.m>=8&&st.r<70?-1:0);
+    if(cur.role==='AR'||bowler){var wk=st.w>=18?3:st.w>=12?2:st.w>=7?1:0;perf=Math.max(perf,wk)}
+    if(bowler&&st.m>=8&&st.w<3)perf=-1;
+    var r1=Math.max(40,Math.min(99,r0+perf+(Math.random()<.35?1:0)-(r0>=92?1:0)));
+    cur.rating=r1;cur.seasons.push({no:no,team:cur.team,stats:st,rFrom:r0,rTo:r1,champ:R.champ===cur.team});
+    try{carDomSeason(cur,no)}catch(e_){}
+    msg+=' '+cur.name+': '+st.r+' runs, '+st.w+' wkts.';
+  }
+  carSave();chPaint(chEl());toast(msg);
+}
+function chTn(id,nat){if(nat==='txt')return esc(id);if(nat){var w=chCountries().filter(function(x){return x.id===id})[0];return esc(w?w.name:id)}return chipTxt(id)}
+function chEl(){var e=$('view-career'),d=$('careerDrawer');if(d&&!d.hidden)return d;return (e&&!e.hidden)?e:$('careerHome')}
+function chTeamOpts(sel,none){return (none?'<option value="">'+none+'</option>':'')+chTeams().map(function(t){return '<option value="'+t.id+'"'+(t.id===sel?' selected':'')+'>'+esc(t.name)+'</option>'}).join('')}
+function chMgr(){
+  var C=carLoad(),M=C.mgr;
+  if(M.mode==='nat'||M.mode==='fr'){M.mode='ladder';M.stage=M.stage||'city';M.pend=true;M.offers=[]}
+  if(M.mode===undefined)M.mode='ladder';
+  if(M.pend===undefined)M.pend=M.seasons.length===0;
+  if(M.pend&&!(M.offers||[]).length){M.offers=chGenStageOffers(M);carSave()}
+  var lv=carLevel(M.xp),t=carMgrTotals();
+  var pct=Math.max(0,Math.min(100,Math.round((M.xp-lv.cur)/(lv.next-lv.cur)*100)));
+  var h='<div class="card"><span class="k">Manager</span><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0"><input id="carName" value="'+esc(M.name)+'" maxlength="24" style="font-size:18px;font-weight:700;padding:6px 10px;border-radius:8px;border:1px solid rgba(0,0,0,.2);min-width:200px"><span class="pill">Level '+lv.lv+' · '+esc(lv.title)+'</span><span class="pill">⭐ Manager rating '+(M.rating==null?50:M.rating)+'</span></div><div class="muted" style="font-size:12px">XP '+M.xp+' · next level at '+lv.next+'</div><div style="height:10px;border-radius:6px;background:rgba(0,0,0,.15);overflow:hidden;margin-top:4px"><div style="width:'+pct+'%;height:100%;background:linear-gradient(90deg,#f5a524,#e0541c)"></div></div>'+chRateHtml(M,50,'Manager rating')+chDiffHtml('chDiffM',M)+
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px">'+(M.pend?'<span class="muted">👇 Choose one of the job offers below to take charge of a team.</span>':'')+'<button id="chPlay" class="btn primary" type="button"'+(M.pend?' disabled':'')+'>⏩ Sim whole season</button></div>'+
+    '<div class="muted" style="font-size:12px;margin-top:6px">You do not choose your team: clubs and federations send you <b>job offers</b>. Start with a city team and work up: city team → state league → state team → IPL → international. Every promotion and every good season brings new offers. Franchise strength comes from the IPL 2026 squads; a country&rsquo;s strength from its best players.</div></div>'+
+    ((M.mode||'ladder')==='ladder'?'<div class="card"><span class="k">Career pathway</span>'+chMPathHtml(M)+((M.log||[]).length?'<ul style="margin:8px 0 0 18px">'+M.log.slice(-6).reverse().map(function(x){return '<li>Season '+x.no+': '+esc(x.text)+'</li>'}).join('')+'</ul>':'')+'</div>':'')+
+    chMLiveHtml(M)+chMOffersHtml(M)+chMMarketHtml(M)+
+    '<div class="comp">'+carBox('Seasons',t.s)+carBox('Titles','🏆 '+t.titles)+carBox('Finals',t.final)+carBox('Playoffs',t.po)+carBox('Record',t.w+'-'+t.l)+carBox('Win %',(t.w+t.l)?Math.round(t.w/(t.w+t.l)*100)+'%':'-')+carBox('Best finish',t.s?('#'+t.best):'-')+'</div>';
+  if(M.last){h+='<h3 class="role-h">Season '+M.last.no+' table</h3>'+carTbl(['#','Team','W-L','Pts','NRR','Result'],M.last.table.map(function(x){var nt=M.last.kind!==undefined?M.last.kind:(M.last.nat?'nat':'');return '<tr class="'+(x.id===M.last.my?'me':'')+'"><td class="mono">'+x.pos+'</td><td>'+chTn(x.id,nt)+(x.id===M.last.champ?' 🏆':'')+'</td><td class="mono">'+x.w+'-'+x.l+'</td><td class="mono">'+x.pts+'</td><td class="mono">'+(x.nrr>0?'+':'')+x.nrr+'</td><td class="muted">'+esc(x.out)+'</td></tr>'}))}
+  return h;
+}
+function chAnyList(){
+  var q=CHQ.toLowerCase(),a=chPool().filter(function(p){return (CHTF==='ALL'||(CHTF==='FA'?!p.team:p.team===CHTF))&&(!q||p.name.toLowerCase().indexOf(q)>=0)}).sort(function(x,y){return y.rating-x.rating}).slice(0,250);
+  return a.map(function(p){return '<option value="'+esc(p.name)+'">'+esc(p.name)+' — '+(p.team||'free agent')+' · '+p.role+' · '+p.rating+'</option>'}).join('')||'<option value="">No players match</option>';
+}
+function chStartHtml(){
+  var C=carLoad(),defT=C.mgr.team||'CSK',inp='padding:8px;border-radius:8px',row='display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px';
+  var dom=domCountryHtml('IND','chCountry')+domSelHtml('Punjab','Ludhiana','IND');
+  var src=[['any','🌐 Choose any player'],['new','✨ Create my own player']];
+  var h='<div class="card"><span class="k">Start a player career</span><p class="muted" style="margin:6px 0">No auction needed. Choose any player in the game or create your own. He starts at his <b>city team</b> and works up: city team → state league → state team → IPL → international. Pick his country and his city and state team. You do not choose his franchise: his name goes into the <b>IPL auction</b> and the franchise that buys him becomes his team. Then play matches in the Player tab.</p><div class="sbar" style="margin:8px 0">'+src.map(function(x){return '<button class="btn'+(CHSRC===x[0]?' primary':'')+'" type="button" data-chsrc="'+x[0]+'">'+x[1]+'</button>'}).join('')+'</div>';
+  if(CHSRC==='any'){
+    var tset={};chPool().forEach(function(p){if(p.team)tset[p.team]=1});
+    h+='<div style="'+row+'"><select id="chTF" style="'+inp+'"><option value="ALL">All players</option><option value="FA"'+(CHTF==='FA'?' selected':'')+'>Free agents</option>'+Object.keys(tset).sort().map(function(t){return '<option value="'+t+'"'+(CHTF===t?' selected':'')+'>'+t+'</option>'}).join('')+'</select><input id="chQ" placeholder="Search name" value="'+esc(CHQ)+'" style="'+inp+'"><select id="chPick" style="'+inp+';min-width:300px">'+chAnyList()+'</select></div>'+
+      '<div style="'+row+'">'+dom+'</div>';
+  }else{
+    h+='<div style="'+row+'"><input id="chNewName" maxlength="24" placeholder="Player name" style="'+inp+';min-width:200px"><select id="chNewRole" style="'+inp+'"><option value="BAT">Batter</option><option value="WK">Wicket-keeper</option><option value="AR">All-rounder</option><option value="PACE">Pace bowler</option><option value="SPIN">Spin bowler</option></select><label class="muted">Rating <input id="chNewRating" type="number" min="40" max="90" value="65" style="'+inp+';width:70px"></label></div>'+
+      '<div style="'+row+'">'+dom+'</div>';
+  }
+  return h+chDiffHtml('chDiffP0',{diff:CHDIFF0})+'<div style="margin-top:10px"><button id="chStart" class="btn primary" type="button">Start career</button></div></div>';
+}
+/* ===== Career player enters the IPL auction under his own name ===== */
+var _bpCar=buildPool;buildPool=function(){
+  var pool=_bpCar.apply(this,arguments);
+  try{
+    if(WC.on)return pool;
+    var cur=carLoad().plr.cur;
+    if(cur&&cur.name&&!pool.some(function(p){return p.name===cur.name})){
+      var r=cur.rating||cur.startRating||60,base=r>=85?200:r>=78?150:r>=70?100:r>=62?50:r>=55?30:20,c=cur.c||'IND';
+      pool.push({name:cur.name,c:c,role:cur.role||'BAT',base:base,rating:r,u:true,os:c!=='IND',gen:true,career:true,num:pool.length+1});
+    }
+  }catch(e){}
+  return pool;
+};
+function chAuctionSim(cur,no){
+  var r=cur.rating||cur.startRating||60,bidders=Math.max(0,Math.round((r-58)/4+Math.random()*3-1));
+  if(!bidders)return null;
+  var win=chShuf(chTeams().map(function(t){return t.id}))[0],price=Math.min(2700,Math.max(20,Math.round(valueOf(r)*(.55+Math.random()*.9)*(1+bidders*.03)/5)*5));
+  cur.team=win;(cur.log=cur.log||[]).push({no:no,text:'Sold to '+win+' for '+money(price)+' in the IPL auction ('+bidders+' bidder'+(bidders>1?'s':'')+')'});
+  return{team:win,price:price};
+}
+var _eaCar=endAuction;endAuction=function(){
+  var r=_eaCar.apply(this,arguments);
+  try{
+    var C=carLoad(),cur=C.plr.cur;
+    if(cur&&S&&S.teams&&!WC.on){
+      var found=null,price=0;
+      S.teams.forEach(function(t){(t.squad||[]).forEach(function(x){if(x.p&&x.p.name===cur.name){found=t.id;price=x.price}})});
+      if(found){cur.team=found;(cur.log=cur.log||[]).push({no:cur.seasons.length+1,text:'Bought by '+found+' for '+money(price)+' in the IPL auction'});carSave()}
+    }
+  }catch(e){}
+  return r;
+};
+
+/* ===== Auctions: state league, IPL and every overseas league hold one each season; the player chooses whether to enter ===== */
+function chAucDone(cur,k){return (cur.aucDone||{})[k]===cur.seasons.length}
+
+function chEarnHtml(cur){
+  if(!cur.stage)return '';
+  var ss=cur.seasons||[],tot=cur.earn||0,idx=chStageIdx(cur);
+  var h='<div class="card" style="margin-top:12px"><span class="k">💰 Earnings</span> <b style="font-size:20px">'+money(tot)+'</b> <span class="muted">career total</span> <span class="pill">Balance '+money(Math.round((tot-(cur.spent||0))*10)/10)+'</span>';
+  if(idx>=3&&cur.sal)h+='<div style="margin-top:6px">Current contract'+(cur.team?' with <b>'+chipTxt(cur.team)+'</b>':'')+': <b>'+money(cur.sal)+'</b> a season</div>';
+  else h+='<div class="muted" style="margin-top:6px">Pay at this level is small. Playing in the IPL (and winning auctions) is where the real money is.</div>';
+  var lg=(cur.leagues||[]).length;if(lg)h+='<div class="muted" style="font-size:12px;margin-top:4px">Overseas league fees count towards the total.</div>';
+  if(ss.length)h+=carTbl(['Season','Level','Team','Earned'],ss.slice().reverse().slice(0,12).map(function(x){var st=CH_STAGES.filter(function(y){return y[0]===x.stage})[0];return '<tr><td class="mono">'+x.no+'</td><td class="muted">'+(st?st[1].replace(/^\S+\s/,''):'')+'</td><td>'+esc(x.team||'')+'</td><td class="mono">'+money(x.earn||0)+'</td></tr>'}));
+  return h+'</div>';
+}
+function chAucPanelHtml(cur){
+  if(!cur.stage||!cur.seasons||!cur.seasons.length)return '';
+  var idx=chStageIdx(cur),d=carDom(cur),rows='';
+  function row(k,title,note,can){rows+='<div style="display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:8px"><div><b>'+title+'</b><div class="muted" style="font-size:12px">'+note+'</div></div>'+(can?(chAucDone(cur,k)?'<span class="pill">Entered this season</span>':'<button class="btn primary" type="button" data-chauc="'+k+'">Enter auction</button>'):'')+'</div>'}
+  if(idx>=1){row('state','🏆 '+esc(domLeagueName(domLg(d)))+' auction','Franchise now: '+esc(domLeagueFr(d))+'. Win a new franchise or keep the current one if unsold.',true);
+    var others=Object.keys(STATE_LEAGUE_TEAMS).filter(function(x){return x!==domLg(d)});if(d.state&&others.indexOf(d.state)<0&&domLg(d)!==d.state)others.unshift(d.state);
+    var sv=rows;rows='';others.forEach(function(x){row('lg:'+x,esc(domLeagueName(x))+' <span class="muted">('+esc(x)+')</span>','Different state league. Fewer bidders for an outsider, and he moves there if he wins.',true)});
+    rows=sv+'<details style="margin-top:10px"><summary style="cursor:pointer"><b>🗺️ Other state league auctions</b> <span class="muted" style="font-size:12px">('+others.length+')</span></summary>'+rows+'</details>'}
+  if(idx===2&&!cur.team)row('ipl','💰 IPL auction',cur.eligIpl?'He is eligible. Franchises bid, or he goes unsold and stays with his state team.':'Not eligible yet. Needs a strong season after enough seasons in the state team.',!!cur.eligIpl);
+  else if(idx>=3&&cur.team){var left=(cur.loyal==null?7:cur.loyal)-(cur.tt||0);row('ipl','💰 IPL auction',left<=0?'His contract with '+chipTxt(cur.team)+' has run out. Enter to sign a new deal, with them or a rival.':'Under contract with '+chipTxt(cur.team)+' for about '+left+' more season'+(left>1?'s':'')+'. He cannot enter before that.',left<=0)}
+  if(!rows)return '';
+  return '<div class="card" style="margin-top:12px"><span class="k">🔨 Auctions</span><p class="muted" style="margin:6px 0 0">Every league runs an auction each season. Entering is a gamble: more bidders for better players, and he can go unsold. Overseas leagues are in the T20 leagues panel below.</p>'+rows+'</div>';
+}
+function chAucRun(cur,kind){
+  var r=cur.rating||cur.startRating||60,R=Math.random,d=carDom(cur),no=cur.seasons.length,idx=chStageIdx(cur),teams,bid,price,lab,LG=null,mult;
+  cur.aucDone=cur.aucDone||{};cur.aucDone[kind]=no;
+  if(kind==='ipl'){teams=chTeams().map(function(t){return t.id});bid=Math.round((r-58)/4+R()*3-1);lab='IPL auction';mult=.55+R()*.9}
+  else if(kind==='state'||kind.indexOf('lg:')===0){var ts=kind==='state'?domLg(d):kind.slice(3);teams=domLeagueTeams(ts);bid=Math.round((r-44)/4+R()*3-1-(ts===domLg(d)||ts===d.state?0:1));lab=domLeagueName(ts)+' auction';mult=.05+R()*.1}
+  else{LG=chLeagueOf(kind);if(!LG)return '';teams=LG.teams;bid=Math.round((r-62)/4+R()*3-1);lab=LG.name+' auction';mult=.12+R()*.2}
+  var log=function(t){(cur.log=cur.log||[]).push({no:no,text:t})};
+  if(bid<=0){var m0='Went unsold in the '+lab+'.';log(m0);if(kind==='ipl'&&cur.team)cur.loyal=(cur.tt||0)+1;return cur.name+' '+m0.replace(/^Went/,'went')}
+  price=chRoundL(valueOf(r)*mult*(1+bid*.03));if(kind==='ipl')price=Math.min(2700,Math.max(20,price));
+  var win=teams[Math.floor(R()*teams.length)],txt;
+  if(kind==='ipl'){
+    if(win===cur.team){cur.loyal=(cur.tt||0)+1+Math.floor(R()*3);txt='Retained by '+win}
+    else{cur.team=win;cur.tt=0;cur.loyal=null;if(idx<3){cur.stage='ipl';cur.ten=0;cur.need=null}txt='Sold to '+win}
+  }else if(kind==='state'||kind.indexOf('lg:')===0){var ts2=kind==='state'?domLg(d):kind.slice(3);d.lgState=ts2===d.state?null:ts2;d.lfr=win;d.lfrSt=ts2;txt='Bought by '+win}
+  else{cur.leagues=cur.leagues||[];cur.lteam=cur.lteam||{};if(cur.leagues.indexOf(kind)<0)cur.leagues.push(kind);cur.lteam[kind]=win;txt='Signed by '+win}
+  if(kind==='ipl')cur.sal=price;else cur.earn=(cur.earn||0)+price;
+  var m=txt+' for '+money(price)+' in the '+lab+' ('+bid+' bidder'+(bid>1?'s':'')+').';log(m);return m;
+}
+/* ===== Overseas T20 leagues ===== */
+var CH_LEAGUES=[
+ {id:'BBL',name:'Big Bash League',flag:'🇦🇺',teams:['Sydney Sixers','Melbourne Stars','Perth Scorchers','Brisbane Heat','Adelaide Strikers','Hobart Hurricanes','Sydney Thunder','Melbourne Renegades']},
+ {id:'PSL',name:'Pakistan Super League',flag:'🇵🇰',teams:['Karachi Kings','Lahore Qalandars','Islamabad United','Multan Sultans','Peshawar Zalmi','Quetta Gladiators']},
+ {id:'CPL',name:'Caribbean Premier League',flag:'🌴',teams:['Trinbago Knight Riders','Barbados Royals','Guyana Amazon Warriors','Jamaica Tallawahs','St Lucia Kings','Antigua & Barbuda Falcons']},
+ {id:'SA20',name:'SA20',flag:'🇿🇦',teams:['MI Cape Town','Sunrisers Eastern Cape','Paarl Royals','Durban Super Giants','Joburg Super Kings','Pretoria Capitals']},
+ {id:'HUN',name:'The Hundred',flag:'🏴',teams:['London Spirit','Oval Invincibles','Manchester Originals','Northern Superchargers','Birmingham Phoenix','Welsh Fire','Southern Brave','Trent Rockets']},
+ {id:'ILT20',name:'ILT20 (UAE)',flag:'🇦🇪',teams:['Dubai Capitals','MI Emirates','Desert Vipers','Gulf Giants','Abu Dhabi Knight Riders','Sharjah Warriorz']},
+ {id:'BPL',name:'Bangladesh Premier League',flag:'🇧🇩',teams:['Dhaka Capitals','Rangpur Riders','Sylhet Strikers','Chattogram Challengers','Khulna Tigers','Fortune Barishal']},
+ {id:'LPL',name:'Lanka Premier League',flag:'🇱🇰',teams:['Colombo Strikers','Kandy Falcons','Galle Marvels','Dambulla Aura','Jaffna Kings']},
+ {id:'MLC',name:'Major League Cricket',flag:'🇺🇸',teams:['MI New York','San Francisco Unicorns','Texas Super Kings','Seattle Orcas','Washington Freedom','LA Knight Riders']}
+];
+function chLeagueOf(id){return CH_LEAGUES.filter(function(x){return x.id===id})[0]}
+function chLeaguesHtml(cur){
+  if(!cur.stage)return '';
+  var unlocked=chStageIdx(cur)>=3,mine=cur.leagues||[];
+  var h='<div class="card" style="margin-top:12px"><span class="k">🌍 International T20 leagues</span>';
+  if(!unlocked)return h+'<p class="muted" style="margin:6px 0 0">Unlocks once he is sold in the IPL auction and reaches the IPL. Then he can enter the auction of up to 3 overseas leagues.</p></div>';
+  h+='<p class="muted" style="margin:6px 0">Each league holds an auction every season. Enter one and a franchise may buy him, or he goes unsold. Once signed he plays its matches, and the runs and wickets count toward his career.</p><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px">'+
+   CH_LEAGUES.map(function(L){var on=mine.indexOf(L.id)>=0;return '<button class="btn'+(on?' primary':'')+'" type="button" data-chlg="'+L.id+'" style="text-align:left">'+L.flag+' <b>'+L.name+'</b><br><small>'+(on?'✅ '+esc((cur.lteam||{})[L.id]||'')+' · tap to leave':(chAucDone(cur,L.id)?'Entered this season':'Enter auction'))+'</small></button>'}).join('')+'</div></div>';
+  return h;
+}
+/* ===== Offers from teams: players get contract offers, managers get job offers ===== */
+function chOid(i){return 'o'+Date.now().toString(36)+i+Math.floor(Math.random()*1000)}
+function chRoundL(x){return Math.max(10,Math.round(x/5)*5)}
+function chGenPlayerOffers(cur,no){
+  var r=cur.rating||cur.startRating||60,idx=chStageIdx(cur),R=Math.random,out=[],d=carDom(cur),c=cur.c||'IND',k=0;
+  if(idx>=3){
+    var n=(cur.tt>=(cur.loyal==null?7:cur.loyal))?(r>=66?1:0)+(r>=76?1:0)+(R()<.5?1:0):0,ids=chShuf(chTeams().map(function(t){return t.id}).filter(function(x){return x!==cur.team}));
+    for(var i=0;i<n&&i<ids.length;i++)out.push({id:chOid(k++),type:'club',team:ids[i],price:chRoundL(valueOf(r)*(.6+R()*.9)),yrs:1+Math.floor(R()*3)});
+    var free=chShuf(CH_LEAGUES.filter(function(L){return (cur.leagues||[]).indexOf(L.id)<0})),m=(cur.leagues||[]).length<3?Math.min(free.length,r>=70?2:1):0;
+    for(var j=0;j<m;j++){var L=free[j];out.push({id:chOid(k++),type:'league',league:L.id,team:L.teams[Math.floor(R()*L.teams.length)],price:chRoundL(valueOf(r)*(.12+R()*.2)),yrs:1})}
+    if(idx===4){
+      var offered=out.map(function(o){return o.team}),weak=chTeams().map(function(t){return t.id}).filter(function(x){return x!==cur.team&&offered.indexOf(x)<0}).sort(function(a,b){return chStrength(a)-chStrength(b)}).slice(0,5);
+      if(weak.length)out.push({id:chOid(k++),type:'club',team:weak[Math.floor(R()*weak.length)],price:chRoundL(valueOf(r)*(.35+R()*.3)),yrs:1+Math.floor(R()*2),grade:'Lower grade'});
+      var sts2=domStatesOf(c).filter(function(x){return x!==d.state});
+      if(sts2.length&&R()<.7){var st2=sts2[Math.floor(R()*sts2.length)],cs2=domCitiesOf(c,st2);out.push({id:chOid(k++),type:'local',state:st2,dist:cs2[0]||'',price:chRoundL(8+r*.4),grade:'Lower grade'})}
+    }
+  }else if(R()<.75){
+    var sts=domStatesOf(c).filter(function(x){return x!==d.state});
+    if(sts.length){var st=sts[Math.floor(R()*sts.length)],cs=domCitiesOf(c,st);out.push({id:chOid(k++),type:'local',state:st,dist:cs[0]||'',price:chRoundL(8+r*.5)})}
+  }
+  return out.filter(function(o){return o.type!=='club'&&o.type!=='league'});
+}
+function chOfferText(cur,o){
+  var g=o.grade?' <span class="pill">'+esc(o.grade)+'</span>':'';
+  return chOfferText0(cur,o)+g;
+}
+function chOfferText0(cur,o){
+  if(o.type==='club')return '<b>'+chipTxt(o.team)+'</b> offer a '+o.yrs+'-year deal worth <b>'+money(o.price)+'</b> a season.';
+  if(o.type==='league')return '<b>'+esc(o.team)+'</b> ('+esc(o.league)+') want to sign him for <b>'+money(o.price)+'</b>.';
+  return '<b>'+esc(o.dist?o.dist+' · ':'')+esc(o.state)+'</b> want him in their squad for <b>'+money(o.price)+'</b>. Moving changes his city and state team.';
+}
+function chOffersHtml(cur){
+  var of=cur.offers||[];
+  var h='<div class="card" style="margin-top:12px"><span class="k">📨 Offers</span>'+(cur.earn?' <span class="muted">Career earnings '+money(cur.earn)+'</span>':'');
+  if(!of.length)return h+'<p class="muted" style="margin:6px 0 0">No offers right now. Teams send offers after each season, and strong seasons bring more.</p></div>';
+  return h+of.map(function(o){return '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:8px;padding:8px;border-radius:8px;background:rgba(0,0,0,.06)"><div>'+chOfferText(cur,o)+'</div><div><button class="btn primary" type="button" data-chof="accept" data-chwho="p" data-chid="'+o.id+'">Accept</button> <button class="btn" type="button" data-chof="decline" data-chwho="p" data-chid="'+o.id+'">Decline</button></div></div>'}).join('')+'</div>';
+}
+function chApplyPlayerOffer(cur,o,no){
+  if(o.type==='club'){cur.team=o.team;cur.tt=0;cur.loyal=null;cur.offers=(cur.offers||[]).filter(function(x){return x.type!=='club'});(cur.log=cur.log||[]).push({no:no,text:'Signed with '+o.team+' for '+money(o.price)+' a season'})}
+  else if(o.type==='league'){cur.leagues=cur.leagues||[];cur.lteam=cur.lteam||{};if(cur.leagues.indexOf(o.league)<0)cur.leagues.push(o.league);cur.lteam[o.league]=o.team;(cur.log=cur.log||[]).push({no:no,text:'Signed with '+o.team+' ('+o.league+')'})}
+  else{var d=carDom(cur);d.state=o.state;d.dist=o.dist;d.lgState=null;cur.offers=(cur.offers||[]).filter(function(x){return x.type!=='local'});(cur.log=cur.log||[]).push({no:no,text:'Moved to '+(o.dist?o.dist+' · ':'')+o.state})}
+  cur.earn=(cur.earn||0)+o.price;
+}
+function carMgrGain(pos,n,champ,runner,po,w,l){
+  var g=champ?5:runner?4:po?3:(pos<=Math.ceil(n/2)?2:(w>l?1:0));
+  if(!champ&&(w+l)&&w/(w+l)>=.7)g+=1;
+  return g;
+}
+function carMrtRate0(M,me,R,champ,runner,po){return carMgrRate(M,carMgrGain(me.pos,R.n,champ,runner,po,me.w,me.l))}
+function carMgrRate(M,gain){var r0=M.rating==null?50:M.rating;gain=gain>0?Math.max(1,Math.round(gain*chDiff(M).m)):0;if(r0>=90)gain=Math.min(gain,1);M.rating=Math.min(99,r0+gain);return{from:r0,to:M.rating}}
+function chIntlOffers(cur){
+  var all=chCountries().map(function(x){return x.id}).sort(function(a,b){return chNatStrength(b)-chNatStrength(a)}),n=all.length,rk={};all.forEach(function(id,i){rk[id]=i+1});
+  var t=Math.ceil(n/3),tiers=[['Top-tier',all.slice(0,t)],['Mid-tier',all.slice(t,2*t)],['Lower grade',all.slice(2*t)]],out=[];
+  tiers.forEach(function(g){var a=chShuf(g[1].filter(function(x){return x!==cur}));if(a.length)out.push({team:a[0],grade:g[0],rk:rk[a[0]],n:n})});
+  return out;
+}
+function chGenMgrOffers(M,ctx,R,me,champ,runner,promoted){
+  var out=[],k=0,Rn=Math.random,idx=ctx.idx,n=me.pos<=Math.ceil(R.n/2)?2:(Rn()<.6?1:0);
+  if(idx===4){
+    chIntlOffers(M.nat).forEach(function(x){out.push({id:chOid(k++),kind:'move',idx:4,team:x.team,grade:x.grade,rk:x.rk,n:x.n})});
+    if(Rn()<.7){var fr=chShuf(chTeams().map(function(t){return t.id}))[0];out.push({id:chOid(k++),kind:'down',idx:3,team:fr,grade:'Lower level'})}
+    return out;
+  }
+  var ids=chShuf(ctx.ids.filter(function(x){return x!==ctx.my&&!/ (Club|Side) \d+$/.test(x)}));
+  for(var i=0;i<n&&i<ids.length;i++)out.push({id:chOid(k++),kind:'move',idx:idx,team:ids[i],league:idx===1?domLeagueName(M.state):undefined});
+  if(!promoted&&idx<4&&(champ||runner||me.po>0)&&Rn()<(champ?1:.5)){
+    var t=idx+1===1?chShuf(domLeagueTeams(M.state))[0]:idx+1===2?M.state:idx+1===3?chShuf(chTeams().map(function(x){return x.id}))[0]:M.nat;
+    if(idx+1===4){chIntlOffers('').forEach(function(x){out.push({id:chOid(k++),kind:'up',idx:4,team:x.team,grade:x.grade,rk:x.rk,n:x.n})})}else out.push({id:chOid(k++),kind:'up',idx:idx+1,team:t,league:idx+1===1?domLeagueName(M.state):undefined});
+  }
+  return out;
+}
+function chGenStageOffers(M){
+  var idx=chMStage(M),out=[],k=0,c=M.nat||'IND';
+  function mk(team,extra){var o={id:chOid(k++),kind:'start',idx:idx,team:team};for(var q in extra)o[q]=extra[q];out.push(o)}
+  if(idx===0){
+    var cs=chShuf(chCountries().map(function(x){return x.id}).filter(function(x){return x==='IND'||DOMX[x]})),pick=['IND','IND'],seen={};
+    var other=cs.filter(function(x){return x!=='IND'})[0];if(other)pick.push(other);
+    pick.forEach(function(cc){var sts=chShuf(domStatesOf(cc)),st=sts[0],cl=domCitiesOf(cc,st),city=cl[Math.floor(Math.random()*cl.length)]||st,key=cc+st+city;if(seen[key])return;seen[key]=1;mk(city,{country:cc,state:st})});
+  }else if(idx===1){var sl1=[M.state].concat(chShuf(domStatesOf(c).filter(function(x){return x!==M.state})).slice(0,2));sl1.forEach(function(st){mk(chShuf(domLeagueTeams(st))[0],{state:st,league:domLeagueName(st)})})}
+  else if(idx===2){chShuf(domStatesOf(c)).slice(0,3).forEach(function(st){mk(st,{state:st})})}
+  else if(idx===3){chShuf(chTeams().map(function(t){return t.id})).slice(0,3).forEach(function(id){mk(id)})}
+  else{chIntlOffers('').forEach(function(x){mk(x.team,{grade:x.grade,rk:x.rk,n:x.n})})}
+  return out;
+}
+function chMOfferName(o){if(o.idx===0&&o.kind==='start'){var w=chCountries().filter(function(x){return x.id===o.country})[0];return '<b>'+esc(o.team)+'</b> <span class="muted">('+esc(o.state)+(w?', '+esc(w.name):'')+')</span>'}return (o.idx===4?chTn(o.team,'nat'):o.idx===3?chipTxt(o.team):'<b>'+esc(o.team)+'</b>')+(o.idx===1&&o.league?' <span class="muted">('+esc(o.league)+')</span>':'')+(o.grade?' <span class="pill">'+esc(o.grade)+(o.rk?' · #'+o.rk+' of '+o.n:'')+'</span>':'')}
+function chMOffersHtml(M){
+  if((M.mode||'ladder')!=='ladder')return '';
+  var of=M.offers||[];
+  var h='<div class="card" style="margin-top:12px"><span class="k">📨 Job offers</span>'+(M.pend?' <span class="muted">Pick one to take charge. You cannot play until you do.</span>':'');
+  if(!of.length)return h+'<p class="muted" style="margin:6px 0 0">No offers right now. Teams approach good managers after each season.</p></div>';
+  return h+of.map(function(o){var lab=CH_MSTAGES[o.idx][1].replace(/^\S+\s/,'');return '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:8px;padding:8px;border-radius:8px;background:rgba(0,0,0,.06)"><div>'+(o.kind==='up'?'🚀 <b>Head-hunted:</b> ':'')+chMOfferName(o)+' ('+esc(lab)+') '+(o.kind==='start'?'offer you the manager&rsquo;s job.':'want you as their manager.')+(o.kind==='up'?' This is a step up the ladder.':o.kind==='move'?' A move at the same level.':o.kind==='down'?' A step down the ladder.':'')+'</div><div><button class="btn primary" type="button" data-chof="accept" data-chwho="m" data-chid="'+o.id+'">Accept</button> <button class="btn" type="button" data-chof="decline" data-chwho="m" data-chid="'+o.id+'">Decline</button></div></div>'}).join('')+'</div>';
+}
+function chApplyMgrOffer(M,o,no){
+  var name=o.team;
+  if(o.kind==='down'){M.stage=CH_MSTAGES[o.idx][0];M.team=o.team;M.offers=[];(M.log=M.log||[]).push({no:no,text:'Stepped down to '+name+' ('+CH_MSTAGES[o.idx][1].replace(/^\S+\s/,'')+')'});return}
+  if(o.kind==='start'){
+    if(o.idx===0){M.nat=o.country;M.state=o.state;M.dist=o.team}
+    else if(o.idx===1){M.state=o.state;M.lteam=o.team}
+    else if(o.idx===2)M.state=o.state;
+    else if(o.idx===3)M.team=o.team;
+    else M.nat=o.team;
+    M.pend=false;M.offers=[];(M.log=M.log||[]).push({no:no,text:'Accepted the job at '+name+' ('+CH_MSTAGES[o.idx][1].replace(/^\S+\s/,'')+')'});return}
+  if(o.kind==='up'){M.stage=CH_MSTAGES[o.idx][0];if(o.idx===1)M.lteam=o.team;if(o.idx===3)M.team=o.team;if(o.idx===4)M.nat=o.team}
+  else if(o.idx===0)M.dist=o.team;
+  else if(o.idx===1)M.lteam=o.team;
+  else if(o.idx===2)M.state=o.team;
+  else if(o.idx===3)M.team=o.team;
+  else M.nat=o.team;
+  M.offers=[];(M.log=M.log||[]).push({no:no,text:(o.kind==='up'?'Head-hunted by ':'Moved to ')+name+' ('+CH_MSTAGES[o.idx][1].replace(/^\S+\s/,'')+')'});
+}
+/* ===== Career matches played with the same engine as Season and Kick-off (toss, XI, sim, replay, ball-by-ball, scoreboard) ===== */
+var CHS=null,CHSPREV=null,CHSOSXI=4;
+function chEnterS(teams,my){CHSPREV=S;CHSOSXI=OSXI;S={play:1,done:true,spectate:false,me:my,teams:teams,xm:[],px:{kick:[],tours:[],tourns:[],nid:1},lineups:{},roles:{},tab:'kick',sets:[],season:null,market:'real'};CHS=S;return S}
+function chLeaveS(){if(CHS){if(S===CHS)S=CHSPREV;OSXI=CHSOSXI}CHS=null;CHSPREV=null}
+var _mgCar=menuGo;menuGo=function(name){if(CHS&&name!=='career')chLeaveS();return _mgCar.apply(this,arguments)};
+function chCode(n,not){var c=String(n).replace(/ State League$/,'').replace(/[^A-Za-z]/g,'').slice(0,3).toUpperCase()||'XI';if(c===not)c=c.slice(0,2)+'2';return c}
+function chBuildTeams(cur,L,oid){
+  var idx=chStageIdx(cur),r=cur.rating||cur.startRating||60,c=cur.c||'IND';
+  var me={name:cur.name,c:c,role:cur.role||'BAT',base:20,rating:Math.round(r),u:true,os:false,gen:true,career:true,num:9000};
+  var mine,opp;
+  if(idx===3||idx===4){
+    var all=buildPlayTeams(idx===4?'wc':'ipl');
+    all.forEach(function(t){t.squad=t.squad.filter(function(q){return q.p.name!==cur.name})});
+    var myId=idx===4?c:cur.team;
+    mine=all.filter(function(t){return t.id===myId})[0];opp=all.filter(function(t){return t.id===oid})[0];
+    if(!mine||!opp)return null;
+    if(idx===3)me.os=c!=='IND';
+    var same=mine.squad.filter(function(q){return q.p.role===me.role}).sort(function(a,b){return a.p.rating-b.p.rating})[0];
+    if(same&&mine.squad.length>=15)mine.squad[mine.squad.indexOf(same)]={p:me,price:0};else mine.squad.push({p:me,price:0});
+  }else{
+    var pool=pxPool(false).filter(function(p){return p.gen&&!p.career&&p.name!==cur.name});
+    function mk(id,name,ground,extra){var sm=shuffle(pool.slice()).slice(0,45),sq=pxQuota(sm,15).map(function(p){return{p:p,price:0}});if(extra)sq[sq.length-1]={p:extra,price:0};
+      return{id:id,name:name,city:name,ground:ground,color:'#'+('00000'+Math.floor(Math.random()*0xffffff).toString(16)).slice(-6),purse:0,squad:sq,os:0,rtm:0,cap:30,agg:1,pers:'balanced',disc:1}}
+    var mc=chCode(L.team,''),oc=chCode(oid,mc);
+    mine=mk(mc,L.team,L.team+' Ground',me);opp=mk(oc,oid,oid+' Ground',null);
+    mine.squad=mine.squad.filter(function(q,i,a){return a.findIndex(function(z){return z.p.name===q.p.name})===i});
+  }
+  return{mine:mine,opp:opp};
+}
+function chStartFull(cur){
+  var L=chLive(cur);if(L.played>=L.total||(L.cm&&CHS))return;
+  var opps=chOppList(cur),oid=opps[Math.floor(Math.random()*opps.length)],tt=chBuildTeams(cur,L,oid);
+  if(!tt){toast('Could not set up that match. Use Quick match instead.');return}
+  var idx=chStageIdx(cur);OSXI=idx===4?XIN:4;
+  chEnterS([tt.mine,tt.opp],tt.mine.id);OSXI=idx===4?XIN:4;
+  var xi=defXI(tt.mine).map(function(p){return p.name});
+  if(xi.indexOf(cur.name)<0)xi[xi.length-1]=cur.name;
+  S.lineups[tt.mine.id]=xi;
+  var i=xmNew(tt.mine.id,tt.opp.id,false,'Career match '+(L.played+1),'20','home');
+  L.cm={i:i,my:tt.mine.id,opp:oid,oppId:tt.opp.id,seen:false};
+}
+function chExtract(m,name){
+  var o=carBlank(),has=false,C=cardOf(m),dnb=true,out=false,bat={x:0,balls:0,f:0,s:0};
+  C.inn.forEach(function(d){
+    d.bat.forEach(function(p){if(p.name!==name||!p.in)return;dnb=false;o.bi++;o.r+=p.r;o.b+=p.b;o.f+=p.f;o.s+=p.s;out=!!p.out;if(!p.out)o.no++;if(p.r>o.hs)o.hs=p.r;if(p.r>=100)o.hundred++;else if(p.r>=50)o.fifty++;if(p.out&&p.r===0)o.duck++;bat={x:p.r,balls:p.b,f:p.f,s:p.s}});
+    d.bowl.forEach(function(p){if(p.name!==name||!p.b)return;o.bb+=p.b;o.br+=p.r;o.w+=p.w;o.bowls++;if(!has||p.w>o.bestW||(p.w===o.bestW&&p.r<o.bestR)){o.bestW=p.w;o.bestR=p.r;has=true}if(p.w>=5)o.w5++;else if(p.w>=3)o.w3++});
+  });
+  o.m=1;if(C.pom&&C.pom.n===name)o.pom=1;
+  return{o:o,dnb:dnb,out:out,bat:bat};
+}
+function chRecordFull(cur){
+  var L=chLive(cur),cm=L.cm;if(!cm||!CHS)return false;
+  var m=S.xm[cm.i];if(!m||!m.done){toast('Play the match first (sim it, watch the replay or score the balls).');return false}
+  xDecide(m);var ex=chExtract(m,cur.name),o=ex.o,st=L.stats;
+  var A=carAdd(st,o);Object.keys(A).forEach(function(k){st[k]=A[k]});
+  var mine=(m.inn||[]).filter(function(x){return x.id===cm.my})[0]||{r:0},opp=(m.inn||[]).filter(function(x){return x.id===cm.oppId})[0]||{r:0};
+  var rec={n:L.played+1,opp:cm.opp,x:ex.bat.x,balls:ex.bat.balls,out:ex.out,dnb:ex.dnb,f:ex.bat.f,s:ex.bat.s,w:o.w,br:o.br,bb:o.bb,mine:mine.r,opps:opp.r,win:m.win===cm.my,pom:!!o.pom,full:true};
+  carRateAdd(cur,chPerfPts(rec.x,rec.w,rec.pom,rec.win,rec.dnb));
+  L.matches.push(rec);L.played++;delete L.cm;chLeaveS();return rec;
+}
+setInterval(function(){try{
+  if(!CHS||S!==CHS)return;var C=carLoad(),cur=C.plr.cur,L=cur&&cur.live,cm=L&&L.cm;if(!cm)return;
+  var m=S.xm[cm.i],d=!!(m&&m.done);if(d!==cm.seen){cm.seen=d;var h=document.getElementById('careerHome');if(h&&!h.hidden)chPaint(h)}
+}catch(e){}},700);
+function chFullHtml(cur,L){
+  if(!L||!L.cm)return '';
+  if(!CHS||S!==CHS){delete L.cm;return ''}
+  var m=S.xm[L.cm.i];if(!m)return '';
+  return '<div style="margin-top:10px"><span class="k">Career match '+(L.played+1)+' of '+L.total+'</span>'+xCard(L.cm.i,'Career match')+
+   '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button id="plrCont" class="btn primary" type="button"'+(m.done?'':' disabled')+'>✅ Continue &amp; record his stats</button><button id="plrCancel" class="btn" type="button">Cancel match</button></div>'+
+   '<div class="muted" style="font-size:12px;margin-top:4px">Set the toss, change the XI, sim the match, watch the replay or score every ball yourself. He is in your XI. After the match press Continue to add his runs and wickets to the season.</div></div>';
+}
+/* ===== Career player plays real matches, one at a time ===== */
+var CH_TIERS=['City','State league','State','IPL','International'],CH_NMATCH=[[6,9],[8,10],[8,11],[14,14],[8,14]];
+function chOppList(cur){
+  var idx=chStageIdx(cur),d=carDom(cur),c=cur.c||'IND',st=d.state,a=[];
+  if(idx===0){a=domCitiesOf(c,st).filter(function(x){return x!==d.dist});var n=0;while(a.length<5){n++;a.push(st+' Club '+n)}}
+  else if(idx===1){var fr0=domLeagueFr(d);a=domLeagueTeams(domLg(d)).filter(function(x){return x!==fr0})}
+  else if(idx===2)a=domStatesOf(c).filter(function(x){return x!==st});
+  else if(idx===3)a=chTeams().map(function(t){return t.id}).filter(function(x){return x!==cur.team});
+  else a=chCountries().map(function(x){return x.id}).filter(function(x){return x!==c});
+  return a;
+}
+function chOppName(cur,id){var i=chStageIdx(cur);return i===3?chipTxt(id):i===4?chTn(id,'nat'):esc(id)}
+function chLive(cur){
+  if(cur.live&&cur.live.idx===chStageIdx(cur))return cur.live;
+  var i=chStageIdx(cur),r=CH_NMATCH[i],no=cur.seasons.length+1;
+  cur.live={r0:cur.rating||cur.startRating,idx:i,no:no,tier:CH_TIERS[i],team:chStageTeam(cur),total:r[0]+Math.floor(Math.random()*(r[1]-r[0]+1)),played:0,stats:carBlank(),matches:[]};
+  return cur.live;
+}
+function chPlayMatch(cur){
+  var L=chLive(cur);if(L.played>=L.total)return null;
+  var R=Math.random,r=cur.rating||cur.startRating||60,role=cur.role,pen=L.idx;
+  var bat=(role==='BAT'||role==='WK')?r:role==='AR'?r*.8:r*.35,bowl=(role==='PACE'||role==='SPIN')?r:role==='AR'?r*.7:r*.1;
+  var avg=Math.max(4,6+bat*.3-[0,1,2,3,4][pen]-chDiff(cur).q),lam=bowl/100*1.7;
+  var x=Math.min(145,Math.floor(-Math.log(1-R())*avg)),balls=Math.max(1,Math.round(x/(1.1+R()*.5))),out=R()<.8||x===0;
+  var f=Math.min(Math.floor(x*.55/4),Math.round(x*.5/4*(.6+R()*.8))),sx=Math.min(Math.floor((x-f*4)/6),Math.round(x*.2/6*(.4+R()*1.2)));
+  var ov=0,br=0,w=0,bb=0;
+  if(bowl>30){bb=18+Math.floor(R()*7);w=Math.min(5,domPoisson(lam));br=Math.max(w*4,Math.round(bb/6*(7+R()*2.5)))}
+  var mine=x+Math.round(98+(r-60)*.5+(R()-.5)*50),opp=Math.round(122+(R()-.5)*60+pen*3-w*6-(br?0:0));
+  var win=mine>opp?true:mine<opp?false:R()<.5;
+  var pom=(win&&(x>=50||w>=3)&&R()<.7)||((x>=80||w>=4)&&R()<.5);
+  var o=L.stats;o.m++;o.bi++;o.r+=x;o.b+=balls;o.f+=f;o.s+=sx;if(!out)o.no++;if(x>o.hs)o.hs=x;if(x>=100)o.hundred++;else if(x>=50)o.fifty++;if(x===0)o.duck++;
+  if(bb){o.bowls++;o.bb+=bb;o.br+=br;o.w+=w;if(w>o.bestW||(w===o.bestW&&br<o.bestR)){o.bestW=w;o.bestR=br}if(w>=5)o.w5++;else if(w>=3)o.w3++}
+  if(pom)o.pom++;
+  var opps=chOppList(cur),oid=opps[Math.floor(R()*opps.length)];
+  var m={n:L.played+1,opp:oid,x:x,balls:balls,out:out,f:f,s:sx,w:w,br:br,bb:bb,mine:mine,opps:opp,win:win,pom:pom};
+  carRateAdd(cur,chPerfPts(x,w,pom,win,false));
+  L.matches.push(m);L.played++;return m;
+}
+function chMatchLine(cur,m){
+  return '<b>'+(m.win?'✅ Won':'❌ Lost')+'</b> vs '+chOppName(cur,m.opp)+' · '+m.mine+' vs '+m.opps+(m.dnb?' · did not bat':' · batted <b>'+m.x+(m.out?'':'*')+'</b> ('+m.balls+') '+m.f+'x4 '+m.s+'x6')+(m.bb?' · bowled <b>'+m.w+'/'+m.br+'</b> ('+ov(m.bb)+' ov)':'')+(m.pom?' · 🏅 Player of the Match':'');
+}
+function chFinishPlayerSeason(cur,champ){
+  var L=chLive(cur);while(L.played<L.total)chPlayMatch(cur);
+  var no=cur.seasons.length+1,msg=chLadder(cur,no,{pre:{stats:L.stats,team:L.team,tier:L.tier,r0:L.r0},iplGames:L.total,champ:!!champ});
+  delete cur.live;return msg;
+}
+function chLiveHtml(cur){
+  if(!cur.stage)return '';
+  var i=chStageIdx(cur),L=cur.live&&cur.live.idx===i?cur.live:null,tot=L?L.total:null,pl=L?L.played:0,done=L&&pl>=tot;
+  var h='<div class="card" style="margin-top:12px"><span class="k">Season '+(cur.seasons.length+1)+' · '+CH_STAGES[i][1]+' · '+esc(L?L.team:chStageTeam(cur))+'</span>'+
+   '<div style="margin:6px 0">'+(L?'Match <b>'+pl+'</b> of <b>'+tot+'</b> played':'Season not started: <b>'+CH_NMATCH[i][0]+'–'+CH_NMATCH[i][1]+'</b> matches')+'</div>'+
+   '<div style="display:flex;gap:8px;flex-wrap:wrap">'+
+   (done||(L&&L.cm)?'':'<button id="plrFull" class="btn primary" type="button">🎮 Play next match</button><button id="plrMatch" class="btn" type="button">⚡ Quick match</button><button id="plrSim" class="btn" type="button">⏩ Sim rest &amp; finish season</button>')+
+   (done?'<button id="plrFinish" class="btn primary" type="button">🏁 Finish season</button>':'')+'</div>'+chFullHtml(cur,L);
+  if(L&&L.matches.length){
+    var s=L.stats,b=carBatLine(s);
+    h+='<div class="comp" style="margin-top:10px">'+carBox('Runs',s.r)+carBox('HS',s.hs)+carBox('Avg',b.avg)+carBox('SR',b.sr)+carBox('Wkts',s.w)+carBox('POM',s.pom)+'</div>'+
+     '<div style="margin-top:8px;padding:8px;border-radius:8px;background:rgba(0,0,0,.06)">Last match: '+chMatchLine(cur,L.matches[L.matches.length-1])+'</div>'+
+     '<div class="scroll" style="max-height:260px;overflow:auto;margin-top:8px">'+carTbl(['#','Opponent','Result','Bat','Bowl'],L.matches.slice().reverse().map(function(m){return '<tr><td class="mono">'+m.n+'</td><td>'+chOppName(cur,m.opp)+'</td><td>'+(m.win?'✅ W':'❌ L')+' <span class="muted">'+m.mine+'-'+m.opps+'</span>'+(m.pom?' 🏅':'')+'</td><td class="mono">'+(m.dnb?'DNB':m.x+(m.out?'':'*')+' ('+m.balls+')')+'</td><td class="mono">'+(m.bb?m.w+'/'+m.br:'-')+'</td></tr>'}))+'</div>';
+  }
+  return h+'<div class="muted" style="font-size:12px;margin-top:6px">Each match your player bats (and bowls if he is a bowler or all-rounder). Finish the season to see whether he is selected for the next level.</div></div>';
+}
+function chPlr(){
+  var C=carLoad(),cur=C.plr.cur;
+  if(!cur)return chStartHtml();
+  var tot=cur.seasons.reduce(function(a,x){return carAdd(a,x.stats)},carBlank()),bl=carBatLine(tot),d=carDom(cur);
+  var h='<div class="card"><span class="k">Career player</span><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0"><b style="font-size:22px">'+esc(cur.name)+'</b><span class="pill">'+esc(cur.role)+'</span><span class="pill">'+(cur.team?chipTxt(cur.team):'🔨 Not sold in an auction yet')+'</span><span class="pill">🏟️ '+esc((d.dist?d.dist+' · ':'')+d.state)+'</span>'+'<span class="pill">🌍 '+esc(chNation(cur))+'</span>'+(cur.stage?'<span class="pill">'+CH_STAGES[chStageIdx(cur)][1]+'</span>':'')+'</div><div class="comp">'+carBox('Rating',cur.rating||cur.startRating)+carBox('Started at',cur.startRating)+carBox('Seasons',cur.seasons.length)+carBox('Matches',tot.m)+carBox('Player of the Match',tot.pom)+'</div>'+chRateHtml(cur,cur.startRating,'Player rating')+chDiffHtml('chDiffP',cur)+'</div>'+chPathHtml(cur);
+  h+=chAucPanelHtml(cur);
+  h+=chEarnHtml(cur);
+  h+=chOffersHtml(cur);
+  h+=chLeaguesHtml(cur);
+  h+=chLiveHtml(cur);
+  h+='<h3 class="role-h">Career batting</h3>'+carTbl(['M','Inns','Runs','HS','Avg','SR','50s','100s'],['<tr><td class="mono">'+tot.m+'</td><td class="mono">'+tot.bi+'</td><td class="mono"><b>'+tot.r+'</b></td><td class="mono">'+tot.hs+'</td><td class="mono">'+bl.avg+'</td><td class="mono">'+bl.sr+'</td><td class="mono">'+tot.fifty+'</td><td class="mono">'+tot.hundred+'</td></tr>']);
+  h+='<h3 class="role-h">Career bowling</h3>'+carTbl(['Wkts','Overs','Runs','Econ','Best','3W','5W'],['<tr><td class="mono"><b>'+tot.w+'</b></td><td class="mono">'+ov(tot.bb)+'</td><td class="mono">'+tot.br+'</td><td class="mono">'+(tot.bb?(tot.br/tot.bb*6).toFixed(2):'-')+'</td><td class="mono">'+carBest(tot)+'</td><td class="mono">'+tot.w3+'</td><td class="mono">'+tot.w5+'</td></tr>']);
+  if(cur.seasons.length)h+='<h3 class="role-h">Season by season</h3>'+carTbl(['#','Team','M','Runs','Wkts','POM','Rating'],cur.seasons.slice().reverse().map(function(x){var o=x.stats;return '<tr><td class="mono">'+x.no+'</td><td>'+chipTxt(x.team)+(x.champ?' 🏆':'')+'</td><td class="mono">'+o.m+'</td><td class="mono">'+o.r+'</td><td class="mono">'+o.w+'</td><td class="mono">'+o.pom+'</td><td class="mono">'+(x.rFrom!=null?x.rFrom+' → '+x.rTo:'-')+'</td></tr>'}));
+  return h+'<div style="margin-top:14px"><button id="chRetire" class="btn" type="button">Retire &amp; pick a new player</button></div>';
+}
+function chBody(){
+  var C=carLoad(),cur=C.plr.cur;
+  if(CH==='mgr')return chMgr();
+  if(CH==='hist')return carHistHtml();
+  if(CH==='ach')return carAchHtml();
+  if(CH==='plr')return chPlr();
+  if(CH==='dom')return cur?carDomHtml(cur):'<div class="card"><p class="muted">Start a player career first (Player tab) to pick his city and state teams.</p></div>';
+  if(CH==='shop')return chShopHtml();
+  if(CH==='pearn')return cur?chEarnHtml(cur):'<div class="card"><span class="k">💰 Player earnings</span><p class="muted">Start a player career (Player tab) to earn money.</p></div>';
+  if(CH==='mearn'){var Me=C.mgr;if(!(Me&&!Me.pend&&Me.mIdx!=null))return '<div class="card"><span class="k">💰 Manager earnings</span><p class="muted">Accept a manager job offer (Manager tab) to get a team budget.</p></div>';
+    return '<div class="card"><span class="k">💰 Manager earnings</span> <b style="font-size:20px">'+money(Me.budget||0)+'</b> <span class="muted">team budget at '+esc(CH_MSTAGES[Me.mIdx][1].replace(/^\S+\s/,''))+' level</span><div class="muted" style="margin-top:6px">Budget grows after every season ('+Math.round(MK_BASE[Me.mIdx]*.45/MK_BASE[Me.mIdx]*100)+'% of the level base, more for a title or final). Signings: '+(Me.mSquad||[]).length+' · facilities: '+(Me.mShop||[]).length+'.</div></div>'}
+  if(CH==='mkt')return chMMarketHtml(C.mgr)||'<div class="card"><span class="k">🛒 Manager market</span><p class="muted">Accept a manager job offer (Manager tab) to open the player market.</p></div>';
+  if(CH==='pauc')return cur?((chAucPanelHtml(cur)||'<div class="card"><span class="k">🔨 Player auctions</span><p class="muted">Finish a season with your player first. Auctions open after his first season.</p></div>')+chLeaguesHtml(cur)):'<div class="card"><span class="k">🔨 Player auctions</span><p class="muted">Start a player career (Player tab) first.</p></div>';
+  if(CH==='hof')return (C.plr.retired.length?carHofHtml(C.plr):'<div class="card"><p class="muted">No retired players yet.</p></div>')+chMgrHistHtml();
+  return '';
+}
+function chPaint(el){
+  el=el&&el.nodeType?el:$('careerHome');if(!el)return;
+  if(el.id==='careerDrawer'){var k=el.getAttribute('data-k')||CH,old=CH;CH=k;var b=chBody();CH=old;el.innerHTML='<div class="chub"><div style="display:flex;justify-content:flex-end"><button class="btn" type="button" data-drawerclose="1">✕ Close</button></div><div class="ctab-body">'+b+'</div></div>';return}
+  el.innerHTML='<div class="chub"><h2>Career</h2><p class="muted">Your manager and player careers, saved on this device. Works before, during and after an auction.</p>'+chNewBar()+'<div class="ctabs" role="tablist" aria-label="Career sections">'+CHTABS.map(function(t){return '<button class="ctab" role="tab" type="button" data-chsub="'+t[0]+'" aria-selected="'+(CH===t[0])+'">'+t[1]+'</button>'}).join('')+'</div><div class="ctab-body">'+chBody()+'</div></div>';
+}
+
+/* ===== Manager plays his season match by match with the same engine as Season (toss, XI, sim, replay, ball-by-ball, scoreboard) ===== */
+function chMLive(M,ctx){
+  var L=M.live;if(L&&L.idx===ctx.idx&&L.team===ctx.my)return L;
+  var others=chShuf(ctx.ids.filter(function(x){return x!==ctx.my})),fix=[],G=14;
+  for(var g=0;g<G;g++)fix.push(others[g%others.length]);
+  M.live=L={r0:M.rating==null?50:M.rating,idx:ctx.idx,no:M.seasons.length+1,team:ctx.my,ids:ctx.ids.slice(),fix:chShuf(fix),played:0,w:0,l:0,diff:0,res:[]};
+  return L;
+}
+function chBuildMgrTeams(ctx,oid){
+  var mine,opp;
+  if(ctx.idx===3||ctx.idx===4){
+    var all=buildPlayTeams(ctx.idx===4?'wc':'ipl');
+    mine=all.filter(function(t){return t.id===ctx.my})[0];opp=all.filter(function(t){return t.id===oid})[0];
+    if(!mine||!opp)return null;
+  }else{
+    var pool=pxPool(false).filter(function(p){return p.gen&&!p.career});
+    var mk=function(id,name,ground){var sm=shuffle(pool.slice()).slice(0,45),sq=pxQuota(sm,15).map(function(p){return{p:p,price:0}});
+      return{id:id,name:name,city:name,ground:ground,color:'#'+('00000'+Math.floor(Math.random()*0xffffff).toString(16)).slice(-6),purse:0,squad:sq,os:0,rtm:0,cap:30,agg:1,pers:'balanced',disc:1}};
+    var mc=chCode(ctx.my,''),oc=chCode(oid,mc);
+    mine=mk(mc,ctx.my,ctx.my+' Ground');opp=mk(oc,oid,oid+' Ground');
+  }
+  return{mine:mine,opp:opp};
+}
+function chMStart(){
+  var C=carLoad(),M=C.mgr;if(M.pend){toast('Accept a job offer first.');return}
+  if(CHS){toast('Finish or cancel the match in progress first.');return}
+  var ctx=chLadderCtx(M),L=chMLive(M,ctx);if(L.played>=L.fix.length)return;
+  var oid=L.fix[L.played],tt=chBuildMgrTeams(ctx,oid);
+  if(!tt){toast('Could not set up that match. Use Quick match instead.');return}
+  OSXI=ctx.idx===4?XIN:4;chEnterS([tt.mine,tt.opp],tt.mine.id);OSXI=ctx.idx===4?XIN:4;
+  S.lineups[tt.mine.id]=defXI(tt.mine).map(function(p){return p.name});
+  var i=xmNew(tt.mine.id,tt.opp.id,false,'Match '+(L.played+1),'20','home');
+  L.cm={i:i,my:tt.mine.id,opp:oid,oppId:tt.opp.id,seen:false};
+}
+function chMRecord(M){
+  var L=M.live,cm=L&&L.cm;if(!cm||!CHS)return false;
+  var m=S.xm[cm.i];if(!m||!m.done){toast('Play the match first (sim it, watch the replay or score the balls).');return false}
+  xDecide(m);
+  var mine=(m.inn||[]).filter(function(x){return x.id===cm.my})[0]||{r:0},opp=(m.inn||[]).filter(function(x){return x.id===cm.oppId})[0]||{r:0},win=m.win===cm.my;
+  L.played++;if(win)L.w++;else L.l++;L.diff+=(mine.r-opp.r);carRateAdd(M,win?12:3);
+  L.res.push({n:L.played,opp:cm.opp,mine:mine.r,opps:opp.r,win:win});
+  delete L.cm;chLeaveS();return L.res[L.res.length-1];
+}
+function chMSimOne(M,ctx){
+  var L=chMLive(M,ctx),oid=L.fix[L.played],win=chWin(ctx.str(L.team),ctx.str(oid)),d=4+Math.floor(Math.random()*36),base=120+Math.floor(Math.random()*40);
+  var mine=win?base+d:base-d+Math.floor(Math.random()*8),opp=win?base:base+Math.floor(Math.random()*8);
+  if(win&&mine<=opp)mine=opp+d;if(!win&&mine>=opp)mine=opp-d;
+  L.played++;if(win)L.w++;else L.l++;L.diff+=(mine-opp);carRateAdd(M,win?12:3);L.res.push({n:L.played,opp:oid,mine:mine,opps:opp,win:win,quick:1});
+  return L.res[L.res.length-1];
+}
+function chMFinish(M){
+  var L=M.live;if(!L)return;
+  chPlay({w:L.w,l:L.l,nrr:+(L.diff/Math.max(1,L.played)/20).toFixed(3),ids:L.ids});
+}
+function chMSimSeason(){
+  var C=carLoad(),M=C.mgr;if(M.pend){toast('Accept a job offer first (Manager tab).');return}
+  if(CHS){var l0=M.live;if(l0)delete l0.cm;chLeaveS()}
+  var L=M.live;
+  if(L&&L.played>0&&L.idx===chMStage(M)){var ctx=chLadderCtx(M);while(L.played<L.fix.length)chMSimOne(M,ctx);chMFinish(M)}
+  else chPlay();
+}
+function chMFullHtml(L){
+  if(!L||!L.cm)return '';
+  if(!CHS||S!==CHS){delete L.cm;return ''}
+  var m=S.xm[L.cm.i];if(!m)return '';
+  return '<div style="margin-top:10px"><span class="k">Match '+(L.played+1)+' of '+L.fix.length+'</span>'+xCard(L.cm.i,'Career match')+
+   '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button id="chMCont" class="btn primary" type="button"'+(m.done?'':' disabled')+'>✅ Continue &amp; record result</button><button id="chMCancel" class="btn" type="button">Cancel match</button></div>'+
+   '<div class="muted" style="font-size:12px;margin-top:4px">Set the toss, change the XI, sim the match, watch the replay or score every ball yourself. After the match press Continue to add the result to your season table.</div></div>';
+}
+function chMLiveHtml(M){
+  if(M.pend||(M.mode||'ladder')!=='ladder')return '';
+  var ctx=chLadderCtx(M),L=(M.live&&M.live.idx===ctx.idx&&M.live.team===ctx.my)?M.live:null,tot=L?L.fix.length:14,pl=L?L.played:0,done=pl>=tot;
+  var h='<div class="card" style="margin-top:12px"><span class="k">Season '+(M.seasons.length+1)+' · '+ctx.label+' · '+chTn(ctx.my,ctx.kind)+'</span>'+
+   '<div style="margin:6px 0">Match <b>'+pl+'</b> of <b>'+tot+'</b> played'+(L?' · record <b>'+L.w+'-'+L.l+'</b>':'')+'</div>'+
+   '<div style="display:flex;gap:8px;flex-wrap:wrap">'+
+   (done||(L&&L.cm)?'':'<button id="chMNext" class="btn primary" type="button">🎮 Play next match</button><button id="chMQuick" class="btn" type="button">⚡ Quick match</button><button id="chMSim" class="btn" type="button">⏩ Sim rest &amp; finish season</button>')+
+   (done?'<button id="chMFinish" class="btn primary" type="button">🏁 Finish season</button>':'')+'</div>'+chMFullHtml(L);
+  if(L&&L.res.length)h+='<div class="scroll" style="max-height:260px;overflow:auto;margin-top:8px">'+carTbl(['#','Opponent','Result','Score'],L.res.slice().reverse().map(function(x){return '<tr><td class="mono">'+x.n+'</td><td>'+chTn(x.opp,ctx.kind)+'</td><td>'+(x.win?'✅ W':'❌ L')+(x.quick?' <span class="muted">(quick)</span>':'')+'</td><td class="mono">'+x.mine+' - '+x.opps+'</td></tr>'}))+'</div>';
+  return h+'<div class="muted" style="font-size:12px;margin-top:6px">Play your matches one by one like in the Season tab. The other teams in the table are simulated when you finish the season, and the playoffs (if you qualify) are simulated too.</div></div>';
+}
+setInterval(function(){try{
+  if(!CHS||S!==CHS)return;var M=carLoad().mgr,L=M&&M.live,cm=L&&L.cm;if(!cm)return;
+  var m=S.xm[cm.i],d=!!(m&&m.done);if(d!==cm.seen){cm.seen=d;var h=document.getElementById('careerHome');if(h&&!h.hidden)chPaint(h)}
+}catch(e){}},700);
+document.addEventListener('click',function(e){
+  var t=e.target&&e.target.closest?e.target.closest('#careerHome button,#careerDrawer button,#view-career .chub button'):null;if(!t||!t.id||t.id.indexOf('chM')!==0||t.id.length<5)return;
+  var C=carLoad(),M=C.mgr,host=t.closest('#careerHome,#careerDrawer,#view-career');
+  if(t.id==='chMNext'){chMStart();carSave();chPaint(host);return}
+  if(t.id==='chMQuick'){if(CHS){toast('Finish or cancel the match in progress first.');return}var cx=chLadderCtx(M);chMLive(M,cx);var r=chMSimOne(M,cx);carSave();chPaint(host);toast((r.win?'Won ':'Lost ')+r.mine+' vs '+r.opps);return}
+  if(t.id==='chMSim'){if(CHS){toast('Finish or cancel the match in progress first.');return}var cs=chLadderCtx(M),L=chMLive(M,cs);while(L.played<L.fix.length)chMSimOne(M,cs);chMFinish(M);return}
+  if(t.id==='chMFinish'){chMFinish(M);return}
+  if(t.id==='chMCont'){var rc=chMRecord(M);if(rc){carSave();chPaint(host);toast((rc.win?'Won ':'Lost ')+rc.mine+' vs '+rc.opps)}return}
+  if(t.id==='chMCancel'){if(M.live)delete M.live.cm;chLeaveS();carSave();chPaint(host);return}
+});
+/* ===== Career matches get the same live "Choose team & Play" button as the Season tab ===== */
+(function(){
+  function inj(){
+    try{
+      if(!CHS||S!==CHS)return;
+      ['careerHome','careerDrawer','view-career'].forEach(function(id){
+        var h=document.getElementById(id);if(!h||h.hidden)return;
+        h.querySelectorAll('.msim').forEach(function(sb){
+          var bar=sb.parentNode;if(!bar||bar.querySelector('.mhwgo'))return;
+          var hd=sb.getAttribute('data-hd');if(!hd)return;
+          var b=document.createElement('button');b.type='button';b.className='btn primary mhwgo';
+          b.setAttribute('data-hd',hd);b.textContent='\uD83C\uDFAE Choose team & Play';
+          bar.insertBefore(b,sb);
+        });
+      });
+    }catch(e){}
+  }
+  var _chPaintLive=chPaint;
+  chPaint=function(){var r=_chPaintLive.apply(this,arguments);inj();return r};
+  setInterval(inj,500);
+})();
+/* ===== Manager profiles: select a saved manager or create a new one ===== */
+function chMgrPickHtml(){
+  var C=carLoad(),M=C.mgr,B=C.mgrBench||[],row='display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:6px 0;border-top:1px solid rgba(0,0,0,.1)';
+  function line(m,i,cur){var tt=0,t=0;(m.seasons||[]).forEach(function(x){if(x.champ)t++});
+    return '<div style="'+row+'"><b>'+esc(m.name||'Manager')+'</b><span class="pill">Level '+carLevel(m.xp||0).lv+'</span><span class="pill">'+(m.seasons||[]).length+' seasons</span><span class="pill">\uD83C\uDFC6 '+t+'</span><span class="pill">\u2B50 '+(m.rating==null?50:m.rating)+'</span><span style="flex:1"></span>'+(cur?'<span class="muted">Current manager</span>':'<button class="btn primary" type="button" id="chMgrSel" data-i="'+i+'">Select</button>')+'</div>'}
+  return '<div class="card"><span class="k">\uD83E\uDDD1\u200D\uD83D\uDCBC Choose your manager</span>'+line(M,-1,true)+B.map(function(m,i){return line(m,i,false)}).join('')+
+   '<div style="'+row+'"><input id="chMgrNewName" placeholder="New manager name" maxlength="24" style="padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,.2)"><button class="btn" type="button" id="chMgrMake">\u2795 Create new manager</button></div>'+
+   '<div class="muted" style="font-size:12px">Each manager keeps his own team, seasons, XP and rating. Switching saves the current manager.</div></div>';
+}
+(function(){var _m=chMgr;chMgr=function(){return chMgrPickHtml()+_m.apply(this,arguments)}})();
+document.addEventListener('click',function(e){
+  var t=e.target&&e.target.closest?e.target.closest('#careerHome button,#careerDrawer button,#view-career button'):null;if(!t||(t.id!=='chMgrSel'&&t.id!=='chMgrMake'))return;
+  var C=carLoad(),host=t.closest('#careerHome,#careerDrawer,#view-career'),M=C.mgr;
+  if(CHS){if(M.live)delete M.live.cm;if(C.plr.cur&&C.plr.cur.live)delete C.plr.cur.live.cm;chLeaveS()}
+  var keep=(M.seasons&&M.seasons.length)||M.xp||(M.mIdx!=null)||!M.pend;C.mgrBench=C.mgrBench||[];
+  if(t.id==='chMgrSel'){var i=+t.getAttribute('data-i'),n=C.mgrBench[i];if(!n)return;
+    C.mgrBench.splice(i,1);if(keep)C.mgrBench.push(M);C.mgr=n;toast('Now managing: '+(n.name||'Manager'))}
+  else{var inp=host&&host.querySelector('#chMgrNewName'),nm=((inp&&inp.value)||'').trim()||('Manager '+(C.mgrBench.length+2));
+    if(keep)C.mgrBench.push(M);
+    C.mgr={name:nm,diff:M.diff||'normal',xp:0,seasons:[],rating:50,mode:'ladder',stage:'city',pend:true,offers:[]};toast('New manager created. Choose a job offer.')}
+  CH='mgr';CSUB='mgr';carSave();if(host&&host.id==='view-career')paintCareer();else chPaint(host);
+});
+/* ===== New career options: new manager career, new player career, or start over ===== */
+function chOk(t,msg){
+  if(t.getAttribute('data-armed')==='1'){t.removeAttribute('data-armed');if(t._lab!=null)t.textContent=t._lab;return true}
+  t.setAttribute('data-armed','1');t._lab=t.textContent;t.textContent='⚠️ Tap again to confirm';toast(msg);
+  setTimeout(function(){if(t.getAttribute('data-armed')==='1'){t.removeAttribute('data-armed');if(t._lab!=null)t.textContent=t._lab}},5000);
+  return false;
+}
+function chNewBar(){
+  return '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0"><span class="k">🆕 New career</span><button id="chNewMgr" class="btn" type="button">🧑‍💼 New manager career</button><button id="chNewPlr" class="btn" type="button">🏏 New player career</button><button id="chRestMgr" class="btn" type="button">🔁 Restart manager career</button><button id="chRestPlr" class="btn" type="button">🔁 Restart player career</button><button id="chNewAll" class="btn" type="button">🔄 Start over (erase everything)</button></div>';
+}
+function chMgrHistHtml(){
+  var H=carLoad().mgrHist||[];if(!H.length)return '';
+  return '<h3 class="role-h">Past manager careers</h3>'+carTbl(['Manager','Seasons','Titles','Level','Rating'],H.slice().reverse().map(function(x){return '<tr><td><b>'+esc(x.name)+'</b></td><td class="mono">'+x.s+'</td><td class="mono">🏆 '+x.t+'</td><td class="mono">'+x.lv+'</td><td class="mono">'+x.r+'</td></tr>'}));
+}
+document.addEventListener('click',function(e){
+  var t=e.target&&e.target.closest?e.target.closest('#careerHome button,#careerDrawer button,#view-career button'):null;if(!t||!t.id||(t.id.indexOf('chNew')!==0&&t.id.indexOf('chRest')!==0))return;
+  var C=carLoad(),host=t.closest('#careerHome,#careerDrawer,#view-career');
+  function repaint(){if(host&&host.id==='view-career')paintCareer();else chPaint(host)}
+  if(CHS){if(C.mgr.live)delete C.mgr.live.cm;if(C.plr.cur&&C.plr.cur.live)delete C.plr.cur.live.cm;chLeaveS()}
+  if(t.id==='chNewMgr'){
+    if(!chOk(t,'Start a new manager career? Your current manager is saved so you can select him again later, and you begin again from a city team with fresh job offers. Your player career is kept.'))return;
+    var M=C.mgr,tt=carMgrTotals();
+    if(M.seasons.length||M.xp)(C.mgrBench=C.mgrBench||[]).push(M);
+    C.mgr={name:(M.seasons.length||M.xp)?'Manager '+((C.mgrBench||[]).length+1):(M.name||'Manager'),diff:M.diff||'normal',xp:0,seasons:[],rating:50,mode:'ladder',stage:'city',pend:true,offers:[]};
+    CH='mgr';CSUB='mgr';carSave();repaint();toast('New manager career started. Choose a job offer.');return}
+  if(t.id==='chNewPlr'){
+    if(!chOk(t,C.plr.cur?'Start a new player career? The current player retires into the Hall of fame.':'Start a new player career?'))return;
+    if(C.plr.cur)C.plr.retired.push(C.plr.cur);C.plr.cur=null;
+    CH='plr';CSUB='plr';carSave();repaint();toast('Pick or create a new player.');return}
+  if(t.id==='chRestMgr'){
+    if(!chOk(t,'Restart your manager career from the beginning? Seasons, XP and rating are reset (the same name is kept). Tap again to confirm.'))return;
+    C.mgr={name:C.mgr.name||'Manager',diff:C.mgr.diff||'normal',xp:0,seasons:[],rating:50,mode:'ladder',stage:'city',pend:true,offers:[]};
+    CH='mgr';CSUB='mgr';carSave();repaint();toast('Manager career restarted. Choose a job offer.');return}
+  if(t.id==='chRestPlr'){
+    var cp=C.plr.cur;if(!cp){toast('You have no player to restart. Start a player career first.');return}
+    if(!chOk(t,'Restart '+cp.name+'\'s career from the beginning? Seasons and stats are cleared. Tap again to confirm.'))return;
+    var dm=carDom(cp);dm.seasons=[];delete dm.lfr;delete dm.lfrSt;
+    cp.rating=cp.startRating;cp.rxp=0;cp.seasons=[];cp.stage='city';cp.ten=0;cp.need=null;cp.tt=0;cp.loyal=null;cp.team='';cp.offers=[];cp.leagues=[];cp.lteam={};cp.log=[];cp.earn=0;cp.spent=0;cp.gear=[];delete cp.live;
+    CH='plr';CSUB='plr';carSave();repaint();toast(cp.name+'\'s career restarted from the city team.');return}
+  if(t.id==='chNewAll'){
+    if(!chOk(t,'Erase your whole career (manager and player) and start over? This cannot be undone.'))return;
+    CAR=null;try{localStorage.removeItem(CAREER_KEY)}catch(e_){}carLoad();CH='mgr';CSUB='mgr';repaint();toast('Fresh start. Choose a job offer.');return}
+});
+/* ===== Career difficulty (manager and player each have their own level) ===== */
+var CH_DIFF={
+ easy:{n:'🟢 Easy',opp:-3,sel:3,q:-2,m:1.25,pos:.4,xp:1.2,d:'Weaker opponents, easier promotion, faster rating growth.'},
+ normal:{n:'🟡 Normal',opp:0,sel:0,q:0,m:1,pos:.3,xp:1,d:'Balanced opponents, promotion and rating growth.'},
+ hard:{n:'🟠 Hard',opp:3,sel:-3,q:1.5,m:.75,pos:.2,xp:.85,d:'Stronger opponents, stricter promotion, slower rating growth.'},
+ legend:{n:'🔴 Legend',opp:6,sel:-6,q:3,m:.5,pos:.12,xp:.7,d:'Elite opponents, only the very best get promoted, slow rating growth.'}};
+var CHDIFF0='normal';
+function chDiff(o){return CH_DIFF[(o&&o.diff)||'normal']||CH_DIFF.normal}
+function chDiffHtml(id,o){
+  var cur=(o&&o.diff)||'normal';
+  return '<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center"><span class="k">🎚️ Difficulty</span><select id="'+id+'" style="padding:8px;border-radius:8px">'+Object.keys(CH_DIFF).map(function(k){return '<option value="'+k+'"'+(k===cur?' selected':'')+'>'+CH_DIFF[k].n+'</option>'}).join('')+'</select><span class="muted" style="font-size:12px">'+esc((CH_DIFF[cur]||CH_DIFF.normal).d)+'</span></div>';
+}
+document.addEventListener('change',function(e){
+  var el=e.target;if(!el||!el.id||el.id.indexOf('chDiff')!==0)return;
+  var C=carLoad(),v=el.value;if(!CH_DIFF[v])return;
+  if(el.id==='chDiffM'){C.mgr.diff=v}
+  else if(el.id==='chDiffP'){if(C.plr.cur)C.plr.cur.diff=v}
+  else if(el.id==='chDiffP0'){CHDIFF0=v}
+  carSave();var hh=chEl();if(hh&&hh.id==='view-career'&&S&&S.done)paintCareer();else chPaint(hh);toast('Difficulty: '+CH_DIFF[v].n.replace(/^\S+\s/,''));
+});
+/* ===== Fixed rating that grows with performance: points are earned in every match, plus a bonus at the end of the season ===== */
+function carRateAdd(o,pts){
+  if(o.rating==null)o.rating=o.startRating!=null?o.startRating:50;
+  /* good games add points (harder to earn the higher the rating), bad games take them away */
+  var lvl=Math.max(.35,1-((o.rating||50)-55)/70),dm=chDiff(o).m;
+  o.rxp=(o.rxp||0)+(pts>0?pts*dm*lvl:pts*(2-dm)*.6);
+  while(o.rxp>=100&&o.rating<99){o.rxp-=100;o.rating++}
+  var fl=Math.max(30,(o.startRating!=null?o.startRating:50)-12);
+  while(o.rxp<0){if(o.rating>fl){o.rxp+=100;o.rating--}else{o.rxp=0}}
+  if(o.rating>=99)o.rxp=0;
+}
+function chPerfPts(x,w,pom,win,dnb){var p=win?2:0;if(!dnb)p+=x>=100?14:x>=50?10:x>=30?5:x>=10?1:-2;p+=w*5+(w>=3?4:0)+(pom?6:0);if(!dnb&&!win&&!pom&&x<10&&w===0)p-=2;return p}
+function chRateHtml(o,def,label){
+  var r=o.rating==null?def:o.rating,x=Math.round(o.rxp||0);
+  return '<div style="margin-top:10px"><span class="k">⭐ '+label+'</span> <b style="font-size:18px">'+r+'</b> <span class="muted" style="font-size:12px">'+(r>=99?'maximum':x+'/100 towards '+(r+1))+' · grows with every match and season</span><div style="height:8px;border-radius:6px;background:rgba(0,0,0,.15);overflow:hidden;margin-top:4px"><div style="width:'+(r>=99?100:Math.min(100,x))+'%;height:100%;background:linear-gradient(90deg,#3fb950,#f5a524)"></div></div></div>';
+}
+var _chPaint0=chPaint;chPaint=function(el){_chPaint0(el);chSyncC()};window.chPaint=chPaint;
+document.addEventListener('click',function(e){
+  var t=e.target&&e.target.closest?e.target.closest('#careerHome button,#careerDrawer button,#view-career .chub button'):null;if(!t)return;
+  var C=carLoad(),host=t.closest('#careerHome,#careerDrawer,#view-career'),inVC=host&&host.id==='view-career';
+  if(inVC&&(t.id==='carDomSave'||t.id==='carReset'))return;
+  if(t.getAttribute('data-chsub')){CH=t.getAttribute('data-chsub');chPaint(host);return}
+  if(t.getAttribute('data-chsrc')){CHSRC=t.getAttribute('data-chsrc');chPaint(host);return}
+  if(t.getAttribute('data-chmode')){C.mgr.mode=t.getAttribute('data-chmode');carSave();chPaint(host);return}
+  if(t.getAttribute('data-chof')){
+    var acc=t.getAttribute('data-chof')==='accept',oid=t.getAttribute('data-chid'),who=t.getAttribute('data-chwho');
+    if(who==='p'){var pc=C.plr.cur;if(!pc)return;var po=(pc.offers||[]).filter(function(x){return x.id===oid})[0];if(!po)return;
+      if(acc){if(po.type==='league'&&(pc.leagues||[]).length>=3&&pc.leagues.indexOf(po.league)<0){toast('He is already in 3 leagues. Leave one first.');return}chApplyPlayerOffer(pc,po,pc.seasons.length);toast('Accepted: '+(po.type==='league'?po.team:po.type==='club'?po.team:po.state))}
+      pc.offers=(pc.offers||[]).filter(function(x){return x.id!==oid});if(!acc)toast('Offer declined.')}
+    else{var mo=(C.mgr.offers||[]).filter(function(x){return x.id===oid})[0];if(!mo)return;
+      if(acc){chApplyMgrOffer(C.mgr,mo,C.mgr.seasons.length);toast('You accepted the job at '+mo.team+'.')}
+      else{C.mgr.offers=C.mgr.offers.filter(function(x){return x.id!==oid});toast('Offer declined.')}}
+    carSave();chPaint(host);return}
+  if(t.getAttribute('data-shopwho')){SHOPW=t.getAttribute('data-shopwho');chPaint(host);return}
+  if(t.getAttribute('data-shopbuy')||t.getAttribute('data-shopsell')){
+    var sid=t.getAttribute('data-shopbuy')||t.getAttribute('data-shopsell'),sb=!!t.getAttribute('data-shopbuy'),sx=shopItem(sid),sc=C.plr.cur,sM=C.mgr;if(!sx)return;
+    if(SHOPW==='mgr'){chMEnsure(sM);var spr=chShopPrice(sx,'mgr',sM);sM.mShop=sM.mShop||[];
+      if(sb){if(sM.budget<spr||sM.mShop.indexOf(sid)>=0)return;sM.budget=Math.round((sM.budget-spr)*10)/10;sM.mShop.push(sid);toast('Bought '+sx.n.replace(/&[a-z]+;/g,' ')+' for the team.')}
+      else{var ix=sM.mShop.indexOf(sid);if(ix<0)return;sM.mShop.splice(ix,1);sM.budget=Math.round((sM.budget+spr*.6)*10)/10;toast('Sold.')}}
+    else{if(!sc)return;sc.gear=sc.gear||[];
+      if(sb){if(((sc.earn||0)-(sc.spent||0))<sx.p||sc.gear.indexOf(sid)>=0)return;sc.spent=(sc.spent||0)+sx.p;sc.gear.push(sid);toast('Bought '+sx.n.replace(/&[a-z]+;/g,' ')+'.')}
+      else{var iy=sc.gear.indexOf(sid);if(iy<0)return;sc.gear.splice(iy,1);sc.spent=Math.max(0,(sc.spent||0)-sx.p*.6);toast('Sold.')}}
+    carSave();chPaint(host);return}
+  if(t.getAttribute('data-chmk')!=null||t.getAttribute('data-chmks')!=null){
+    var MM=C.mgr;chMEnsure(MM);
+    if(t.getAttribute('data-chmk')!=null){var pi=+t.getAttribute('data-chmk'),pp=MM.mkt.list[pi];if(!pp)return;
+      if((MM.budget||0)<pp.price){toast('Not enough budget.');return}if(MM.mSquad.length>=MK_MAX[MM.mIdx]){toast('Squad is full: sell someone first.');return}
+      MM.budget-=pp.price;MM.mSquad.push(pp);MM.mkt.list.splice(pi,1);toast('Signed '+pp.name+' for '+money(pp.price)+'.')}
+    else{var si=+t.getAttribute('data-chmks'),sp=MM.mSquad[si];if(!sp)return;MM.budget+=Math.round(sp.price*.7);MM.mSquad.splice(si,1);toast('Sold '+sp.name+' for '+money(Math.round(sp.price*.7))+'.')}
+    carSave();chPaint(host);return}
+  if(t.getAttribute('data-chauc')){
+    var ca=C.plr.cur,ak=t.getAttribute('data-chauc');if(!ca||!ca.seasons||!ca.seasons.length||chAucDone(ca,ak))return;
+    toast(chAucRun(ca,ak));carSave();chPaint(host);return}
+  if(t.getAttribute('data-chlg')){
+    var cq=C.plr.cur,lid=t.getAttribute('data-chlg'),LG=chLeagueOf(lid);if(!cq||!LG||chStageIdx(cq)<3)return;
+    cq.leagues=cq.leagues||[];cq.lteam=cq.lteam||{};var ix=cq.leagues.indexOf(lid);
+    if(ix>=0){cq.leagues.splice(ix,1);delete cq.lteam[lid];toast('Left the '+LG.name+'.')}
+    else if(cq.leagues.length>=3){toast('He can play in at most 3 leagues a season.');return}
+    else if(chAucDone(cq,lid)){toast('He already entered this auction this season.');return}
+    else{toast(chAucRun(cq,lid))}
+    carSave();chPaint(host);return}
+  if(t.id==='plrFull'){var cf=C.plr.cur;if(!cf||!cf.stage)return;chStartFull(cf);carSave();chPaint(host);return}
+  if(t.id==='plrCont'){var cc=C.plr.cur;if(!cc)return;var rc=chRecordFull(cc);if(rc){carSave();chPaint(host);toast((rc.win?'Won':'Lost')+': '+(rc.dnb?'did not bat':rc.x+(rc.out?'':'*')+' runs')+(rc.bb?', '+rc.w+' wkts':'')+(rc.pom?' · Player of the Match':''))}return}
+  if(t.id==='plrCancel'){var cx=C.plr.cur;if(cx&&cx.live)delete cx.live.cm;chLeaveS();carSave();chPaint(host);return}
+  if(t.id==='plrMatch'||t.id==='plrSim'||t.id==='plrFinish'){
+    var cp=C.plr.cur;if(!cp||!cp.stage)return;
+    if(t.id==='plrMatch'){var mm=chPlayMatch(cp);carSave();chPaint(host);if(mm)toast((mm.win?'Won':'Lost')+': '+mm.x+(mm.out?'':'*')+' runs'+(mm.bb?', '+mm.w+' wkts':'')+(mm.pom?' · Player of the Match':''));return}
+    var pm=chFinishPlayerSeason(cp,false);carSave();chPaint(host);toast(pm);return}
+  if(t.id==='chPlay'){chMSimSeason();return}
+  if(t.id==='chStart'){
+    var dom0={state:($('carDomState')||{}).value||'',dist:($('carDomDist')||{}).value||'',seasons:[]},plays=($('chPlays')||{}).value||'';
+    if(CHSRC==='new'){
+      var nm0=(($('chNewName')||{}).value||'').trim().slice(0,24);if(!nm0){toast('Enter a name for your player.');return}
+      var dup=chPool().some(function(p){return p.name.toLowerCase()===nm0.toLowerCase()});if(dup){toast('A player with that name already exists. Choose another name.');return}
+      var rt0=Math.max(40,Math.min(90,parseInt(($('chNewRating')||{}).value,10)||65)),role0=($('chNewRole')||{}).value||'BAT';
+      C.plr.cur={name:nm0,team:'',role:role0,startRating:rt0,rating:rt0,seasons:[],src:'custom',stage:'city',diff:CHDIFF0,c:($('chCountry')||{}).value||'IND',dom:dom0};
+    }else{
+      var nm=($('chPick')||{}).value;if(!nm)return;
+      var pp=chPool().filter(function(p){return p.name===nm})[0];if(!pp)return;
+      C.plr.cur={name:nm,team:'',role:pp.role,startRating:pp.rating,rating:pp.rating,seasons:[],src:'pool',stage:'city',diff:CHDIFF0,c:($('chCountry')||{}).value||pp.c||'IND',dom:dom0};
+    }
+    carSave();CH='plr';chPaint(host);toast(C.plr.cur.name+' starts his career.');return}
+  if(t.id==='chRetire'){if(!chOk(t,'Retire this player? His record goes to the Hall of fame and you can pick a new player.'))return;if(C.plr.cur)C.plr.retired.push(C.plr.cur);C.plr.cur=null;carSave();chPaint(host);return}
+  if(t.id==='carDomSave'){var cu=C.plr.cur;if(!cu)return;var d0=carDom(cu);var cc0=$('carCountry');if(cc0&&cc0.value)cu.c=cc0.value;d0.state=($('carDomState')||{}).value||d0.state;d0.dist=($('carDomDist')||{}).value||'';carSave();chPaint(host);toast('Domestic teams updated.');return}
+  if(t.id==='carReset'){if(!chOk(t,'Erase your whole career (manager and player)? This cannot be undone.'))return;CAR=null;try{localStorage.removeItem(CAREER_KEY)}catch(e_){}carLoad();chPaint(host);toast('Career reset.')}
+});
+document.addEventListener('change',function(e){
+  var el=e.target;if(!el||!el.id)return;
+  if(el.id==='chTeam'){var C=carLoad();C.mgr.team=el.value||undefined;carSave();toast(el.value?'You now manage '+el.value+'.':'No franchise selected.');return}
+  if(el.id==='chMc'){var Cm=carLoad(),df=domDefault(el.value);Cm.mgr.nat=el.value;Cm.mgr.state=df.state;Cm.mgr.dist=df.dist;carSave();chPaint(chEl());return}
+  if(el.id==='chMs'){var Cs=carLoad();Cs.mgr.state=el.value;Cs.mgr.dist=(domCitiesOf(Cs.mgr.nat||'IND',el.value)[0])||'';carSave();chPaint(chEl());return}
+  if(el.id==='chMd'){var Cd=carLoad();Cd.mgr.dist=el.value;carSave();return}
+  if(el.id==='chNat'){var C2=carLoad();C2.mgr.nat=el.value||undefined;carSave();toast(el.value?'You now manage '+chTn(el.value,1).replace(/<[^>]+>/g,'')+'.':'No country selected.');return}
+  if(el.id==='chTF'){CHTF=el.value;var pk=$('chPick');if(pk){pk.innerHTML=chAnyList();chSyncC()}}
+  if(el.id==='chPick')chSyncC();
+});
+document.addEventListener('input',function(e){
+  if(e.target&&e.target.id==='chQ'){CHQ=e.target.value;var pk=$('chPick');if(pk){pk.innerHTML=chAnyList();chSyncC()}}
+});
+/* ===== Team earnings per match, shown in the Season tab ===== */
+function ernAll(){
+  var Z=S&&S.season;if(!Z)return [];var per=S.teams.length/2,a=[];
+  Z.fixtures.forEach(function(md,d){md.forEach(function(m,i){if(m&&m.done&&m.inn)a.push({m:m,lab:'Match '+(d*per+i+1)})})});
+  (Z.po||[]).forEach(function(m){if(m&&m.done&&m.inn)a.push({m:m,lab:String(m.label||'Playoff')})});
+  return a;
+}
+function ernPanel(){
+  var el=$('view-season');if(!el||!S||!S.season||!S.done)return;
+  var old=el.querySelector('.ernpanel');if(old)old.remove();
+  var all=ernAll();if(!all.length)return;
+  var by={},gate=0,fans=0;
+  all.forEach(function(x){var e=mEarn(x.m);gate+=e.rev;fans+=e.att;[[x.m.h,e.h],[x.m.a,e.a]].forEach(function(q){var o=by[q[0]]=by[q[0]]||{e:0,n:0,best:0,att:0,rev:0};o.e+=q[1];o.n++;o.att+=e.att;o.rev+=e.rev;if(q[1]>o.best)o.best=q[1]})});
+  var ids=Object.keys(by).sort(function(a,b){return by[b].e-by[a].e});
+  var h='<details class="card ernpanel" style="margin:10px 0" open><summary style="cursor:pointer"><span class="k">Team earnings</span> <b>💰 '+stMoney(gate)+'</b> <span class="muted">gate money · '+fans.toLocaleString('en-IN')+' fans · avg ticket '+stMoney(fans?gate/fans:0)+' · '+all.length+' match'+(all.length>1?'es':'')+'</span></summary>'+
+    '<h3 class="role-h" style="margin-top:10px">Earnings by team</h3>'+carTbl(['#','Franchise','M','Earned','Per match','Avg crowd','Avg ticket','Home ground ticket range'],ids.map(function(id,i){var o=by[id],g=grdOf(id);return '<tr class="'+(id===S.me?'me':'')+'"><td class="mono">'+(i+1)+'</td><td>'+chip(id)+'</td><td class="mono">'+o.n+'</td><td class="mono"><b>'+stMoney(o.e)+'</b></td><td class="mono">'+stMoney(o.e/o.n)+'</td><td class="mono">'+Math.round(o.att/o.n).toLocaleString('en-IN')+'</td><td class="mono">'+stMoney(o.att?o.rev/o.att:0)+'</td><td class="mono muted">'+stMoney(g.lo)+' – '+stMoney(g.hi)+' · '+g.cap.toLocaleString('en-IN')+' seats</td></tr>'}))+
+    '<h3 class="role-h">Earnings per match</h3><div class="scroll" style="max-height:340px;overflow:auto"><table class="tbl"><thead><tr><th>Match</th><th>Home</th><th>Home earns</th><th>Away</th><th>Away earns</th><th>Crowd</th><th>Avg ticket</th><th>Gate</th></tr></thead><tbody>'+
+    all.slice().reverse().map(function(x){var m=x.m,e=mEarn(m);return '<tr><td class="muted">'+esc(x.lab)+'</td><td>'+chip(m.h)+'</td><td class="mono">'+stMoney(e.h)+'</td><td>'+chip(m.a)+'</td><td class="mono">'+stMoney(e.a)+'</td><td class="mono">'+e.att.toLocaleString('en-IN')+' <small class="muted">/ '+e.cap.toLocaleString('en-IN')+'</small></td><td class="mono">'+stMoney(e.avg)+'</td><td class="mono"><b>'+stMoney(e.rev)+'</b></td></tr>'}).join('')+'</tbody></table></div>'+
+    '<p class="muted" style="font-size:12px;margin:8px 0 0">Gate = crowd × ticket price. Grounds use estimated capacities and prices (general stands at the low price, grandstands at 2.5×, premium seats at the high price). Home side keeps 60% and the away side 40%, or 50-50 at neutral and custom grounds. A stadium you build uses its own stands and ticket prices, so raising prices raises income per fan but lowers the crowd.</p></details>';
+  var div=document.createElement('div');div.innerHTML=h;var node=div.firstChild;
+  var g=el.querySelector('.sgrid');if(g&&g.parentNode)g.parentNode.insertBefore(node,g);else el.appendChild(node);
+}
+var _psEarn=paintSeason;paintSeason=function(){var r=_psEarn.apply(this,arguments);try{ernPanel()}catch(e_){}return r};
+
+/* ===== Career player source: my squad, any player in the league, or a player you create ===== */
+var CSRC='squad',CANYT='ALL';
+function carFind(name){var r=null;S.teams.forEach(function(t){t.squad.forEach(function(q){if(q.p.name===name)r={p:q.p,team:t.id}})});return r}
+function carAnyList(tid){
+  var a=[];S.teams.forEach(function(t){if(tid!=='ALL'&&t.id!==tid)return;t.squad.forEach(function(q){a.push({p:q.p,team:t.id})})});
+  a.sort(function(x,y){return y.p.rating-x.p.rating});
+  return a.map(function(x){return '<option value="'+esc(x.p.name)+'">'+esc(x.p.name)+' — '+x.team+' · '+x.p.role+' · '+x.p.rating+'</option>'}).join('');
+}
+function carStartHtml(me){
+  var src=[['squad','👕 From my squad'],['any','🌐 Any player in the league'],['new','✨ Create my own player']];
+  var h='<div class="card"><span class="k">Start a player career</span><p class="muted" style="margin:6px 0">Choose any player, whether or not you bought him in the auction, or build your own. He starts at his city team and works up through the state league, state team and IPL to international cricket. His runs, wickets and milestones are added to his career: runs, wickets, milestones and how his rating grows or falls season by season.</p>'+
+    '<div class="sbar" style="margin:8px 0">'+src.map(function(x){return '<button class="btn'+(CSRC===x[0]?' primary':'')+'" type="button" data-csrc="'+x[0]+'">'+x[1]+'</button>'}).join('')+'</div>';
+  var dom=domCountryHtml('IND','carCountry')+domSelHtml('Punjab','Ludhiana','IND'),row='display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:6px',inp='padding:8px;border-radius:8px';
+  if(CSRC==='squad'){
+    var opts=me.squad.slice().sort(function(a,b){return b.p.rating-a.p.rating}).map(function(sq){return '<option value="'+esc(sq.p.name)+'">'+esc(sq.p.name)+' — '+sq.p.role+' · '+sq.p.rating+'</option>'}).join('');
+    h+='<div style="'+row+'"><select id="carPick" style="'+inp+';min-width:260px">'+opts+'</select>'+dom+'</div>';
+  }else if(CSRC==='any'){
+    h+='<div style="'+row+'"><select id="carAnyTeam" style="'+inp+'"><option value="ALL">All franchises</option>'+S.teams.map(function(t){return '<option value="'+t.id+'"'+(CANYT===t.id?' selected':'')+'>'+esc(t.name)+'</option>'}).join('')+'</select><select id="carPick" style="'+inp+';min-width:300px">'+carAnyList(CANYT)+'</select>'+dom+'</div>';
+  }else{
+    h+='<div style="'+row+'"><input id="carNewName" maxlength="24" placeholder="Player name" style="'+inp+';min-width:200px"><select id="carNewRole" style="'+inp+'"><option value="BAT">Batter</option><option value="WK">Wicket-keeper</option><option value="AR">All-rounder</option><option value="PACE">Pace bowler</option><option value="SPIN">Spin bowler</option></select><label class="muted">Rating <input id="carNewRating" type="number" min="40" max="90" value="65" style="'+inp+';width:70px"></label>'+
+      '<select id="carNewTeam" style="'+inp+'" title="Franchise he joins">'+S.teams.map(function(t){return '<option value="'+t.id+'"'+(t.id===S.me?' selected':'')+'>Joins '+esc(t.name)+'</option>'}).join('')+'</select>'+dom+'</div>';
+  }
+  h+='<div style="margin-top:10px"><button id="carSet" class="btn primary" type="button">Start career</button></div><div class="muted" style="font-size:12px;margin-top:6px">Also choose his city and state team (default: Ludhiana, Punjab).'+(CSRC==='new'?' A new player is added to the franchise you pick. He only gets league matches if he is good enough for that team&rsquo;s XI.':'')+'</div></div>';
+  return h;
+}
+
+/* ===== Career ladder: City team -> State league -> State team -> IPL -> International ===== */
+var CH_STAGES=[['city','🏙️ City team'],['league','🏆 State league'],['state','🏛️ State team'],['ipl','💰 IPL'],['intl','🌍 International']];
+var CH_THR=[0,52,60,67,76];
+/* Tenure: a player must serve several seasons at each level before selection, and an IPL player stays with his franchise 5-10 seasons before rival offers arrive */
+var CH_NEED=[[2,4],[3,5],[3,6],[5,10],[0,0]];
+function chNeed(idx){var r=CH_NEED[idx]||[2,4];return r[0]+Math.floor(Math.random()*(r[1]-r[0]+1))}
+function chStageIdx(cur){var k=CH_STAGES.map(function(x){return x[0]}).indexOf(cur.stage);return k<0?0:k}
+function chNation(cur){var c=cur.c||'IND';try{var w=chCountries().filter(function(x){return x.id===c})[0];if(w)return w.name;if(typeof COUNTRY!=='undefined'&&COUNTRY[c])return COUNTRY[c]}catch(e){}return c==='IND'?'India':c}
+function chStageTeam(cur){
+  var d=carDom(cur),i=chStageIdx(cur);
+  return [d.dist||d.state||'City XI',domLeagueFr(d)+' · '+domLeagueName(domLg(d)),d.state||'State',cur.team||'IPL',chNation(cur)][i];
+}
+function chLadder(cur,no,o){
+  o=o||{};var d=carDom(cur),idx=chStageIdx(cur),city=d.dist||d.state||'City XI',st=d.state||'State',comps=[],main;
+  function rnd(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+  function add(team,tier,m,stats){var c=stats?{team:team,tier:tier,stats:stats}:domComp(cur,team,tier,m);comps.push(c);return c}
+  function addMain(team,tier,m,stats){return o.pre?add(o.pre.team,o.pre.tier,0,o.pre.stats):add(team,tier,m,stats)}
+  if(idx===0){main=addMain(city,'City',rnd(6,9))}
+  else if(idx===1){add(city,'City',rnd(4,6));main=addMain(domLeagueFr(d)+' · '+domLeagueName(domLg(d)),'State league',rnd(8,10))}
+  else if(idx===2){add(domLeagueFr(d)+' · '+domLeagueName(domLg(d)),'State league',rnd(6,8));main=addMain(st,'State',rnd(8,11))}
+  else if(idx===3){add(st,'State',rnd(5,7));main=addMain(cur.team,'IPL',o.iplGames||14,o.iplStats)}
+  else{add(cur.team,'IPL',o.iplGames||14,o.iplStats);main=addMain(chNation(cur),'International',rnd(8,14))}
+  if(idx>=3)(cur.leagues||[]).forEach(function(id){var L=chLeagueOf(id);if(!L)return;var tm=(cur.lteam=cur.lteam||{})[id]||(cur.lteam[id]=L.teams[0]);var c=add(L.id+' · '+tm,'League',rnd(6,10));c.tier='T20 league'});
+  var tot=comps.reduce(function(a,c){return carAdd(a,c.stats)},carBlank()),ms=main.stats,mm=Math.max(1,ms.m);
+  var bowler=cur.role==='PACE'||cur.role==='SPIN',qb=ms.r/mm/28,qw=ms.w/mm/1.0,q=bowler?qw:(cur.role==='AR'?Math.max(qb,qw):qb);
+  var form=Math.max(-3,Math.min(4,Math.round((q-1)*4)))+Math.round(chGearF(cur));
+  if(!o.pre){ms.pom=Math.max(0,Math.round(Math.max(0,(cur.rating||60)-60)/12*Math.random()*1.5));tot.pom=(tot.pom||0)+ms.pom}
+  var rS=(o.pre&&o.pre.r0!=null)?o.pre.r0:(cur.rating||cur.startRating),r0=cur.rating||cur.startRating,gain=form>=3?3:form===2?2:form===1?1:form===0?(r0<68?1:0):form===-1?0:-1,dm=chDiff(cur).m;
+  if(r0<65&&form>=0)gain+=1;
+  if(gain>0){gain=Math.max(1,Math.round(gain*dm));if(r0>=80)gain=Math.min(gain,1);if(r0>=88&&Math.random()<.6)gain=0;if(r0>=94)gain=Math.random()<.2?1:0}
+  else if(gain<0){gain=-Math.max(1,Math.round(-gain*(2-dm)))}
+  if(cur.seasons.length>=12&&Math.random()<.5)gain-=1;
+  var r1=Math.max(30,Math.min(99,r0+gain));
+  var sel=r1+form+rnd(-2,2)+chDiff(cur).sel,oldIdx=idx,msg='';
+  cur.ten=(cur.ten||0)+1;if(cur.need==null)cur.need=chNeed(idx);if(idx>=3){cur.tt=(cur.tt||0)+1;if(cur.loyal==null)cur.loyal=5+Math.floor(Math.random()*6)}
+  var ready=cur.ten>=cur.need;
+  var sold=null;
+  if(idx<4&&ready&&sel>=CH_THR[idx+1]&&(idx!==2||cur.team)){cur.stage=CH_STAGES[idx+1][0];cur.ten=0;cur.need=null;cur.tt=0;cur.loyal=null;msg=' Selected for the '+CH_STAGES[idx+1][1].replace(/^\S+\s/,'')+'!'+(sold?' Sold to '+sold.team+' for '+money(sold.price)+' in the IPL auction.':'');
+    (cur.log=cur.log||[]).push({no:no,text:'Promoted from '+CH_STAGES[idx][1].replace(/^\S+\s/,'')+' to '+CH_STAGES[idx+1][1].replace(/^\S+\s/,'')})}
+  else if(idx===2&&ready&&sel>=CH_THR[3]&&!cur.team){cur.eligIpl=true;msg=' He is now eligible for the IPL auction: enter it from the Auctions panel.';(cur.log=cur.log||[]).push({no:no,text:'Became eligible for the IPL auction'});if(!cur.stage)cur.stage=CH_STAGES[idx][0]}
+  else if(!cur.stage)cur.stage=CH_STAGES[idx][0];
+  cur.rating=r1;
+  var sal=oldIdx>=3?(cur.sal||chRoundL(valueOf(r1)*.4)):chRoundL(valueOf(r1)*[.01,.03,.06][oldIdx]);if(oldIdx>=3&&!cur.sal)cur.sal=sal;
+  if(oldIdx>=3&&o.champ)sal+=Math.round(sal*.1/5)*5;
+  sal+=chEndorse(cur);
+  cur.earn=(cur.earn||0)+sal;
+  cur.seasons.push({no:no,team:main.team,stats:tot,rFrom:rS,rTo:r1,champ:!!(o.champ&&idx>=3),stage:CH_STAGES[oldIdx][0],comps:comps,earn:sal});
+  var dc=comps.filter(function(c){return c.tier==='City'||c.tier==='State league'||c.tier==='State'});
+  if(dc.length)carDom(cur).seasons.push({no:no,comps:dc});
+  try{cur.offers=chGenPlayerOffers(cur,no)}catch(e_){}
+  return cur.name+': '+ms.r+' runs, '+ms.w+' wkts for '+main.team+'.'+msg+' Rating '+rS+(r1>rS?' → '+r1+' (+'+(r1-rS)+')':r1<rS?' → '+r1+' ('+(r1-rS)+')':' (no change)')+'.';
+}
+function chPathHtml(cur){
+  if(!cur.stage)return '';
+  var idx=chStageIdx(cur),h='<div class="card" style="margin-top:12px"><span class="k">Career pathway</span><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:8px 0">'+
+    CH_STAGES.map(function(x,i){return '<span class="pill" style="'+(i===idx?'border:2px solid var(--accent);font-weight:800':i<idx?'':'opacity:.5')+'">'+(i<idx?'✅ ':i===idx?'▶ ':'')+x[1]+'</span>'}).join('<span class="muted">→</span>')+'</div>'+
+    '<div>Now playing for <b>'+esc(chStageTeam(cur))+'</b> ('+CH_STAGES[idx][1].replace(/^\S+\s/,'')+')</div>'+
+    '<div class="muted" style="font-size:12px;margin-top:4px">'+(idx<4?'Next: '+CH_STAGES[idx+1][1]+'. Selection needs rating plus form of about '+CH_THR[idx+1]+' (his rating: '+(cur.rating||cur.startRating)+'; it rises with good seasons, stalls near the top and can fall after poor ones) and at least '+(cur.need==null?CH_NEED[idx][0]:cur.need)+' seasons at this level (served: '+(cur.ten||0)+').'+(idx>=3&&cur.team?' Rival franchises only come in after he has spent '+(cur.loyal==null?'5 to 10':cur.loyal)+' seasons with '+esc(cur.team)+' (served: '+(cur.tt||0)+').':''):'He has reached the top: international cricket, alongside the IPL.')+'</div>';
+  var by={};cur.seasons.forEach(function(x){(x.comps||[]).forEach(function(c){var k=c.tier+'|'+c.team;if(!by[k])by[k]={tier:c.tier,team:c.team,st:carBlank(),n:0};by[k].st=carAdd(by[k].st,c.stats);by[k].n++})});
+  var ks=Object.keys(by);
+  if(ks.length)h+='<div style="margin-top:10px">'+carTbl(['Level','Team','Seasons','M','Runs','HS','Avg','Wkts'],ks.map(function(k){var o=by[k],b=carBatLine(o.st);return '<tr><td class="muted">'+esc(o.tier)+'</td><td><b>'+esc(o.team)+'</b></td><td class="mono">'+o.n+'</td><td class="mono">'+o.st.m+'</td><td class="mono">'+o.st.r+'</td><td class="mono">'+o.st.hs+'</td><td class="mono">'+b.avg+'</td><td class="mono">'+o.st.w+'</td></tr>'}))+'</div>';
+  if((cur.log||[]).length)h+='<ul style="margin:8px 0 0 18px">'+cur.log.slice(-6).reverse().map(function(x){return '<li>Season '+x.no+': '+esc(x.text)+'</li>'}).join('')+'</ul>';
+  return h+'</div>';
+}
+function carPill(ok,e,name,d){return '<div class="card" style="padding:10px;opacity:'+(ok?1:.45)+'" title="'+esc(d)+'"><div style="font-size:24px">'+e+'</div><b>'+esc(name)+'</b><div class="muted" style="font-size:12px">'+esc(d)+'</div></div>'}
+function carTbl(head,rows){return '<div class="scroll"><table class="tbl"><thead><tr>'+head.map(function(x){return '<th>'+x+'</th>'}).join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody></table></div>'}
+function carBox(k,v){return '<div><span class="k">'+k+'</span><b>'+v+'</b></div>'}
+
+/* ===== Franchise job offers (manager does not pick a team: franchises approach him after each season) ===== */
+function carTeamStr(t){var r=(t.squad||[]).map(function(x){return x.p.rating}).sort(function(a,b){return b-a}).slice(0,14);return r.length?r.reduce(function(a,x){return a+x},0)/r.length:0}
+function carGenFOffers(sm){
+  var ids=S.teams.slice().sort(function(a,b){return carTeamStr(b)-carTeamStr(a)}),rank={};ids.forEach(function(t,i){rank[t.id]=i+1});
+  var others=ids.filter(function(t){return t.id!==S.me}).map(function(t){return t.id});
+  var good=sm&&(sm.champ||sm.po||sm.pos<=Math.ceil(S.teams.length/2));
+  var pool=good?others.slice(0,Math.max(6,Math.min(others.length,8))):others;
+  var pick=chShuf(pool).slice(0,3),extra=chShuf(others.filter(function(x){return pick.indexOf(x)<0}));
+  while(pick.length<3&&extra.length)pick.push(extra.shift());
+  return pick.map(function(id,i){return{id:chOid(i),team:id,rank:rank[id],n:S.teams.length}});
+}
+function carFOffersHtml(M){
+  if(!S||S.season)return '';
+  var of=(M.fo||[]).filter(function(o){return T(o.team)});
+  var h='<div class="card" style="margin-top:12px"><span class="k">📨 Job offers</span> <span class="muted">Franchises send offers after each season. You cannot pick a team yourself: accept an offer or stay with '+chipTxt(S.me)+'.</span>';
+  if(!of.length)return h+'<p class="muted" style="margin:6px 0 0">No offers right now. Finish a season and franchises will approach you; a strong season brings offers from stronger squads.</p></div>';
+  return h+of.map(function(o){var t=T(o.team);return '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin-top:8px;padding:8px;border-radius:8px;background:rgba(0,0,0,.06)"><div><b>'+chipTxt(o.team)+'</b> want you as their manager. Squad strength <b>#'+o.rank+'</b> of '+o.n+' · purse '+money(t.purse)+'.</div><div><button class="btn primary" type="button" data-fof="accept" data-fid="'+o.id+'">Accept</button> <button class="btn" type="button" data-fof="decline" data-fid="'+o.id+'">Decline</button></div></div>'}).join('')+'</div>';
+}
+function carMgrHtml(){
+  var C=carLoad(),M=C.mgr,lv=carLevel(M.xp),t=carMgrTotals(),sm=carSeasonSummary(),no=carNo(),logged=!!C.logged[carKey()];
+  var pct=Math.max(0,Math.min(100,Math.round((M.xp-lv.cur)/(lv.next-lv.cur)*100)));
+  var h='<div class="card"><span class="k">Manager</span>'+
+    '<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0"><input id="carName" value="'+esc(M.name)+'" maxlength="24" style="font-size:18px;font-weight:700;padding:6px 10px;border-radius:8px;border:1px solid rgba(0,0,0,.2);min-width:200px">'+
+    '<span class="pill">Level '+lv.lv+' · '+esc(lv.title)+'</span><span class="pill">⭐ Manager rating '+(M.rating==null?50:M.rating)+'</span><span class="pill">'+chipTxt(S.me)+'</span></div>'+
+    '<div class="muted" style="font-size:12px">XP '+M.xp+' · next level at '+lv.next+'</div>'+
+    '<div style="height:10px;border-radius:6px;background:rgba(0,0,0,.15);overflow:hidden;margin-top:4px"><div style="width:'+pct+'%;height:100%;background:linear-gradient(90deg,#f5a524,#e0541c)"></div></div></div>';
+  h+=carFOffersHtml(M);
+  h+='<div class="comp">'+carBox('Seasons',t.s)+carBox('Titles','🏆 '+t.titles)+carBox('Finals',t.final)+carBox('Playoffs',t.po)+carBox('Record',t.w+'-'+t.l)+carBox('Win %',(t.w+t.l)?Math.round(t.w/(t.w+t.l)*100)+'%':'-')+carBox('Best finish',t.s?('#'+t.best):'-')+'</div>';
+  h+='<div class="card"><span class="k">Season '+no+' · board objectives</span>';
+  if(!S.season){h+='<p class="muted" style="margin-top:6px">Season '+no+' has not started. Open the <b>Season</b> tab and play matches.</p>'}
+  else if(sm){
+    var live=sm.done?'Season complete':'In progress';
+    h+='<div class="comp" style="margin-top:6px">'+carBox('Status',live)+carBox('League position','#'+sm.pos+' of '+sm.teams)+carBox('Record',sm.w+'-'+sm.l)+carBox('Points',sm.pts)+'</div>'+
+      '<ul style="margin:8px 0 0 18px"><li>'+(sm.po||!sm.done?'':'')+'Reach the playoffs: <b>'+(sm.done?(sm.po?'✅ achieved (+40 XP)':'❌ missed'):'pending')+'</b></li>'+
+      '<li>Win the title: <b>'+(sm.done?(sm.champ?'✅ champions (+150 XP)':'❌ not this time'):'pending')+'</b></li></ul>';
+    h+='<div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button id="carFinish" class="btn primary" type="button"'+((sm.done&&!logged)?'':' disabled')+'>🏁 Finish season &amp; start next season</button>'+
+      '<span class="muted" style="font-size:12px">'+(sm.done?'Saves this season to your career, then players develop over the off-season and a fresh season begins.':'Available once the playoffs are over (use Season → Play all playoffs).')+'</span></div>';
+  }
+  h+='</div>';
+  return h;
+}
+function carHistHtml(){
+  var C=carLoad(),M=C.mgr,h='';
+  h+='<h3 class="role-h">Season history</h3>';
+  if(!M.seasons.length)h+='<div class="card"><p class="muted">No completed seasons yet.</p></div>';
+  else h+=carTbl(['#','Franchise','Format','Pos','W-L','Pts','NRR','Result','XP'],M.seasons.slice().reverse().map(function(x){
+    return '<tr><td class="mono">'+x.no+'</td><td>'+chTn(x.team,x.kind!==undefined?x.kind:(x.nat?'nat':''))+'</td><td class="muted">'+esc(x.fmt||'')+'</td><td class="mono">#'+x.pos+'</td><td class="mono">'+x.w+'-'+x.l+'</td><td class="mono">'+x.pts+'</td><td class="mono">'+(x.nrr>0?'+':'')+x.nrr+'</td><td>'+(x.champ?'🏆 ':'')+esc(x.res)+'</td><td class="mono">+'+x.xp+'</td></tr>'}));
+  return h;
+}
+function carAchHtml(){
+  var h='<h3 class="role-h">Achievements</h3><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px">'+carAchievements().map(function(a){return carPill(a[2],a[0],a[1],a[3])}).join('')+'</div>';
+  h+='<div style="margin-top:14px"><button id="carReset" class="btn" type="button">Reset career</button></div>';
+  return h;
+}
+function chipTxt(id){try{return chip(id)}catch(e){return esc(id)}}
+
+function carPlrHtml(){
+  var C=carLoad(),P=C.plr,cur=P.cur;
+  var me=T(S.me),h='',sec=CSUB;
+  if(sec==='hof'){
+    if(!P.retired.length)return '<div class="card"><p class="muted">No retired players yet. Retire a career player from the Player tab to add them here.</p></div>';
+    return carHofHtml(P)+chMgrHistHtml();
+  }
+  if(!cur){
+    h+=carStartHtml(me);
+  }else{
+    var fp=carFind(cur.name),p=fp&&fp.p;
+    var live=S.season?carPlayerStats(cur.name,S.season):carBlank();
+    var allPrev=cur.seasons.reduce(function(a,x){return carAdd(a,x.stats)},carBlank());
+    var tot=carAdd(allPrev,live),bl=carBatLine(tot),ll=carBatLine(live);
+    var r0=cur.startRating,rNow=cur.stage?(cur.rating||r0):(p?p.rating:(cur.rating||r0));
+    if(sec==='plr'){h+='<div class="card"><span class="k">Career player</span><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0"><b style="font-size:22px">'+esc(cur.name)+'</b><span class="pill">'+esc(cur.role)+'</span><span class="pill">'+chipTxt(fp?fp.team:cur.team)+'</span><span class="pill">🏟️ '+esc((carDom(cur).dist?carDom(cur).dist+' · ':'')+carDom(cur).state)+'</span>'+'<span class="pill">🌍 '+esc(chNation(cur))+'</span>'+(cur.stage?'<span class="pill">'+CH_STAGES[chStageIdx(cur)][1]+'</span>':'')+(p?'':'<span class="pill">not in this league now</span>')+'</div>'+
+      '<div class="comp">'+carBox('Rating',rNow+(rNow>r0?' ▲':rNow<r0?' ▼':''))+carBox('Started at',r0)+carBox('Seasons',cur.seasons.length+(S.season?' +1':''))+carBox('Matches',tot.m)+carBox('Player of the Match',tot.pom)+'</div>'+chRateHtml(cur,cur.startRating,'Player rating')+chDiffHtml('chDiffP',cur)+'</div>'+chPathHtml(cur);
+    h+='<div style="margin-top:14px"><button id="carRetire" class="btn" type="button">Retire &amp; pick a new player</button></div>'}
+    if(sec==='dom')h+=carDomHtml(cur);
+    if(sec==='bat')h+='<h3 class="role-h">Career batting</h3>'+carTbl(['','M','Inns','Runs','HS','Avg','SR','50s','100s','4s','6s','Ducks'],[
+      '<tr><td><b>Career</b></td><td class="mono">'+tot.m+'</td><td class="mono">'+tot.bi+'</td><td class="mono"><b>'+tot.r+'</b></td><td class="mono">'+tot.hs+'</td><td class="mono">'+bl.avg+'</td><td class="mono">'+bl.sr+'</td><td class="mono">'+tot.fifty+'</td><td class="mono">'+tot.hundred+'</td><td class="mono">'+tot.f+'</td><td class="mono">'+tot.s+'</td><td class="mono">'+tot.duck+'</td></tr>',
+      '<tr><td>This season</td><td class="mono">'+live.m+'</td><td class="mono">'+live.bi+'</td><td class="mono">'+live.r+'</td><td class="mono">'+live.hs+'</td><td class="mono">'+ll.avg+'</td><td class="mono">'+ll.sr+'</td><td class="mono">'+live.fifty+'</td><td class="mono">'+live.hundred+'</td><td class="mono">'+live.f+'</td><td class="mono">'+live.s+'</td><td class="mono">'+live.duck+'</td></tr>']);
+    if(sec==='bowl')h+='<h3 class="role-h">Career bowling</h3>'+carTbl(['','Wkts','Overs','Runs','Econ','Best','3W','5W'],[
+      '<tr><td><b>Career</b></td><td class="mono"><b>'+tot.w+'</b></td><td class="mono">'+ov(tot.bb)+'</td><td class="mono">'+tot.br+'</td><td class="mono">'+(tot.bb?(tot.br/tot.bb*6).toFixed(2):'-')+'</td><td class="mono">'+carBest(tot)+'</td><td class="mono">'+tot.w3+'</td><td class="mono">'+tot.w5+'</td></tr>',
+      '<tr><td>This season</td><td class="mono">'+live.w+'</td><td class="mono">'+ov(live.bb)+'</td><td class="mono">'+live.br+'</td><td class="mono">'+(live.bb?(live.br/live.bb*6).toFixed(2):'-')+'</td><td class="mono">'+carBest(live)+'</td><td class="mono">'+live.w3+'</td><td class="mono">'+live.w5+'</td></tr>']);
+    if(sec==='pseas'){h+='<h3 class="role-h">Season by season</h3>';
+    if(!cur.seasons.length)h+='<div class="card"><p class="muted">Finish a season in the Manager Career tab to log his first season.</p></div>';
+    else h+=carTbl(['#','Team','M','Runs','Avg','SR','Wkts','Best','POM','Rating'],cur.seasons.slice().reverse().map(function(x){var o=x.stats,b=carBatLine(o);
+      return '<tr><td class="mono">'+x.no+'</td><td>'+chipTxt(x.team)+(x.champ?' 🏆':'')+'</td><td class="mono">'+o.m+'</td><td class="mono">'+o.r+'</td><td class="mono">'+b.avg+'</td><td class="mono">'+b.sr+'</td><td class="mono">'+o.w+'</td><td class="mono">'+carBest(o)+'</td><td class="mono">'+o.pom+'</td><td class="mono">'+(x.rFrom!=null?x.rFrom+' → '+x.rTo:'-')+'</td></tr>'}))}
+    var ms=[['🏏','Debut',tot.m>=1],['5️⃣','First fifty',tot.fifty+tot.hundred>=1],['💯','First century',tot.hundred>=1],['🚀','1000 career runs',tot.r>=1000],['🎯','First 3-wicket haul',tot.w3+tot.w5>=1],['🖐️','First five-for',tot.w5>=1],['🌟','50 career wickets',tot.w>=50],['🏅','Player of the Match',tot.pom>=1],['🏆','Title winner',cur.seasons.some(function(x){return x.champ})]];
+    if(sec==='mile')h+='<h3 class="role-h">Milestones</h3><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px">'+ms.map(function(m){return carPill(m[2],m[0],m[1],m[2]?'Unlocked':'Locked')}).join('')+'</div>';
+  }
+  return h;
+}
+function carHofHtml(P){
+  var h='<h3 class="role-h">Hall of fame</h3>'+carTbl(['Player','Seasons','M','Runs','Wkts','Titles'],P.retired.map(function(r){var t=r.seasons.reduce(function(a,x){return carAdd(a,x.stats)},carBlank());return '<tr><td>'+esc(r.name)+'</td><td class="mono">'+r.seasons.length+'</td><td class="mono">'+t.m+'</td><td class="mono">'+t.r+'</td><td class="mono">'+t.w+'</td><td class="mono">'+r.seasons.filter(function(x){return x.champ}).length+'</td></tr>'}));
+  return h;
+}
+var CTABS=[['mgr','🧑‍💼 Manager'],['hist','📅 Season history'],['ach','🏅 Achievements'],['plr','🏏 Player'],['dom','🏟️ Domestic teams'],['bat','Batting'],['bowl','Bowling'],['pseas','Player seasons'],['mile','Milestones'],['hof','🏛️ Hall of fame']];
+function carBody(){
+  if(CSUB==='mgr')return carMgrHtml();
+  if(CSUB==='hist')return carHistHtml();
+  if(CSUB==='ach')return carAchHtml();
+  return carPlrHtml();
+}
+function paintCareer(){
+  var el=$('view-career');if(!el)return;
+  if(!S||!S.done){chPaint(el);return}
+  carLoad();carNo();
+  el.innerHTML='<h2>Career</h2><p class="muted">Build a legacy over many seasons. Your manager record and your chosen player\'s career are saved on this device.</p>'+chNewBar()+
+    '<div class="ctabs" role="tablist" aria-label="Career sections">'+CTABS.map(function(t){return '<button class="ctab" role="tab" type="button" data-csub="'+t[0]+'" aria-selected="'+(CSUB===t[0])+'">'+t[1]+'</button>'}).join('')+'</div>'+
+    '<div class="ctab-body">'+carBody()+'</div>';
+}
+document.addEventListener('click',function(e){
+  var t=e.target&&e.target.closest?e.target.closest('#view-career button'):null;if(!t||!S)return;
+  var C=carLoad();
+  if(t.getAttribute('data-csub')){CSUB=t.getAttribute('data-csub');paintCareer();return}
+  if(t.id==='carFinish'){if(ONL()){toast('Careers are not available in online parties.');return}carFinish();return}
+  if(t.getAttribute('data-fof')){
+    var fo=(C.mgr.fo||[]).filter(function(x){return x.id===t.getAttribute('data-fid')})[0];if(!fo)return;
+    if(t.getAttribute('data-fof')==='accept'){
+      if(S.season){toast('The season has already started. Wait for the next off-season.');return}
+      if(!T(fo.team))return;
+      var from=S.me;S.me=fo.team;S.viewTeam=fo.team;S.spectate=false;C.mgr.fo=[];(C.mgr.log=C.mgr.log||[]).push({no:carNo()-1,text:'Left '+from+' to manage '+fo.team});
+      carSave();paintCareer();toast('You are now the manager of '+fo.team+'.');return}
+    C.mgr.fo=C.mgr.fo.filter(function(x){return x.id!==fo.id});carSave();paintCareer();toast('Offer declined.');return}
+  if(t.getAttribute('data-csrc')){CSRC=t.getAttribute('data-csrc');paintCareer();return}
+  if(t.id==='carSet'){
+    var dom0={state:($('carDomState')||{}).value||'',dist:($('carDomDist')||{}).value||'',seasons:[]};
+    if(CSRC==='new'){
+      var nm0=(($('carNewName')||{}).value||'').trim().slice(0,24),role0=($('carNewRole')||{}).value||'BAT',rt0=Math.max(40,Math.min(90,parseInt(($('carNewRating')||{}).value,10)||65)),tid0=($('carNewTeam')||{}).value||S.me;
+      if(!nm0){toast('Enter a name for your player.');return}
+      var dup=!!carFind(nm0);S.sets.forEach(function(st){st.players.forEach(function(q){if(q.name===nm0)dup=true})});
+      if(dup){toast('A player with that name already exists. Choose another name.');return}
+      var tm=T(tid0);if(!tm)return;
+      tm.squad.push({p:{name:nm0,c:($('carCountry')||{}).value||'IND',role:role0,base:20,rating:rt0,u:true,os:false,gen:true,custom:true,num:9000+Math.floor(Math.random()*900)},price:20});
+      C.plr.cur={name:nm0,team:tid0,role:role0,startRating:rt0,rating:rt0,seasons:[],src:'custom',stage:'city',c:($('carCountry')||{}).value||'IND',dom:dom0};carSave();paintCareer();toast(nm0+' joins '+tm.name+' and starts his career.');return}
+    var sel=$('carPick'),nm=sel&&sel.value;if(!nm)return;
+    var ff=carFind(nm);if(!ff)return;
+    C.plr.cur={name:nm,team:ff.team,role:ff.p.role,startRating:ff.p.rating,rating:ff.p.rating,seasons:[],src:ff.team===S.me?'squad':'league',stage:'city',c:($('carCountry')||{}).value||ff.p.c||'IND',dom:dom0};carSave();paintCareer();toast(nm+' is now your career player.');return}
+  if(t.id==='carDomSave'){var cu=C.plr.cur;if(!cu)return;var d0=carDom(cu);var cc0=$('carCountry');if(cc0&&cc0.value)cu.c=cc0.value;d0.state=($('carDomState')||{}).value||d0.state;d0.dist=($('carDomDist')||{}).value||'';carSave();paintCareer();toast('Domestic teams updated.');return}
+  if(t.id==='carRetire'){
+    if(!chOk(t,'Retire this player? His record goes to the Hall of fame and you can pick a new player.'))return;
+    if(C.plr.cur)C.plr.retired.push(C.plr.cur);C.plr.cur=null;carSave();paintCareer();return}
+  if(t.id==='carReset'){
+    if(!chOk(t,'Erase your whole career (manager and player)? This cannot be undone.'))return;
+    CAR=null;try{localStorage.removeItem(CAREER_KEY)}catch(e_){}carLoad();paintCareer();toast('Career reset.');return}
+});
+document.addEventListener('change',function(e){
+  if(e.target&&e.target.id==='carAnyTeam'&&S){CANYT=e.target.value;var pk=$('carPick');if(pk)pk.innerHTML=carAnyList(CANYT);chSyncC();return}
+  if(e.target&&(e.target.id==='carCountry'||e.target.id==='chCountry')){domRefresh(e.target.value);return}
+  if(e.target&&e.target.id==='carPick'){chSyncC();return}
+  if(e.target&&e.target.id==='carDomState'){var dd=$('carDomDist');if(dd)dd.innerHTML=domOpts(domCitiesOf(e.target.getAttribute('data-c')||'IND',e.target.value),'','No city team');return}
+  if(e.target&&e.target.id==='carName'){var C=carLoad();C.mgr.name=(e.target.value||'Manager').slice(0,24);carSave()}
+});
+
 })();
 </script>
 
 
+<style id="careerTabsSkin">.ctabs{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;border-bottom:1px solid var(--line);margin:12px 0 14px;scrollbar-width:thin}.ctab{flex:0 0 auto;background:none;border:0;border-bottom:3px solid transparent;padding:9px 13px;font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer;color:var(--muted)}.ctab:hover{color:var(--ink)}.ctab[aria-selected=true]{color:var(--ink);border-bottom-color:var(--accent);background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--accent) 16%,transparent))}.ctab-body{min-height:120px}</style>
+
+<script>(function(){document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('#tabs .tab');if(b&&b.scrollIntoView)setTimeout(function(){try{b.scrollIntoView({inline:'center',block:'nearest'})}catch(x){}},0)})})();</script>
 <style id="seasonOverhaulSkin">
 .season-hub{display:grid;gap:12px;margin:12px 0}
 .season-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:8px}
