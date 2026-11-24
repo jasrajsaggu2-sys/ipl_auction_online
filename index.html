@@ -4529,13 +4529,41 @@ function stSave(){try{localStorage.setItem('cricketStadiums',JSON.stringify(STAD
 var STP={flat:'🟩 Flat batting pitch',green:'🌱 Green seam pitch',slow:'🟫 Slow surface',dry:'🌀 Dry spin pitch',random:'🎲 Varies match to match'};
 var STZ={small:'Small boundaries',std:'Standard boundaries',large:'Large boundaries'};
 function stOf(v){v=String(v||'');if(v.indexOf('S:')!==0)return null;return STAD.filter(function(x){return x.id===v.slice(2)})[0]||null}
-function stadOpts(sfx){return STAD.map(function(x){return['S:'+x.id,'🏟️ '+x.n+(x.c?', '+x.c:'')+(stCap(x)?' · '+stCap(x).toLocaleString():'')+(sfx||'')]})}
+function stadOpts(sfx,noCat){var o=STAD.map(function(x){return['S:'+x.id,'🏟️ '+x.n+(x.c?', '+x.c:'')+(stCap(x)?' · '+stCap(x).toLocaleString():'')+(sfx||'')]});
+  if(!noCat)(window.VENUE_CAT||[]).forEach(function(c,i){o.push(['C:'+i,'🏟️ '+c.n+' · '+c.cap.toLocaleString('en-IN')+(sfx||'')])});return o}
+function teamVenOpts(a,b){var o=[];[a,b].forEach(function(id){var t=T(id);if(!t)return;o.push(['G:'+id,'🏟️ '+t.ground+' · '+id+' main ground']);(HOMES[id]||[]).forEach(function(x,i){o.push(['H:'+id+':'+i,'🏟️ '+x.n+' · '+id+' alt home'])})});return o}
+function catName(v){v=String(v||'');if(v.indexOf('C:')!==0)return '';var c=(window.VENUE_CAT||[])[+v.slice(2)];return c?c.n:''}
 function sdFactor(m){var d=m&&m.sd;if(!d)return 1;return ({flat:1.07,green:.94,slow:.94,dry:.97}[d.p]||1)*({small:1.04,large:.96}[d.z]||1)*(typeof d.en==='number'&&d.cap?1+(d.en-.5)*.05:1)}
 /* stand types: capacity per section of the ring */
-var STT={terrace:{n:'Terraces',cap:3000,c:'#9aa5b5',i:'▤',pr:2500},stand:{n:'Grandstand',cap:6000,c:'#4f7cff',i:'▥',pr:3500},prem:{n:'Premium stand',cap:2000,c:'#f5a524',i:'★',pr:8000},roof:{n:'Covered stand',cap:5000,c:'#8b6cff',i:'⌂',pr:5000},hill:{n:'Grass bank',cap:4000,c:'#4caf50',i:'≈',pr:2500},pav:{n:'Pavilion (max 1)',cap:4500,c:'#e5484d',i:'P',pr:30000}};
+var STT={terrace:{n:'Terraces',cap:3000,c:'#9aa5b5',i:'▤',pr:3100},stand:{n:'Grandstand',cap:6000,c:'#4f7cff',i:'▥',pr:4900},prem:{n:'Premium stand',cap:2000,c:'#f5a524',i:'★',pr:12500},roof:{n:'Covered stand',cap:5000,c:'#8b6cff',i:'⌂',pr:6800,roof:1},hill:{n:'Grass bank',cap:4000,c:'#4caf50',i:'≈',pr:3300},pav:{n:'Pavilion (max 1)',cap:4500,c:'#e5484d',i:'P',pr:45000},
+ club:{n:'Members club',cap:2500,c:'#2ec4b6',i:'◈',pr:14500,roof:1},
+ box:{n:'Corporate boxes',cap:800,c:'#ff7aa2',i:'▣',pr:38000,roof:1},
+ sky:{n:'Sky suites',cap:500,c:'#b5179e',i:'◆',pr:72000,roof:1},
+ vip:{n:'VIP lounge stand',cap:1500,c:'#f72585',i:'♛',pr:27500,roof:1},
+ tent:{n:'Hospitality tents',cap:1000,c:'#e9c46a',i:'△',pr:18500},
+ media:{n:'Press & media box',cap:400,c:'#48cae4',i:'✉',pr:7400,roof:1},
+ fam:{n:'Family enclosure',cap:3500,c:'#ffd166',i:'☺',pr:4300},
+ fan:{n:'Supporters end',cap:4500,c:'#ff6b35',i:'♪',pr:3600},
+ stu:{n:'Student stand',cap:4000,c:'#06d6a0',i:'✎',pr:2800},
+ bleach:{n:'Bleachers',cap:5500,c:'#adb5bd',i:'≡',pr:3700},
+ lawn:{n:'Picnic lawn',cap:3500,c:'#7fb069',i:'☘',pr:3900},
+ dbl:{n:'Double-deck grandstand',cap:9000,c:'#1d3557',i:'▦',pr:6300},
+ corner:{n:'Corner stand',cap:3500,c:'#e76f51',i:'◣',pr:4100},
+ legend:{n:'Legends lounge',cap:600,c:'#9d4edd',i:'♕',pr:56000,roof:1},
+ sofa:{n:'Sofa seats',cap:800,c:'#ff9e00',i:'▭',pr:21500},
+ ladies:{n:'Ladies enclosure',cap:2000,c:'#ff8fab',i:'♀',pr:3400},
+ kids:{n:'Kids zone',cap:1500,c:'#ffee32',i:'✿',pr:3200},
+ access:{n:'Accessible seating',cap:600,c:'#a2d2ff',i:'♿',pr:2700},
+ season:{n:'Season-ticket stand',cap:3500,c:'#5390d9',i:'◉',pr:5400},
+ social:{n:'Social deck',cap:2500,c:'#d4a373',i:'◎',pr:5800},
+ cprem:{n:'Covered premium',cap:2500,c:'#7209b7',i:'⌂',pr:19800,roof:1},
+ rail:{n:'Standing rail',cap:3000,c:'#8d99ae',i:'┃',pr:3000},
+ rooftop:{n:'Rooftop terrace',cap:1200,c:'#2a9d8f',i:'▔',pr:14000},
+ acad:{n:'Academy stand',cap:2500,c:'#80ed99',i:'☆',pr:3500},
+ spons:{n:'Sponsor hospitality',cap:1000,c:'#c77dff',i:'$',pr:31500,roof:1}};
 var STLV={1:1,2:1.7,3:2.4},STLN={1:'1 floor',2:'2 floors',3:'3 floors'};
 var SLN=12;
-var FLNm=['Ground floor','First floor','Second floor','Third floor','Fourth floor'],STMAXF=10;
+var FLNm=['Ground floor','First floor','Second floor','Third floor','Fourth floor','Fifth floor','Sixth floor','Seventh floor','Eighth floor','Ninth floor','Tenth floor','Eleventh floor','Twelfth floor','Thirteenth floor','Fourteenth floor','Fifteenth floor','Sixteenth floor','Seventeenth floor','Eighteenth floor','Nineteenth floor','Twentieth floor'],STMAXF=25;
 function flm(f){return f===0?1:.7}
 function fln(f){return FLNm[f]||('Floor '+f)}
 function stFl(x,i){var k=x&&x.sl&&x.sl[i];if(!STT[k])return [];var a=[k];
@@ -4546,15 +4574,15 @@ function stLvl(x,i){return Math.max(1,stFl(x,i).length)}
 function stSeats(x,i,f){var a=stFl(x,i);if(f==null){var t=0;a.forEach(function(k,j){t+=Math.round(STT[k].cap*flm(j))});return t}return a[f]?Math.round(STT[a[f]].cap*flm(f)):0}
 function stCap(x){var t=0,n=(x&&x.sl||[]).length;for(var i=0;i<n;i++)t+=stSeats(x,i);return t}
 function stMaxLv(x){var m=0;(x&&x.sl||[]).forEach(function(k,i){m=Math.max(m,stFl(x,i).length)});return m}
-function stMin(k){return k==='pav'?30000:2500}
+function stMin(k){return 0}
 function stPrice(x,k,f){var P=x&&x.pr,p=P&&f!=null&&P[k+'@'+(f+1)];if(typeof p!=='number')p=P&&P[k];return Math.max(stMin(k),(typeof p==='number'&&p>=0)?p:STT[k].pr)}
 function stSim(x,r){var att=0,rev=0,full=0,n=(x.sl||[]).length;
   for(var i=0;i<n;i++){stFl(x,i).forEach(function(k,f){var seats=Math.round(STT[k].cap*flm(f)),p=stPrice(x,k,f),ref=STT[k].pr,base=p<=0?1:Math.min(1,.9*Math.pow(ref/p,.7)),occ=Math.min(1,base*(.85+.3*r)),a=Math.round(seats*occ);att+=a;rev+=a*p;full+=seats*p})}
   return{att:att,rev:rev,full:full}}
 function stCur(){return '₹'}
 function stMoney(v){return stCur()+Math.round(v).toLocaleString('en-IN')}
-function stEnc(x){return (x&&x.sl||[]).filter(function(k){return STT[k]}).length/SLN}
-function stAtm(c){return c<=0?'Open ground':c<10000?'Intimate':c<30000?'Lively':c<50000?'Roaring':'Cauldron'}
+function stEnc(x){return (x&&x.sl||[]).filter(function(k){return STT[k]}).length/Math.max(1,(x&&x.sl||[]).length||SLN)}
+function stAtm(c){return c<=0?'Open ground':c<10000?'Intimate':c<30000?'Lively':c<50000?'Roaring':c<80000?'Cauldron':'Colosseum'}
 function sdR(m){return (((m.seed||1)%1000)/1000)}
 function sdAtt(m){var d=m&&m.sd;if(!d||!d.cap)return 0;if(d.sl)return stSim(d,sdR(m)).att;return Math.round(d.cap*(.72+sdR(m)*.28))}
 /* Estimated capacity and ticket prices (₹) of home grounds: general stand price 'lo', premium 'hi'. Seats split 60% general, 30% stand (x2.5), 10% premium. */
@@ -4612,7 +4640,7 @@ function grdFor(m){var n=mVenue(m),ex=(HOMES[m.h]||[]).filter(function(e){return
 function grdAvg(g){var gen=Math.round(g.cap*.6),stn=Math.round(g.cap*.3),pre=g.cap-gen-stn;return (gen*g.lo+stn*g.lo*2.5+pre*g.hi)/g.cap}
 function mEarn(m){var d=m&&m.sd,r=sdR(m),att,rev,g=null,custom=false;
   if(d&&d.sl){var q=stSim(d,r);att=q.att;rev=q.rev;custom=true}
-  else{g=m&&m.neutral?GRD_NEU:grdFor(m);att=Math.round(g.cap*(.72+.28*r));rev=Math.round(att*grdAvg(g))}
+  else{g=m&&m.vg?m.vg:(m&&m.neutral?GRD_NEU:grdFor(m));att=Math.round(g.cap*(.72+.28*r));rev=Math.round(att*grdAvg(g))}
   var h=Math.round(rev*(((d&&!m.hg)||m.neutral)?.5:.6));
   return{att:att,rev:rev,h:h,a:rev-h,avg:att?rev/att:0,g:g,custom:custom,cap:d&&d.sl?stCap(d):g.cap}}
 function earnTotals(list){var tot=0,by={},n=0;list.forEach(function(m){if(!m||!m.done)return;var e=mEarn(m);n++;tot+=e.rev;
@@ -4626,7 +4654,7 @@ function tourMs(P){var o=[];P.tours.forEach(function(t){t.ms.forEach(function(i)
 function sdGate(m){var d=m&&m.sd;if(!d||!d.sl)return 0;return stSim(d,sdR(m)).rev}
 /* top-down plan of the ground; interactive in the builder */
 function sbSvg(x,live){
-  var cx=180,cy=150,k=({small:70,std:82,large:94})[x.z]||82,rx=k*1.12,ry=k*.9,th=26,n=SLN,sl=x.sl||[],o='';
+  var cx=180,cy=150,k=({small:70,std:82,large:94})[x.z]||82,rx=k*1.12,ry=k*.9,th=26,sl=x.sl||[],n=Math.max(1,sl.length||SLN),o='';
   function P(a,r1,r2){return (cx+Math.cos(a)*r1).toFixed(1)+' '+(cy+Math.sin(a)*r2).toFixed(1)}
   function band(a0,a1,r1,y1,r2,y2){return 'M'+P(a0,r1,y1)+' L'+P(a0,r2,y2)+' A'+r2.toFixed(1)+' '+y2.toFixed(1)+' 0 0 1 '+P(a1,r2,y2)+' L'+P(a1,r1,y1)+' A'+r1.toFixed(1)+' '+y1.toFixed(1)+' 0 0 0 '+P(a0,r1,y1)+' Z'}
   var ri=rx+6,rYi=ry+6,rmax=rx+6+th*2.4;
@@ -4637,8 +4665,8 @@ function sbSvg(x,live){
     if(!fl.length)o+='<path d="'+band(a0,a1,ri,rYi,ro,rYo)+'" fill="rgba(255,255,255,.04)" stroke="#6f8176" stroke-width="1" stroke-dasharray="3 3" pointer-events="none"/>';
     fl.forEach(function(kk,f){var t=STT[kk],q0=f/nf,q1=(f+1)/nf,r1=ri+(ro-ri)*q0,y1=rYi+(rYo-rYi)*q0,r2=ri+(ro-ri)*q1,y2=rYi+(rYo-rYi)*q1;
       o+='<path d="'+band(a0,a1,r1,y1,r2,y2)+'" fill="'+t.c+'" stroke="#0d1511" stroke-width="1.2" pointer-events="none"/>';
-      if(kk==='roof'){var am=(a0+a1)/2;o+='<path d="M'+P(am-.18,r2-2,y2-2)+' A'+(r2-2).toFixed(1)+' '+(y2-2).toFixed(1)+' 0 0 1 '+P(am+.18,r2-2,y2-2)+'" stroke="#fff" stroke-width="2" fill="none" pointer-events="none" opacity=".7"/>'}
-      if(live){var am2=(a0+a1)/2,rm=(r1+r2)/2,rYm=(y1+y2)/2;o+='<text x="'+(cx+Math.cos(am2)*rm).toFixed(1)+'" y="'+(cy+Math.sin(am2)*rYm+3.5).toFixed(1)+'" text-anchor="middle" font-size="'+(nf>1?9:12)+'" font-weight="700" fill="#0d1511" pointer-events="none">'+t.i+'</text>'}});
+      if(t.roof){var am=(a0+a1)/2;o+='<path d="M'+P(am-.18,r2-2,y2-2)+' A'+(r2-2).toFixed(1)+' '+(y2-2).toFixed(1)+' 0 0 1 '+P(am+.18,r2-2,y2-2)+'" stroke="#fff" stroke-width="2" fill="none" pointer-events="none" opacity=".7"/>'}
+      if(live&&nf<=8){var am2=(a0+a1)/2,rm=(r1+r2)/2,rYm=(y1+y2)/2;o+='<text x="'+(cx+Math.cos(am2)*rm).toFixed(1)+'" y="'+(cy+Math.sin(am2)*rYm+3.5).toFixed(1)+'" text-anchor="middle" font-size="'+(nf>1?9:12)+'" font-weight="700" fill="#0d1511" pointer-events="none">'+t.i+'</text>'}});
     if(live)o+='<path d="'+band(a0,a1,ri,rYi,rx+6+th*2.4,ry+6+th*2.4*.9)+'" fill="transparent" class="sbslot" data-i="'+i+'" pointer-events="all" style="cursor:pointer"><title>Section '+(i+1)+(fl.length?': '+fl.map(function(kk,f){return fln(f)+' '+STT[kk].n}).join(', '):': open')+'</title></path>';
   }
   o+='<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx.toFixed(1)+'" ry="'+ry.toFixed(1)+'" fill="#3f9a4f" stroke="#fff" stroke-width="2.2" stroke-dasharray="1 0"/>'+
@@ -4651,14 +4679,30 @@ var SB=null;
 function sbNew(id){var x=id?STAD.filter(function(q){return q.id===id})[0]:null;
   SB=x?{id:x.id,n:x.n,c:x.c||'',p:x.p||'flat',z:x.z||'std',sl:(x.sl||[]).slice(),up:[],fl:!!x.fl,bs:!!x.bs,brush:'stand',fsel:0,pr:Object.assign({},x.pr||{}),pre:x.pre||'std',mf:Math.min(STMAXF,Math.max(x.mf||3,stMaxLv(x)))}:{id:null,n:'',c:'',p:'flat',z:'std',sl:[],up:[],fl:false,bs:false,brush:'stand',fsel:0,pr:{},pre:'std',mf:3};
   while(SB.sl.length<SLN)SB.sl.push('');
-  for(var i=0;i<SLN;i++){var f=x?stFl(x,i):[];SB.up.push(f.slice(1))}}
+  for(var i=0;i<SB.sl.length;i++){var f=x?stFl(x,i):[];SB.up.push(f.slice(1))}}
 function sbTypes(i){var a=[SB.sl[i]].concat(SB.up[i]||[]),o=[];for(var f=0;f<SB.mf&&f<a.length;f++){if(STT[a[f]])o.push(a[f]);else break}return o}
 function sbWrite(i,arr){arr=arr.slice(0,SB.mf);SB.sl[i]=arr[0]||'';SB.up[i]=arr.slice(1)}
+function sbRandom(){
+  var R=function(n){return Math.floor(Math.random()*n)},pick=function(a){return a[R(a.length)]};
+  var all=Object.keys(STT).filter(function(k){return k!=='pav'}),low=['terrace','stand','hill','bleach','fan','stu','fam','lawn','corner','rail','roof','season','acad','ladies','kids','social','dbl'].filter(function(k){return STT[k]}),hi=['box','sky','vip','club','legend','spons','cprem','sofa','tent','rooftop','media'].filter(function(k){return STT[k]});
+  var ns=pick([12,16,20,24,32,40]);SB.mf=2+R(8);SB.fsel=0;SB.sl=[];SB.up=[];
+  for(var i=0;i<ns;i++){SB.sl.push('');SB.up.push([])}
+  var rec=[0,1,2,3].map(function(){var n=1+R(SB.mf),a=[pick(low)];for(var f=1;f<n;f++)a.push(f<2?pick(all):pick(hi.concat(all)));return a});
+  for(var j=0;j<ns;j++){var a=rec[Math.floor(j*4/ns)].slice();
+    if(Math.random()<.25&&a.length>1)a.pop();else if(Math.random()<.25)a[a.length-1]=pick(all);
+    if(Math.random()<.08)a=[];
+    sbWrite(j,a)}
+  var pv=R(ns),pa=['pav'];for(var u=R(3);u>0;u--)pa.push(pick(hi));sbWrite(pv,pa);
+  SB.p=pick(['flat','green','slow','dry','random']);SB.z=pick(['small','std','large']);SB.fl=Math.random()<.7;SB.bs=Math.random()<.6;
+  SB.pre=pick(['std','low','high']);var mu={std:1,low:.6,high:1.8}[SB.pre];SB.pr={};
+  Object.keys(STT).forEach(function(k){for(var f=1;f<=STMAXF;f++)SB.pr[k+'@'+f]=Math.round(STT[k].pr*mu/10)*10});
+  if(!(SB.n||'').trim())SB.n=pick(['Royal','Jasraj','Sunrise','Golden','Harbour','Capital','Victory','Crown','Riverside','Summit'])+' '+pick(['Oval','Park','Arena','Stadium','Ground','Bowl']);
+  toast('🎲 Random stadium built. Tweak anything, then save it.')}
 function sbInline(){return !!(S&&S.play&&S.tab==='stad'&&$('view-stad'))}
 function sbBox(){if(sbInline())return $('view-stad');var o=$('mm');if(!o||o.hidden||!o.querySelector('.box'))modal('');return $('mm').querySelector('.box')}
 function stadModal(){
   var list=STAD.length?STAD.map(function(x){var cp=stCap(x),g=stSim(x,.5),ml=stMaxLv(x);return '<div class="mcard" style="margin:8px 0;display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center"><div>'+sbSvg(x,false)+'</div><div><div class="mres"><b>🏟️ '+esc(x.n)+'</b>'+(x.c?' · '+esc(x.c):'')+'</div><div class="mres">'+(cp?'👥 '+cp.toLocaleString()+' seats · '+stAtm(cp)+(ml>1?' · up to '+ml+' floors':''):'No stands built yet')+(x.fl?' · 🌙 floodlit':'')+(x.bs?' · 📺 big screen':'')+'</div><div class="mres">'+esc(STP[x.p]||STP.random)+' · '+esc(STZ[x.z]||STZ.std)+'</div>'+(cp?'<div class="mres">🎟️ Typical gate '+stMoney(g.rev)+' · '+g.att.toLocaleString()+' fans</div>':'')+'<div class="mact"><button class="btn stadedit" type="button" data-id="'+x.id+'">✏️ Edit</button><button class="btn staddel" type="button" data-id="'+x.id+'">🗑 Delete</button></div></div></div>'}).join(''):'<p class="muted">No custom stadiums yet. Design your first one.</p>';
-  var body='<p class="muted">Design a ground with one to three floors per stand, set your own ticket prices, then use it as the venue in Kick-off, Tours and Tournaments. A custom stadium is a neutral ground, so neither side gets home advantage.</p>'+
+  var body='<p class="muted">Design a ground with 8 to 64 stands, up to '+STMAXF+' floors each and '+Object.keys(STT).length+' stand types, set your own ticket prices, then use it as the venue in Kick-off, Tours and Tournaments. A custom stadium is a neutral ground, so neither side gets home advantage.</p>'+
    '<div class="mact"><button class="btn primary stadnew" type="button">🏗️ Build a new stadium</button></div>'+list;
   if(sbInline()){$('view-stad').innerHTML='<h2>Stadiums</h2>'+body;return}
   modal('<div class="mhead"><div><span class="k">CUSTOM STADIUMS</span><h3>Your stadiums</h3></div>'+xbtn()+'</div>'+body)}
@@ -4670,23 +4714,23 @@ function sbPaint(){
   var pal=Object.keys(STT).map(function(k){var t=STT[k];return '<button type="button" class="btn sbbrush'+(x.brush===k?' primary':'')+'" data-b="'+k+'" style="font-size:12.5px;padding:5px 9px;display:inline-flex;align-items:center;gap:6px"><i style="width:12px;height:12px;border-radius:3px;background:'+t.c+';display:inline-block"></i>'+t.n+' <small class="muted">'+t.cap.toLocaleString()+'</small></button>'}).join('')+
     '<button type="button" class="btn sbbrush'+(x.brush==='x'?' primary':'')+'" data-b="x" style="font-size:12.5px;padding:5px 9px">⌫ Remove</button>';
   var fl='';for(var f0=0;f0<x.mf;f0++)fl+='<button type="button" class="btn sbfloor'+(x.fsel===f0?' primary':'')+'" data-l="'+f0+'" style="font-size:12.5px;padding:5px 9px">'+fln(f0)+' <small class="muted">×'+flm(f0)+'</small></button>';
-  var used={};for(var i=0;i<SLN;i++){sbTypes(i).forEach(function(k,f){var key=k+'@'+(f+1);used[key]=(used[key]||0)+1})}
+  var used={};for(var i=0;i<x.sl.length;i++){sbTypes(i).forEach(function(k,f){var key=k+'@'+(f+1);used[key]=(used[key]||0)+1})}
   var keys=Object.keys(used).sort(function(a,b){return (+a.split('@')[1])-(+b.split('@')[1])||(a<b?-1:1)});
-  var prices=keys.length?keys.map(function(key){var kk=key.split('@')[0],f=+key.split('@')[1]-1,t=STT[kk];return '<div class="sbpr"><label style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><i style="width:12px;height:12px;border-radius:3px;background:'+t.c+';display:inline-block"></i><b>'+fln(f)+'</b> · '+t.n+' <small class="muted">'+used[key]+' section'+(used[key]>1?'s':'')+' · standard '+stMoney(t.pr)+'</small></label><input type="number" class="btn sbprice" data-k="'+key+'" min="'+stMin(kk)+'" max="50000" step="50" inputmode="numeric" value="'+stPrice(x,kk,f)+'"></div>'}).join(''):'<p class="muted">Place some stands to set their ticket prices.</p>';
+  var prices=keys.length?keys.map(function(key){var kk=key.split('@')[0],f=+key.split('@')[1]-1,t=STT[kk];return '<div class="sbpr"><label style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><i style="width:12px;height:12px;border-radius:3px;background:'+t.c+';display:inline-block"></i><b>'+fln(f)+'</b> · '+t.n+' <small class="muted">'+used[key]+' section'+(used[key]>1?'s':'')+' · standard '+stMoney(t.pr)+'</small></label><input type="number" class="btn sbprice" data-k="'+key+'" min="'+stMin(kk)+'" max="200000" step="50" inputmode="numeric" value="'+stPrice(x,kk,f)+'"></div>'}).join(''):'<p class="muted">Place some stands to set their ticket prices.</p>';
   box.innerHTML='<div class="mhead"><div><span class="k">STADIUM BUILDER</span><h3>'+(x.id?'Edit stadium':'Build a stadium')+'</h3></div><button class="btn sbback" type="button">← Back</button></div>'+
    '<div class="ctl-row"><label>Name<input id="sbN" class="btn" maxlength="30" placeholder="Jasraj Oval" value="'+esc(x.n)+'"></label><label>City<input id="sbC" class="btn" maxlength="30" placeholder="Ludhiana" value="'+esc(x.c)+'"></label></div>'+
    '<div class="ctl-row" style="margin-top:8px"><label>Pitch'+sel('sbP',x.p,[['flat',STP.flat],['green',STP.green],['slow',STP.slow],['dry',STP.dry],['random',STP.random]])+'</label><label>Boundaries'+sel('sbZ',x.z,[['small',STZ.small],['std',STZ.std],['large',STZ.large]])+'</label></div>'+
-   '<div class="ctl-row" style="margin-top:10px"><label>Number of floors (1 to '+STMAXF+')<input id="sbMF" class="btn" type="number" min="1" max="'+STMAXF+'" step="1" inputmode="numeric" value="'+x.mf+'" style="width:90px"></label></div>'+
+   '<div class="ctl-row" style="margin-top:10px"><label>Number of floors (1 to '+STMAXF+')<input id="sbMF" class="btn" type="number" min="1" max="'+STMAXF+'" step="1" inputmode="numeric" value="'+x.mf+'" style="width:90px"></label><label>Number of stands<select id="sbNS" class="btn">'+[8,12,16,20,24,32,40,48,64].map(function(v){return '<option value="'+v+'"'+(v===x.sl.length?' selected':'')+'>'+v+' stands</option>'}).join('')+'</select></label></div>'+
    '<p class="muted" style="margin:10px 0 6px">1. Choose which floor you are building.</p><div style="display:flex;flex-wrap:wrap;gap:6px">'+fl+'</div>'+
    '<p class="muted" style="margin:10px 0 6px">2. Choose the seat type for that floor.</p><div style="display:flex;flex-wrap:wrap;gap:6px">'+pal+'</div>'+
    '<p class="muted" style="margin:10px 0 6px">3. Tap a section of the ground to put that seat type on that floor. Build the ground floor first, then add floors above it, each with its own seat type. Tap again to remove a floor (and any floors above it).</p>'+
    '<div style="margin:10px 0">'+sbSvg(x,true)+'</div>'+
-   '<div class="mact"><button class="btn sbfill" type="button">Fill this floor everywhere</button><button class="btn sbclear" type="button">Clear all</button><label class="muted" style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" id="sbL"'+(x.fl?' checked':'')+'> 🌙 Floodlights</label><label class="muted" style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" id="sbS"'+(x.bs?' checked':'')+'> 📺 Big screen</label></div>'+
+   '<div class="mact"><button class="btn primary sbrand" type="button">🎲 Random stadium</button><button class="btn sbfill" type="button">Fill this floor everywhere</button><button class="btn sbclear" type="button">Clear all</button><label class="muted" style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" id="sbL"'+(x.fl?' checked':'')+'> 🌙 Floodlights</label><label class="muted" style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" id="sbS"'+(x.bs?' checked':'')+'> 📺 Big screen</label></div>'+
    '<div class="card" style="margin-top:10px"><h4 style="margin:0 0 6px">🎟️ Ticket prices by floor and seat type</h4><label class="muted">Pricing<select id="sbPre" class="btn" style="margin-left:6px"><option value="std"'+(x.pre==='std'?' selected':'')+'>Standard</option><option value="low"'+(x.pre==='low'?' selected':'')+'>Budget (about 40% cheaper)</option><option value="high"'+(x.pre==='high'?' selected':'')+'>Premium (about 80% dearer)</option><option value="cust"'+(x.pre==='cust'?' selected':'')+'>Custom</option></select></label>'+prices+'<div id="sbRev" style="margin-top:6px">'+sbRevHTML(x)+'</div></div>'+
    '<div class="card" style="margin-top:10px"><div class="mres"><b>👥 Capacity: '+cp.toLocaleString()+'</b> · Atmosphere: <b>'+stAtm(cp)+'</b> · Tallest stand: '+(stMaxLv(x)||0)+' floor'+(stMaxLv(x)===1?'':'s')+'</div><div class="mres">Enclosed: '+en+'% of the boundary · '+esc(STP[x.p])+' · '+esc(STZ[x.z])+'</div><div class="muted" style="font-size:12px;margin-top:4px">A more enclosed bowl holds the ball in a little: scores edge up with more stands. Floodlit grounds bring dew for the chasing side. A big crowd roars on sixes and wickets.</div></div>'+
    '<div class="mact" style="margin-top:10px"><button class="btn primary sbsave" type="button">💾 Save stadium</button></div>'}
 function sbRefresh(){if(S&&S.play){paintPlayBar();pxRepaint()}}
-document.addEventListener('click',function(e){var t=e.target&&e.target.closest?e.target.closest('.stadopen,.stadnew,.stadedit,.staddel,.sbslot,.sbbrush,.sbfloor,.sbfill,.sbclear,.sbsave,.sbback'):null;if(!t)return;
+document.addEventListener('click',function(e){var t=e.target&&e.target.closest?e.target.closest('.stadopen,.stadnew,.stadedit,.staddel,.sbslot,.sbbrush,.sbfloor,.sbfill,.sbclear,.sbrand,.sbsave,.sbback'):null;if(!t)return;
   var c=t.classList;
   if(c.contains('stadopen')){stadModal();return}
   if(c.contains('stadnew')){sbNew(null);sbPaint();return}
@@ -4707,28 +4751,30 @@ document.addEventListener('click',function(e){var t=e.target&&e.target.closest?e
   if(c.contains('sbfill')){var b2=SB.brush==='x'?'stand':SB.brush,f2=SB.fsel;
     if(b2==='pav'&&f2>0){toast('The pavilion is a ground-floor stand only.');return}
     if(b2==='pav'){toast('Only one pavilion is allowed. Tap a section to place it.');return}
-    for(var j=0;j<SLN;j++){var aj=sbTypes(j);if(SB.sl[j]==='pav'&&f2===0)continue;if(f2>aj.length)continue;aj[f2]=b2;sbWrite(j,aj)}sbPaint();return}
-  if(c.contains('sbclear')){for(var j2=0;j2<SLN;j2++)sbWrite(j2,[]);sbPaint();return}
+    for(var j=0;j<SB.sl.length;j++){var aj=sbTypes(j);if(SB.sl[j]==='pav'&&f2===0)continue;if(f2>aj.length)continue;aj[f2]=b2;sbWrite(j,aj)}sbPaint();return}
+  if(c.contains('sbrand')){sbRandom();sbPaint();return}
+  if(c.contains('sbclear')){for(var j2=0;j2<SB.sl.length;j2++)sbWrite(j2,[]);sbPaint();return}
   if(c.contains('sbsave')){var nm=(SB.n||'').trim().slice(0,30);if(!nm){toast('Give the stadium a name.');return}
-    var pr={};for(var qi=0;qi<SLN;qi++)sbTypes(qi).forEach(function(k,f){pr[k+'@'+(f+1)]=stPrice(SB,k,f)});
+    var pr={};for(var qi=0;qi<SB.sl.length;qi++)sbTypes(qi).forEach(function(k,f){pr[k+'@'+(f+1)]=stPrice(SB,k,f)});
     var rec={id:SB.id||('c'+Date.now().toString(36)+Math.floor(Math.random()*1000)),n:nm,c:(SB.c||'').trim().slice(0,30),p:SB.p,z:SB.z,sl:SB.sl.slice(),up:SB.up.map(function(a){return a.slice()}),mf:SB.mf,pr:pr,pre:SB.pre,fl:SB.fl,bs:SB.bs};
-    if(SB.id){STAD=STAD.map(function(q){return q.id===SB.id?rec:q})}else{if(STAD.length>=24){toast('You can keep up to 24 stadiums.');return}STAD.push(rec)}
+    if(SB.id){STAD=STAD.map(function(q){return q.id===SB.id?rec:q})}else{if(STAD.length>=60){toast('You can keep up to 60 stadiums.');return}STAD.push(rec)}
     stSave();SB=null;stadModal();sbRefresh();toast(nm+' is ready to host.');return}
   if(c.contains('staddel')){var id=t.getAttribute('data-id');STAD=STAD.filter(function(q){return q.id!==id});
     if(KK.neu==='S:'+id)KK.neu='home';if(TO.neu==='S:'+id)TO.neu='home';if(TR.neu==='S:'+id)TR.neu='hostA';if(CT.v==='S:'+id)CT.v='hostB';
     stSave();stadModal();sbRefresh()}});
 document.addEventListener('change',function(e){var el=e.target;if(!SB||!el||!el.id)return;
   if(el.id==='sbP'){SB.p=el.value;sbPaint()}else if(el.id==='sbZ'){SB.z=el.value;sbPaint()}else if(el.id==='sbL'){SB.fl=el.checked;sbPaint()}else if(el.id==='sbS'){SB.bs=el.checked;sbPaint()}
-  else if(el.id==='sbMF'){var v=Math.max(1,Math.min(STMAXF,Math.floor(+el.value)||1));SB.mf=v;if(SB.fsel>=v)SB.fsel=v-1;for(var q=0;q<SLN;q++)sbWrite(q,sbTypes(q));sbPaint()}
+  else if(el.id==='sbMF'){var v=Math.max(1,Math.min(STMAXF,Math.floor(+el.value)||1));SB.mf=v;if(SB.fsel>=v)SB.fsel=v-1;for(var q=0;q<SB.sl.length;q++)sbWrite(q,sbTypes(q));sbPaint()}
+  else if(el.id==='sbNS'){var nn=+el.value,on=SB.sl.length;if(nn>0&&nn!==on){var nsl=[],nup=[],seenP=false;for(var q2=0;q2<nn;q2++){var src=Math.floor(q2*on/nn),k0=SB.sl[src]||'',u0=(SB.up[src]||[]).slice();if(k0==='pav'){if(seenP){k0='';u0=[]}else seenP=true}nsl.push(k0);nup.push(u0)}SB.sl=nsl;SB.up=nup}sbPaint()}
   else if(el.id==='sbPre'){SB.pre=el.value;var mu={std:1,low:.6,high:1.8}[el.value];if(mu){SB.pr={};Object.keys(STT).forEach(function(k){for(var f=1;f<=STMAXF;f++)SB.pr[k+'@'+f]=Math.max(stMin(k),Math.round(STT[k].pr*mu/10)*10)})}sbPaint()}});
 document.addEventListener('input',function(e){var el=e.target;if(!SB||!el)return;if(el.id==='sbN')SB.n=el.value;else if(el.id==='sbC')SB.c=el.value;
-  else if(el.classList&&el.classList.contains('sbprice')){var dk=el.getAttribute('data-k'),v=Math.max(stMin(dk.split('@')[0]),Math.min(50000,+el.value||0));if(+el.value!==v)el.value=v;SB.pr[dk]=v;SB.pre='cust';var sp=$('sbPre');if(sp)sp.value='cust';var rv=$('sbRev');if(rv)rv.innerHTML=sbRevHTML(SB)}});
+  else if(el.classList&&el.classList.contains('sbprice')){var dk=el.getAttribute('data-k'),v=Math.max(stMin(dk.split('@')[0]),Math.min(200000,+el.value||0));if(+el.value!==v)el.value=v;SB.pr[dk]=v;SB.pre='cust';var sp=$('sbPre');if(sp)sp.value='cust';var rv=$('sbRev');if(rv)rv.innerHTML=sbRevHTML(SB)}});
 function xnum(id,label,val){return '<label>'+label+'<input id="'+id+'" class="btn" type="number" min="1" max="25" step="1" inputmode="numeric" value="'+val+'" style="width:84px"></label>'}
 function pxLock(title){return '<h2>'+title+'</h2><div class="card"><p>These sections use the squads you build in the auction. Finish bidding first, or press <b>Sim to end</b> in the hall, then come back.</p></div>'}
 function xids(){return S.teams.map(function(x){return x.id})}
 function xsel(id,label,val){return '<label>'+label+'<select id="'+id+'" class="btn">'+xids().map(function(x){return '<option value="'+x+'"'+(x===val?' selected':'')+'>'+x+' · '+esc(T(x).name)+'</option>'}).join('')+'</select></label>'}
 function xopt(id,label,val,list){return '<label>'+label+'<select id="'+id+'" class="btn">'+list.map(function(o){return '<option value="'+o[0]+'"'+(String(o[0])===String(val)?' selected':'')+'>'+o[1]+'</option>'}).join('')+'</select></label>'}
-function xmNew(h,a,neu,label,fv,sv){pxS();var sd=stOf(sv);if(sd)neu=true;var i=S.xm.length,m={h:h,a:a,neutral:!!neu,venue:sd?sd.n+(sd.c?', '+sd.c:'')+(stCap(sd)?' · '+stCap(sd).toLocaleString()+' seats':''):neu?'Neutral venue':T(h).ground,x:i,label:label||'',fv:String(fv||fvDef())};if(sd)m.sd={n:sd.n,c:sd.c,p:sd.p,z:sd.z,cap:stCap(sd),en:stEnc(sd),fl:!!sd.fl,bs:!!sd.bs,sl:(sd.sl||[]).slice(),lv:(sd.lv||[]).slice(),up:(sd.up||[]).map(function(a){return a.slice()}),pr:Object.assign({},sd.pr||{})};S.xm.push(m);return i}
+function xmNew(h,a,neu,label,fv,sv){pxS();var sd=stOf(sv);if(sd)neu=true;var i=S.xm.length,m={h:h,a:a,neutral:!!neu,venue:sd?sd.n+(sd.c?', '+sd.c:'')+(stCap(sd)?' · '+stCap(sd).toLocaleString()+' seats':''):neu?'Neutral venue':T(h).ground,x:i,label:label||'',fv:String(fv||fvDef())};if(sd)m.sd={n:sd.n,c:sd.c,p:sd.p,z:sd.z,cap:stCap(sd),en:stEnc(sd),fl:!!sd.fl,bs:!!sd.bs,sl:(sd.sl||[]).slice(),lv:(sd.lv||[]).slice(),up:(sd.up||[]).map(function(a){return a.slice()}),pr:Object.assign({},sd.pr||{})};if(/^[CGH]:/.test(String(sv||''))&&window.hwApplyVenue)window.hwApplyVenue(m,sv);S.xm.push(m);return i}
 function xmPlay(i){var m=S.xm[i];if(m&&!m.done)simMatch(m,!!m.neutral);return m}
 function xCard(i,label){var m=S.xm[i];if(!m)return '';if(m.fv)label=(label||'')+' · '+esc(fvName(m.fv));
   if(!m.done)return fcard(m,label,'📍 '+esc(mVenue(m)),'X:'+i,!!m.neutral);
@@ -4753,7 +4799,7 @@ function paintKick(){var el=$('view-kick');if(!S.done){el.innerHTML=pxLock('Kick
   var ids=xids();if(!KK.a||!T(KK.a))KK.a=S.me||xids()[0];if(!KK.b||!T(KK.b)||KK.b===KK.a)KK.b=ids.filter(function(x){return x!==KK.a})[0];
   var p=winProb(KK.a,KK.b,KK.neu!=='home');
   var h='<h2>Kick-off matches</h2><p class="muted">A one-off friendly between any two squads. No table, no trophy, just a game. '+XIN+' a side.</p>'+earnHTML(S.px.kick.map(function(i){return S.xm[i]}),'Kick-off earnings')+
-   '<div class="card xcard"><div class="ctl-row">'+xsel('kkA','Team A',KK.a)+xsel('kkB','Team B',KK.b)+xopt('kkV','Venue',KK.neu,[['home','Home of Team A'],['neutral','Neutral venue']].concat(stadOpts()))+xopt('kkF','Format',fvOf(KK),fvOpts())+'</div>'+
+   '<div class="card xcard"><div class="ctl-row">'+xsel('kkA','Team A',KK.a)+xsel('kkB','Team B',KK.b)+xopt('kkV','Venue',KK.neu,[['home','Home of Team A'],['neutral','Neutral venue']].concat(teamVenOpts(KK.a,KK.b)).concat(stadOpts()))+xopt('kkF','Format',fvOf(KK),fvOpts())+'</div>'+
    '<div class="mres" style="margin-top:8px">Win probability by squad ratings: <b>'+KK.a+' '+p+'%</b> · <b>'+KK.b+' '+(100-p)+'%</b></div>'+
    '<div class="mact" style="margin-top:8px"><button class="btn primary xa" type="button" data-xa="kkmake">🏏 Set up match</button><button class="btn primary xa" type="button" data-xa="kkplay">🎮 Play match live</button><button class="btn xa" type="button" data-xa="kkquick">⚡ Quick sim</button><button class="btn xa" type="button" data-xa="kkme">🎲 My team vs random</button><button class="btn xa" type="button" data-xa="kkrand">🎲 Random match</button></div></div>';
   var L=S.px.kick;
@@ -4762,7 +4808,7 @@ function paintKick(){var el=$('view-kick');if(!S.done){el.innerHTML=pxLock('Kick
 function kkRun(a,b,neu,quick){if(!xTeamCheck(a,b))return;var i=xmNew(a,b,neu,'Kick-off',fvOf(KK),KK.neu);if(quick){xmPlay(i);xDecide(S.xm[i])}var P=pxS();P.kick.unshift(i);if(P.kick.length>30)P.kick.length=30;KK.a=a;KK.b=b;pxRepaint();if(quick)openSB('X:'+i)}
 
 /* ---- tours (bilateral series) ---- */
-function tourHost(v,i,a,b){return v==='hostB'?[b,a,0]:v==='split'?(i%2?[b,a,0]:[a,b,0]):(v==='neutral'||String(v).indexOf('S:')===0)?[a,b,1]:[a,b,0]}
+function tourHost(v,i,a,b){return v==='hostB'?[b,a,0]:v==='split'?(i%2?[b,a,0]:[a,b,0]):(v==='neutral'||/^[SCGH]:/.test(String(v)))?[a,b,1]:[a,b,0]}
 function tourNew(a,b,n,v,fv){if(!xTeamCheck(a,b))return;n=fvNum(n);fv=String(fv||fvDef());var P=pxS(),t={id:P.nid++,a:a,b:b,n:n,v:v,fv:fv,ms:[],name:a+' v '+b};
   for(var i=0;i<n;i++){var q=tourHost(v,i,a,b);t.ms.push(xmNew(q[0],q[1],q[2],(fvTest(fv)?'Test ':'Match ')+(i+1),fv,v))}
   P.tours.unshift(t);toast(a+' v '+b+': '+n+'-match tour created.')}
@@ -4815,7 +4861,7 @@ function ctHTML(){var P=pxS();P.ctours=P.ctours||[];var ids=xids();
   var opps=ids.filter(function(x){return x!==CT.team});if(!CT.opp||CT.opp===CT.team||!T(CT.opp))CT.opp=opps[0];
   var h='<div class="card xcard"><h3>Plan a custom tour</h3><p class="muted">One team tours several opponents. Add as many legs as you like, each with its own opponent, length and hosting.</p>'+
    '<div class="ctl-row"><label>Tour name<input id="ctName" class="btn" maxlength="30" placeholder="Grand Tour" value="'+esc(CT.name)+'"></label>'+xsel('ctTeam','Touring team',CT.team)+'</div>';
-  if(CT.legs.length)h+='<div style="margin-top:10px">'+CT.legs.map(function(l,i){return '<div class="mres" style="margin:4px 0">Leg '+(i+1)+': '+chip(CT.team)+' v '+chip(l.opp)+' · '+l.n+' match'+(l.n>1?'es':'')+' · '+esc(fvName(fvOf(l)))+' · '+(CTV[l.v]||(stOf(l.v)?esc(stOf(l.v).n):'neutral venue'))+' <button class="btn xa" type="button" data-xa="ctrem" data-i="'+i+'" style="padding:1px 8px">✕</button></div>'}).join('')+'</div>';
+  if(CT.legs.length)h+='<div style="margin-top:10px">'+CT.legs.map(function(l,i){return '<div class="mres" style="margin:4px 0">Leg '+(i+1)+': '+chip(CT.team)+' v '+chip(l.opp)+' · '+l.n+' match'+(l.n>1?'es':'')+' · '+esc(fvName(fvOf(l)))+' · '+(CTV[l.v]||(stOf(l.v)?esc(stOf(l.v).n):(catName(l.v)?esc(catName(l.v)):'neutral venue')))+' <button class="btn xa" type="button" data-xa="ctrem" data-i="'+i+'" style="padding:1px 8px">✕</button></div>'}).join('')+'</div>';
   else h+='<p class="muted" style="margin:10px 0 0">No legs yet. Choose an opponent below and press Add leg.</p>';
   h+='<div class="ctl-row" style="margin-top:10px"><label>Opponent<select id="ctOpp" class="btn">'+opps.map(function(x){return '<option value="'+x+'"'+(x===CT.opp?' selected':'')+'>'+x+' · '+esc(T(x).name)+'</option>'}).join('')+'</select></label>'+
    xnum('ctN','Matches',CT.n)+xopt('ctF','Format',fvOf(CT),fvOpts())+
@@ -4851,7 +4897,7 @@ function tnNew(){var P=pxS(),n=TO.n,ids=TO.pick.slice(),f=TO.fmt;
   if(f==='grp'&&(n<6||n%2)){toast('Groups need an even number of teams, six or more.');return}
   if((f==='lpo')&&n<4){toast('Playoffs need at least four teams.');return}
   var nm=(TO.name||'').trim()||('Cricket Cup '+P.nid);
-  var t={id:P.nid++,name:nm,fmt:f,dbl:TO.dbl==='2',neu:TO.neu==='neutral'||!!stOf(TO.neu),sv:stOf(TO.neu)?TO.neu:'',stn:stOf(TO.neu)?stOf(TO.neu).n:'',fv:fvOf(TO),ids:shuffle(ids.slice()),ms:[],tbl:{},groups:[],phase:'league',champ:null,rd:0};
+  var t={id:P.nid++,name:nm,fmt:f,dbl:TO.dbl==='2',neu:TO.neu==='neutral'||!!stOf(TO.neu)||!!catName(TO.neu),sv:(stOf(TO.neu)||catName(TO.neu))?TO.neu:'',stn:stOf(TO.neu)?stOf(TO.neu).n:catName(TO.neu),fv:fvOf(TO),ids:shuffle(ids.slice()),ms:[],tbl:{},groups:[],phase:'league',champ:null,rd:0};
   t.ids.forEach(function(id){t.tbl[id]={p:0,w:0,l:0,d:0,pts:0,rf:0,bf:0,ra:0,bo:0}});
   if(f==='ko'){t.phase='ko';tnKoRound(t,t.ids.slice())}
   else{
@@ -5363,12 +5409,63 @@ renderPick();
     injectLiveButtons();
   };
 
+  var VENUE_CAT=(function(){
+    var L=[
+      ['Narendra Modi Stadium, Ahmedabad',132000,'in'],['Eden Gardens, Kolkata',66000,'in'],['Wankhede Stadium, Mumbai',33000,'in'],['M. Chinnaswamy Stadium, Bengaluru',35000,'in'],['Arun Jaitley Stadium, Delhi',35000,'in'],['Rajiv Gandhi Stadium, Hyderabad',39000,'in'],['Sawai Mansingh Stadium, Jaipur',30000,'in'],['Ekana Stadium, Lucknow',50000,'in'],['HPCA Stadium, Dharamshala',23000,'in'],['Holkar Cricket Stadium, Indore',30000,'in'],['Barsapara Stadium, Guwahati',40000,'in'],['JSCA International Stadium, Ranchi',50000,'in'],['Green Park, Kanpur',32000,'in'],['VCA Stadium, Nagpur',45000,'in'],['Brabourne Stadium, Mumbai',20000,'in'],['DY Patil Stadium, Navi Mumbai',55000,'in'],['MCA International Stadium, Pune',37000,'in'],['ACA-VDCA Stadium, Visakhapatnam',27000,'in'],['Saurashtra Cricket Association Stadium, Rajkot',28000,'in'],['Greenfield International Stadium, Thiruvananthapuram',55000,'in'],['Barabati Stadium, Cuttack',45000,'in'],['Maharaja Yadavindra Singh Stadium, Mullanpur',38000,'in'],['Jawaharlal Nehru Stadium, Kochi',41000,'in'],['PCA Stadium, Mohali',27000,'in'],['Shaheed Veer Narayan Singh Stadium, Raipur',65000,'in'],['M. A. Chidambaram Stadium, Chennai',38000,'in'],['Sardar Patel Stadium, Motera',54000,'in'],
+      ['Lord’s, London',31000,'in'],['Old Trafford, Manchester',26000,'in'],['Edgbaston, Birmingham',25000,'in'],['The Oval, London',27500,'in'],['Headingley, Leeds',18000,'in'],['Trent Bridge, Nottingham',17500,'in'],['Rose Bowl, Southampton',25000,'in'],['Melbourne Cricket Ground',100000,'in'],['Sydney Cricket Ground',48000,'in'],['The Gabba, Brisbane',42000,'in'],['Adelaide Oval',53000,'in'],['Optus Stadium, Perth',60000,'in'],['Bellerive Oval, Hobart',20000,'in'],['Newlands, Cape Town',25000,'in'],['The Wanderers, Johannesburg',34000,'in'],['SuperSport Park, Centurion',22000,'in'],['Kingsmead, Durban',25000,'in'],['St George’s Park, Gqeberha',19000,'in'],['Galle International Stadium',35000,'in'],['R. Premadasa Stadium, Colombo',35000,'in'],['Pallekele International Stadium, Kandy',35000,'in'],['Dubai International Stadium',25000,'in'],['Sheikh Zayed Stadium, Abu Dhabi',20000,'in'],['Sharjah Cricket Stadium',17000,'in'],['Eden Park, Auckland',42000,'in'],['Hagley Oval, Christchurch',20000,'in'],['Basin Reserve, Wellington',11600,'in'],['Bay Oval, Mount Maunganui',10000,'in'],['Gaddafi Stadium, Lahore',34000,'in'],['National Stadium, Karachi',34000,'in'],['Rawalpindi Cricket Stadium',15000,'in'],['Shere Bangla National Stadium, Dhaka',25000,'in'],['Zahur Ahmed Chowdhury Stadium, Chattogram',22000,'in'],['Sylhet International Stadium',18500,'in'],['Harare Sports Club',10000,'in'],['Queens Sports Club, Bulawayo',8000,'in'],['Kensington Oval, Barbados',28000,'in'],['Sabina Park, Kingston',20000,'in'],['Providence Stadium, Guyana',15000,'in'],['Daren Sammy Stadium, St Lucia',15000,'in'],['Brian Lara Stadium, Trinidad',15000,'in'],['Maple Leaf Cricket Club, Canada',5000,'in'],['Nassau County Stadium, New York',34000,'in'],['Grand Prairie Stadium, Texas',7000,'in'],
+      ['Keenan Stadium, Jamshedpur',20000,'in',1],['Moti Bagh Stadium, Vadodara',18000,'in',1],['Sector 16 Stadium, Chandigarh',30000,'in',1],['Lal Bahadur Shastri Stadium, Hyderabad',25000,'in',1],['Jawaharlal Nehru Stadium, Chennai',40000,'in',1],['Nehru Stadium, Pune',25000,'in',1],['Karnail Singh Stadium, Delhi',20000,'in',1],['Captain Roop Singh Stadium, Gwalior',25000,'in',1],['Moin-ul-Haq Stadium, Patna',25000,'in',1],['Lalbhai Contractor Stadium, Surat',5000,'in',1],['Tamil Nadu Cricket Association Ground, Salem',15000,'in',1],['Sher-e-Kashmir Stadium, Srinagar',30000,'in',1],['Gandhi Stadium, Jalandhar',15000,'in',1],['Nehru Stadium, Guwahati',25000,'in',1],['Riverside Ground, Chester-le-Street',17000,'in'],['Sophia Gardens, Cardiff',15600,'in'],['County Ground, Bristol',17500,'in'],['County Ground, Taunton',8500,'in'],['Grace Road, Leicester',12000,'in'],['Manuka Oval, Canberra',13500,'in'],['Marvel Stadium, Melbourne',53000,'in'],['WACA Ground, Perth',20000,'in'],['Carrara Oval, Gold Coast',12000,'in'],['Cazaly’s Stadium, Cairns',13000,'in'],['Buffalo Park, East London',16000,'in'],['Mangaung Oval, Bloemfontein',20000,'in'],['Boland Park, Paarl',10000,'in'],['Rangiri Dambulla International Stadium',16000,'in'],['Mahinda Rajapaksa International Stadium, Hambantota',35000,'in'],['Sinhalese Sports Club Ground, Colombo',10000,'in'],['Sheikh Abu Naser Stadium, Khulna',15000,'in'],['Bogra Shaheed Chandu Stadium',20000,'in'],['Fatullah Khan Saheb Osman Ali Stadium',25000,'in'],['Multan Cricket Stadium',35000,'in'],['Iqbal Stadium, Faisalabad',18000,'in'],['Arbab Niaz Stadium, Peshawar',25000,'in'],['Bugti Stadium, Quetta',20000,'in'],['Tolerance Oval, Abu Dhabi',6000,'in'],['ICC Academy Ground, Dubai',3000,'in'],['Seddon Park, Hamilton',31000,'in'],['McLean Park, Napier',19700,'in'],['University Oval, Dunedin',6000,'in'],['Saxton Oval, Nelson',6000,'in'],['Sir Vivian Richards Stadium, Antigua',10000,'in'],['Warner Park, St Kitts',10000,'in'],['Arnos Vale Ground, St Vincent',18000,'in'],['National Cricket Stadium, Grenada',15000,'in'],['Windsor Park, Dominica',5000,'in'],['Malahide Cricket Club, Dublin',11500,'in'],['The Grange, Edinburgh',5000,'in'],['Kinrara Academy Oval, Kuala Lumpur',5000,'in'],['Tribhuvan University Ground, Kathmandu',12000,'in'],['Kowloon Cricket Club, Hong Kong',3000,'in'],['Singapore Indian Association Ground',3000,'in'],['Central Broward Park, Lauderhill',20000,'in']
+    ];
+    var out=[],seen={};
+    L.forEach(function(x){if(seen[x[0]])return;seen[x[0]]=1;var h=hg(x[0],x[1]);h.g=x[2];h.ix=out.length;if(x[3])h.ind=1;out.push(h)});
+    return out;
+  })();
+  var VENUE_SPLIT=VENUE_CAT.map(function(x){return x.n}).indexOf('Lord’s, London'),VENUE_INDIA=VENUE_CAT.filter(function(x){return x.ix<VENUE_SPLIT||x.ind}),VENUE_WORLD=VENUE_CAT.filter(function(x){return x.ix>=VENUE_SPLIT&&!x.ind});
+  window.VENUE_CAT=VENUE_CAT;window.hwApplyVenue=function(m,v){return hwApplyVenue(m,v)};
+  function hwOwns(id,name){var t=T(id);if(t&&t.ground===name)return true;return (HOMES[id]||[]).some(function(x){return x.n===name})}
+  function hwVenueGroups(m){
+    var cur=(typeof mVenue==='function')?mVenue(m):T(m.h).ground,seen={},groups=[];
+    seen[cur]=1;
+    groups.push({l:'Default',i:[['def','Default · '+cur]]});
+    [m.h,m.a].forEach(function(id){
+      var t=T(id);if(!t)return;var it=[];
+      if(t.ground&&!seen[t.ground]){seen[t.ground]=1;it.push(['G:'+id,'🏟️ '+t.ground+' (main ground)'])}
+      (HOMES[id]||[]).forEach(function(x,i){if(!seen[x.n]){seen[x.n]=1;it.push(['H:'+id+':'+i,'🏟️ '+x.n+' · '+x.cap.toLocaleString('en-IN')+' seats'])}});
+      if(it.length)groups.push({l:id+' · '+t.name+(id===m.h?' (home team)':' (away team)'),i:it});
+    });
+    var mk=function(arr,base){return arr.map(function(x,i){return seen[x.n]?null:['C:'+x.ix,'🏟️ '+x.n+' · '+x.cap.toLocaleString('en-IN')+' seats']}).filter(Boolean)};
+    var ind=mk(VENUE_INDIA,0),wor=mk(VENUE_WORLD,VENUE_SPLIT);
+    if(ind.length)groups.push({l:'More Indian grounds',i:ind});
+    if(wor.length)groups.push({l:'International grounds',i:wor});
+    groups.push({l:'Neutral',i:[['neu','🌍 Neutral venue']]});
+    var mine=typeof stadOpts==='function'?stadOpts('',1):[];
+    if(mine.length)groups.push({l:'My stadiums',i:mine});
+    return groups;
+  }
+  function hwVenueHtml(m){
+    return hwVenueGroups(m).map(function(g){return '<optgroup label="'+esc(g.l)+'">'+g.i.map(function(o){return '<option value="'+esc(o[0])+'">'+esc(o[1])+'</option>'}).join('')+'</optgroup>'}).join('');
+  }
+  function hwApplyVenue(m,v){
+    if(!v||v==='def')return;
+    var clear=function(){delete m.sd;delete m.hg;delete m.vg};
+    if(v==='neu'){clear();m.neutral=true;m.venue='Neutral venue';return}
+    var a=v.split(':');
+    if(a[0]==='G'){var t=T(a[1]);if(!t)return;clear();m.venue=t.ground;m.vg=Object.assign({},grdOf(a[1]));m.neutral=a[1]!==m.h;return}
+    if(a[0]==='H'){var ex=(HOMES[a[1]]||[])[+a[2]];if(!ex)return;clear();m.venue=ex.n;m.vg={cap:ex.cap,lo:ex.lo,hi:ex.hi};m.neutral=a[1]!==m.h;return}
+    if(a[0]==='C'){var c=VENUE_CAT[+a[1]];if(!c)return;clear();m.venue=c.n;m.vg={cap:c.cap,lo:c.lo,hi:c.hi};m.neutral=!hwOwns(m.h,c.n);return}
+    if(a[0]==='S'){
+      var sd=stOf(v);if(!sd)return;
+      m.sd={n:sd.n,c:sd.c,p:sd.p,z:sd.z,cap:stCap(sd),en:stEnc(sd),fl:!!sd.fl,bs:!!sd.bs,sl:(sd.sl||[]).slice(),lv:(sd.lv||[]).slice(),up:(sd.up||[]).map(function(x){return x.slice()}),pr:Object.assign({},sd.pr||{})};
+      m.neutral=true;delete m.hg;delete m.vg;
+      m.venue=sd.n+(sd.c?', '+sd.c:'')+(stCap(sd)?' · '+stCap(sd).toLocaleString()+' seats':'');
+    }
+  }
   function chooseTeamForMatch(hd){
     var m=resolveM(hd);
     if(!m||m.done)return;
     ensureSetup(m);
     modal(
       '<div class="mhead"><div><span class="k">HITWICKET · MATCH SETUP</span><h3>Choose your team</h3></div>'+xbtn()+'</div>'+
+      '<div class="card" style="margin:10px 0"><label style="display:grid;gap:6px"><span class="k">🏟️ STADIUM · pick any ground, from either team or anywhere</span><select id="hwVenueSel" class="btn" style="width:100%;padding:9px;font-weight:700">'+hwVenueHtml(m)+'</select></label><small class="muted" style="margin-top:6px;display:block">Home advantage applies only at the home team’s own grounds.</small></div>'+
       '<p class="muted">Which franchise do you want to control in this match?</p>'+
       '<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px">'+
         '<button type="button" class="btn hwChooseSide" data-hd="'+hd+'" data-side="'+m.h+'" style="padding:18px 10px;min-height:110px;display:grid;place-items:center;gap:7px"><b style="font-size:21px">'+esc(m.h)+'</b><span>'+esc(T(m.h).name)+'</span><small>HOME TEAM</small></button>'+
@@ -5431,6 +5528,8 @@ renderPick();
     var b=e.target&&e.target.closest?e.target.closest('.hwChooseSide'):null;
     if(!b)return;
     var hd=b.getAttribute('data-hd'),side=b.getAttribute('data-side');
+    var vs=$('hwVenueSel'),mm=resolveM(hd);
+    if(vs&&mm&&!mm.done)hwApplyVenue(mm,vs.value);
     var setupModal=$('mm');if(setupModal)setupModal.hidden=true;
     startLiveMatch(hd,side);
   });
@@ -5672,7 +5771,7 @@ renderPick();
     var pitch=PITCHES[HW.pitch]||PITCHES.flat;
     pSix*=pitch.boundary;pFour*=pitch.boundary;pWkt*=pitch.wicket;pOne*=pitch.run;pTwo*=pitch.run;
     /* longer formats are scored and defended differently: slower runs, fewer boundaries, wickets that take longer to fall */
-    var _fm=HW.testMode?{b:.34,w:.26,r:1.0}:(HW.maxOvers>25?{b:.62,w:.55,r:1.06}:null);
+    var _fm=HW.testMode?{b:.17,w:.48,r:.72}:(HW.maxOvers>25?{b:.62,w:.55,r:1.06}:null);
     if(_fm){pSix*=_fm.b;pFour*=_fm.b;pWkt*=_fm.w;pOne*=_fm.r;pTwo*=_fm.r}
     var _z=HW.m&&HW.m.sd&&HW.m.sd.z;if(_z==='small'){pSix*=1.18;pFour*=1.1}else if(_z==='large'){pSix*=.85;pFour*=.92;pTwo*=1.08}
     if(HW.m&&HW.m.sd&&HW.m.sd.fl&&!HW.multiInnings&&HW.innIdx===1){pOne*=1.04;pFour*=1.05}
@@ -6009,7 +6108,7 @@ renderPick();
       pick=pick.replace(/<\/div>$/,ex+'</div>');}
     pick=pick.replace(/<\/div>$/,'<button type="button" class="fb" data-fbig="1" style="margin-left:auto">'+(HW&&HW.fbig?'✖ Exit full screen':'⛶ Full screen ground')+'</button></div>');
     var cs=checkField(fshown),banner='<div class="hwrule" style="margin-top:8px;padding:6px 10px;border-radius:8px;background:'+(fR.pp?'rgba(255,212,59,.18)':'rgba(30,60,120,.10)')+';font-size:12.5px;font-weight:700;line-height:1.5">'+(fR.pp?'🟡 ':'⚪ ')+esc(fR.label)+' · '+(fR.max==null?'no limit outside the circle':'max <b>'+fR.max+'</b> outside the 30-yard circle')+' · now <b'+((fR.max!=null&&cs.out>fR.max)?' style="color:#e03131"':'')+'>'+cs.out+'</b> out · leg side <b>'+cs.leg+'</b>/5 · behind square leg <b>'+cs.behind+'</b>/2'+(fshown.adj?' · 🔧 field adjusted to the rules':'')+'</div>';
-    return '<div class="card hwfv'+(HW&&HW.fbig?' big':'')+'">'+svg+banner+pick+'<div class="hwlast '+cls+(animate?' fresh':'')+'"><span class="chip6">'+esc(chip)+'</span><span>'+esc(t)+'</span></div></div>';
+    return '<div class="card hwfv'+(HW&&HW.fbig?' big':'')+'">'+pick+banner+svg+'<div class="hwlast '+cls+(animate?' fresh':'')+'"><span class="chip6">'+esc(chip)+'</span><span>'+esc(t)+'</span></div></div>';
   }
 
   function shotPanel(st){
@@ -6091,6 +6190,7 @@ renderPick();
       if(userBatting&&!st.dlv)st.dlv=makeDelivery(st);
       if(userBowling&&!st.bopts)st.bopts=makeBowlOpts(st);
       actionRow=((userBatting||userBowling)?'':'<button type="button" id="hwBallBtn" class="btn primary" style="font-size:18px;padding:10px 18px">🏏 Bowl Next Ball</button>')+
+        ((HW.multiInnings&&userBatting&&HW.innIdx<=2&&st.balls>=12)?'<button type="button" id="hwDeclareBtn" class="btn" style="border-color:#c0392b;color:#c0392b;font-weight:800">🏳️ Declare</button>':'')+
         '<button type="button" id="hwOverBtn" class="btn">⏩ Sim Over</button>'+
         '<button type="button" id="hwInnBtn" class="btn">⏭️ Sim Innings</button>';
     }
@@ -6110,6 +6210,8 @@ renderPick();
           '<div style="text-align:right"><div style="font-weight:700">🏏 '+esc(striker.name)+'* '+striker.r+'('+striker.b+')</div><div class="muted" style="font-size:13px">'+esc(nonStriker.name)+' '+nonStriker.r+'('+nonStriker.b+')</div></div>'+
         '</div>'+
         fieldView(st,animNow)+
+        (userBatting&&!innOver&&!matchOver&&st.dlv?shotPanel(st):'')+
+        (userBowling&&!innOver&&!matchOver&&st.bopts?bowlPanel(st):'')+
         '<div class="card">'+
           '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">'+
             '<div><span class="k">Batting Aggression ('+esc(st.batId)+')</span>'+(userBatting?'<div class="pkrow" style="margin-top:4px">'+batBtns+'</div><div class="muted" style="font-size:12px;margin-top:4px">'+BAT_MODES[HW.batAgg].desc+'</div>':'<div class="muted" style="margin-top:8px">🤖 Opposition AI chooses batting aggression</div>')+'</div>'+
@@ -6120,8 +6222,6 @@ renderPick();
             '<div><span class="k">Tactical Superpower (1/inn)</span>'+abilityHtml+'</div>'+
           '</div>'+
         '</div>'+
-        (userBatting&&!innOver&&!matchOver&&st.dlv?shotPanel(st):'')+
-        (userBowling&&!innOver&&!matchOver&&st.bopts?bowlPanel(st):'')+
         '<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">'+actionRow+'</div>'+
         '<div><span class="k">Recent Balls</span><div style="margin-top:4px">'+(recentHtml||'<span class="muted">No balls bowled yet</span>')+'</div></div>'+
         '<div class="card"><span class="k">Live Ball-by-Ball Commentary</span><div class="clog" style="max-height:170px;overflow:auto;margin-top:6px">'+
@@ -6205,6 +6305,15 @@ renderPick();
       while(st.balls<target&&st.wkts<XIN-1&&!(HW.multiInnings?testInningsOver(st):(HW.innIdx===1&&st.runs>HW.innings[0].runs))){
         simulateDelivery(st);
       }
+      if(st.lastEv)HW.animShown=st.lastEv.seq;
+      renderLiveModal();
+    };
+
+    var decBtn=$('hwDeclareBtn');
+    if(decBtn)decBtn.onclick=function(){
+      if(!confirm('Declare the innings on '+st.runs+'/'+st.wkts+'?'))return;
+      st.decl=true;
+      st.commentary.unshift('🏳️ DECLARATION! '+st.batId+' declare on '+st.runs+'/'+st.wkts+'.');
       if(st.lastEv)HW.animShown=st.lastEv.seq;
       renderLiveModal();
     };
@@ -6559,13 +6668,14 @@ window.__inj=inj;
 function hgMeta(m){return '📍 '+esc(mVenue(m))+(m.sd&&m.sd.sl&&m.sd.cap&&m.done?' · 👥 '+sdAtt(m).toLocaleString():'')}
 function hgApply(){
   if(!S||!S.season||!S.me||ONL())return;
-  var sd=stOf(S.homeGround);if(S.homeGround&&!sd)S.homeGround='';
+  var sd=stOf(S.homeGround),cg=catName(S.homeGround)?(window.VENUE_CAT||[])[+String(S.homeGround).slice(2)]:null;if(S.homeGround&&!sd&&!cg)S.homeGround='';
   S.season.fixtures.forEach(function(md){md.forEach(function(m){
     if(m.done)return;
     if(sd&&m.h===S.me){
       m.sd={n:sd.n,c:sd.c,p:sd.p,z:sd.z,cap:stCap(sd),en:stEnc(sd),fl:!!sd.fl,bs:!!sd.bs,sl:(sd.sl||[]).slice(),lv:(sd.lv||[]).slice(),up:(sd.up||[]).map(function(a){return a.slice()}),pr:Object.assign({},sd.pr||{})};
       m.venue=sd.n+(sd.c?', '+sd.c:'')+(stCap(sd)?' · '+stCap(sd).toLocaleString()+' seats':'');m.hg=1}
-    else if(m.hg){delete m.sd;delete m.venue;delete m.hg}
+    else if(cg&&m.h===S.me){delete m.sd;m.venue=cg.n;m.vg={cap:cg.cap,lo:cg.lo,hi:cg.hi};m.hg=1}
+    else if(m.hg){delete m.sd;delete m.venue;delete m.vg;delete m.hg}
   })})}
 var _smHG=simMatch;simMatch=function(m){hgApply();return _smHG.apply(this,arguments)};
 var _psHG=paintSeason;paintSeason=function(){
@@ -6581,7 +6691,7 @@ var _psHG=paintSeason;paintSeason=function(){
     (sd&&hm.length?earnHTML(hm,'Home ground earnings'):'');
   var a=el.querySelector('.sbar');if(a&&a.parentNode)a.parentNode.insertBefore(card,a);else el.appendChild(card)};
 document.addEventListener('change',function(e){var el=e.target;if(!el||el.id!=='hgSel'||!S)return;
-  S.homeGround=el.value;hgApply();var sd=stOf(S.homeGround);toast(sd?sd.n+' is now your home ground.':'Back to your default home ground.');paintTab('season')});
+  S.homeGround=el.value;hgApply();var sd=stOf(S.homeGround);toast(sd?sd.n+' is now your home ground.':(catName(S.homeGround)?catName(S.homeGround)+' is now your home ground.':'Back to your default home ground.'));paintTab('season')});
 var _sbrHG=sbRefresh;sbRefresh=function(){_sbrHG.apply(this,arguments);if(S&&!S.play&&S.done&&S.tab==='season')paintTab('season')};
 
 /* ===== CAREER MODE: manager career + player career (kept on this device between seasons) ===== */
@@ -8351,7 +8461,7 @@ document.addEventListener('change',function(e){
 function stdRng(s){var a=s>>>0||1;return function(){a=(a*1664525+1013904223)>>>0;return a/4294967296}}
 function stdInfo(m){
   var d=m&&m.sd,cu=!!(d&&d.sl&&d.sl.length),g=null,cap=0,name=(typeof mVenue==='function'?mVenue(m):'')||'Ground';
-  try{if(cu)cap=stCap(d);else{g=m.neutral?GRD_NEU:grdFor(m);cap=g.cap}}catch(e){cap=30000}
+  try{if(cu)cap=stCap(d);else{g=m.vg?m.vg:(m.neutral?GRD_NEU:grdFor(m));cap=g.cap}}catch(e){cap=30000}
   var night=cu?!!d.fl:(hashStr(String(name))%4!==0),att=0;
   try{if(m.done){att=cu?sdAtt(m):(mEarn(m).att||0)}}catch(e){}
   var fill=cap&&att?Math.min(1,att/cap):(m.done?.8:.7+((hashStr(name+m.h)%25)/100));
@@ -8361,11 +8471,11 @@ function stdInfo(m){
 function stdFig(x,y,col,sc,extra){sc=sc||1;return '<g transform="translate('+x.toFixed(1)+' '+y.toFixed(1)+') scale('+sc+')"><ellipse cx="0" cy="4.4" rx="3.8" ry="1.25" fill="#000" opacity=".32"/><rect x="-1.9" y="2" width="1.5" height="2.6" rx=".6" fill="#f4f4f4"/><rect x=".4" y="2" width="1.5" height="2.6" rx=".6" fill="#f4f4f4"/><rect x="-2.3" y="-2" width="4.6" height="5" rx="1.5" fill="'+col+'" stroke="#fff" stroke-width=".55"/><circle cx="0" cy="-4" r="2.05" fill="#f1c9a0" stroke="#fff" stroke-width=".4"/><path d="M-2.1 -4.3 Q0 -7.2 2.1 -4.3 Z" fill="'+col+'" stroke="#fff" stroke-width=".35"/>'+(extra||'')+'</g>'}
 var STD_FLD=[['Slip',13,31],['Point',52,15],['Cover',46,-4],['Mid-off',24,-22],['Mid-on',-24,-22],['Midwicket',-52,-4],['Square leg',-56,17],['Fine leg',-34,32],['Third man',46,31],['Gully',29,27],['Long on',-52,-26],['Long off',52,-26],['Deep midwicket',-86,-4],['Deep cover',86,-4],['Deep square leg',-80,18]];
 function stdScene(I){
-  var m=I.m,r=stdRng(hashStr(I.name+m.h+m.a)),tiers=I.cap<20000?1:I.cap<40000?2:3,W=360,H=150,cx=180,cy=84;
+  var m=I.m,r=stdRng(hashStr(I.name+m.h+m.a)),tiers=I.cap<15000?1:I.cap<30000?2:I.cap<50000?3:I.cap<80000?4:I.cap<120000?5:I.cap<200000?6:7,W=360,H=150,cx=180,cy=84;
   var sky=I.night?['#060d1c','#16294a']:['#5ea8ee','#cfe8ff'],o='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Stadium: '+esc(I.name)+'"><defs><linearGradient id="stsk'+I.k+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+sky[0]+'"/><stop offset="1" stop-color="'+sky[1]+'"/></linearGradient><radialGradient id="stgl'+I.k+'"><stop offset="0" stop-color="#fff6c8" stop-opacity=".9"/><stop offset="1" stop-color="#fff6c8" stop-opacity="0"/></radialGradient></defs><rect width="'+W+'" height="'+H+'" fill="url(#stsk'+I.k+')"/>';
   if(I.night){for(var s=0;s<26;s++)o+='<circle cx="'+(r()*W).toFixed(0)+'" cy="'+(r()*40).toFixed(0)+'" r="'+(.4+r()*.7).toFixed(1)+'" fill="#fff" opacity="'+(.3+r()*.5).toFixed(2)+'"/>'}
   else o+='<circle cx="318" cy="24" r="12" fill="#ffe27a" opacity=".9"/>';
-  var rx0=168,ry0=58,col=['#5a6578','#7b879b','#9aa5b8'];
+  var rx0=168,ry0=58,col=['#5a6578','#7b879b','#9aa5b8','#b4bdcc','#cdd4e0','#dfe4ee','#eef1f7'];
   for(var t=tiers-1;t>=0;t--){var k=1-t*.12;o+='<ellipse cx="'+cx+'" cy="'+(cy-t*3)+'" rx="'+(rx0*k).toFixed(0)+'" ry="'+(ry0*k).toFixed(0)+'" fill="'+col[t]+'" stroke="#1b2230" stroke-width="1"/>'}
   var rin=.62,n=Math.round(60+tiers*40);
   for(var i=0;i<n;i++){if(r()>I.fill)continue;var a=r()*Math.PI*2,q=.7+r()*.27,px=cx+Math.cos(a)*rx0*q*(1-(tiers-1)*.05),py=cy+Math.sin(a)*ry0*q*(1-(tiers-1)*.05)-(q>.8?2:0),c=r()<.5?I.hc:r()<.7?I.ac:'#e9e4d6';
