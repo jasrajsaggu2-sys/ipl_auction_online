@@ -5480,10 +5480,12 @@ renderPick();
       {n:'Teesra',f:3,w:1.70,b:1.30,r:0.96}
     ]
   };
-  /* every bowler is either a pacer or a spinner; all-rounders are fixed to one type by name so it never flips */
+  /* every bowler is either a pacer or a spinner; all-rounders use the real-world bowling type from BOWL_KIND_MAP (hash fallback only for unlisted players) */
+  var BOWL_KIND_MAP={"Aaron Hardie":"pace","Aman Khan":"pace","Andile Phehlukwayo":"pace","Andre Russell":"pace","Angelo Mathews":"pace","Arshad Khan":"pace","Arshin Kulkarni":"pace","Atit Sheth":"pace","Azmatullah Omarzai":"pace","Bas de Leede":"pace","Ben Cutting":"pace","Ben Stokes":"pace","Brandon McMullen":"pace","Cameron Green":"pace","Chamika Karunaratne":"pace","Chris Woakes":"pace","Corbin Bosch":"pace","Corey Anderson":"pace","Curtis Campher":"pace","Dan Christian":"pace","Daniel Sams":"pace","Daryl Mitchell":"pace","Dasun Shanaka":"pace","David Wiese":"pace","David Willey":"pace","Dillon Heyliger":"pace","Dominic Drakes":"pace","Dwaine Pretorius":"pace","Faheem Ashraf":"pace","Gulbadin Naib":"pace","Hardik Pandya":"pace","Hilton Cartwright":"pace","JJ Smit":"pace","Jack Edwards":"pace","Jamie Overton":"pace","Jan Frylinck":"pace","Jason Holder":"pace","Jimmy Neesham":"pace","Jonathan Bird":"pace","Justin Greaves":"pace","Karim Janat":"pace","Keemo Paul":"pace","Kieron Pollard":"pace","Kyle Mayers":"pace","Luke Jongwe":"pace","Marco Jansen":"pace","Marcus Stoinis":"pace","Matthew Forde":"pace","Mitchell Marsh":"pace","Mitchell Owen":"pace","Mohammad Saifuddin":"pace","Moises Henriques":"pace","Nitish Kumar Reddy":"pace","Odean Smith":"pace","Raj Angad Bawa":"pace","Rajat Bhatia":"pace","Rajvardhan Hangargekar":"pace","Ramakrishna Ghosh":"pace","Ramandeep Singh":"pace","Raymon Reifer":"pace","Richie Berrington":"pace","Rishi Dhawan":"pace","Romario Shepherd":"pace","Saad Bin Zafar":"pace","Sam Curran":"pace","Shardul Thakur":"pace","Sherfane Rutherford":"pace","Shivam Dube":"pace","Sompal Kami":"pace","Soumya Sarkar":"pace","Tom Abell":"pace","Venkatesh Iyer":"pace","Vijay Shankar":"pace","Wiaan Mulder":"pace","Will Sutherland":"pace","Virat Kohli":"pace","Abdul Basith":"spin","Abhishek Sharma":"spin","Afif Hossain":"spin","Ajay Mandal":"spin","Akshay Karnewar":"spin","Anukul Roy":"spin","Atharva Ankolekar":"spin","Axar Patel":"spin","Chris Greaves":"spin","Chris Green":"spin","Cole McConchie":"spin","Cooper Connolly":"spin","Deepak Hooda":"spin","Dhananjaya de Silva":"spin","Dipendra Singh Airee":"spin","Dunith Wellalage":"spin","Fabian Allen":"spin","Gareth Delany":"spin","George Linde":"spin","Gerhard Erasmus":"spin","Glenn Maxwell":"spin","Glenn Phillips":"spin","Harsh Dubey":"spin","Hrithik Shokeen":"spin","JJ Smuts":"spin","Jacob Bethell":"spin","Jalaj Saxena":"spin","Janith Liyanage":"spin","Jayant Yadav":"spin","Josh Clarkson":"spin","Kamindu Mendis":"spin","Kevin Sinclair":"spin","Krishnappa Gowtham":"spin","Krunal Pandya":"spin","Kumar Kartikeya Singh":"spin","Kushal Malla":"spin","Lalit Yadav":"spin","Liam Dawson":"spin","Liam Livingstone":"spin","Mahipal Lomror":"spin","Mahmudullah":"spin","Matthew Short":"spin","Mayank Dagar":"spin","Mehidy Hasan Miraz":"spin","Michael Bracewell":"spin","Michael Leask":"spin","Mitchell Santner":"spin","Moeen Ali":"spin","Mohammad Nabi":"spin","Mohammad Nawaz":"spin","Musheer Khan":"spin","Nishant Sindhu":"spin","Oliver Peake":"spin","Parvez Rasool":"spin","Pavan Rathnayake":"spin","Pawan Negi":"spin","Prashant Veer":"spin","Pravin Tambe":"spin","Rachin Ravindra":"spin","Raghu Sharma":"spin","Rahkeem Cornwall":"spin","Rahul Tewatia":"spin","Ravindra Jadeja":"spin","Riyan Parag":"spin","Roelof van der Merwe":"spin","Roston Chase":"spin","Ryan Burl":"spin","Saim Ayub":"spin","Salman Ali Agha":"spin","Sean Williams":"spin","Senuran Muthusamy":"spin","Shadab Khan":"spin","Shahbaz Ahmed":"spin","Shakib Al Hasan":"spin","Shams Mulani":"spin","Sharafuddin Ashraf":"spin","Shivalik Sharma":"spin","Sikandar Raza":"spin","Sumeet Verma":"spin","Sunil Narine":"spin","Swapnil Singh":"spin","Tanush Kotian":"spin","Washington Sundar":"spin","Wessly Madhevere":"spin","Will Jacks":"spin","Zeeshan Maqsood":"spin","Travis Head":"spin","Kane Williamson":"spin","Rohit Sharma":"spin","Suryakumar Yadav":"spin","Joe Root":"spin","Steve Smith":"spin","Marnus Labuschagne":"spin","Aiden Markram":"spin","Karun Nair":"spin","Kedar Jadhav":"spin","Manoj Tiwary":"spin","Dawid Malan":"spin","Martin Guptill":"spin","Henry Nicholls":"spin","Mark Chapman":"spin","Babar Azam":"spin","Iftikhar Ahmed":"spin","Saud Shakeel":"spin","Shreyas Iyer":"spin","Tilak Varma":"spin","Nitish Rana":"spin","Rinku Singh":"spin","Tim David":"spin","Dewald Brevis":"spin","Charith Asalanka":"spin","Rassie van der Dussen":"spin","Faf du Plessis":"spin","Tristan Stubbs":"spin","Hanuma Vihari":"spin","Cheteshwar Pujara":"spin","Sarfaraz Khan":"spin","Ayush Badoni":"spin","Abdul Samad":"spin","Naman Dhir":"spin","Sai Sudharsan":"spin","Rajat Patidar":"spin","Devdutt Padikkal":"spin","Vaibhav Suryavanshi":"spin","Yashasvi Jaiswal":"spin","Nehal Wadhera":"spin","Jake Fraser-McGurk":"spin","Ajinkya Rahane":"pace","Colin Munro":"pace","Harry Brook":"pace","Rovman Powell":"pace","Evin Lewis":"pace","Shashank Singh":"pace","Mandeep Singh":"pace","MS Dhoni":"pace","Sanju Samson":"pace","Abhimanyu Easwaran":"pace","Sachin Baby":"pace","Ashton Turner":"spin","Shahrukh Khan":"spin","Wayne Madsen":"pace","Dan Lawrence":"spin","Rilee Rossouw":"spin","Cameron Bancroft":"spin","Alex Hales":"pace"};
   function bowlKind(b){
     if(b.role==='SPIN')return 'spin';
     if(b.role==='PACE')return 'pace';
+    if(BOWL_KIND_MAP[b.name])return BOWL_KIND_MAP[b.name];
     return (hashStr(b.name)%2)?'spin':'pace';
   }
   /* the bowler picks one of two six-ball plans before each over, then chooses when to use each delivery */
@@ -10027,6 +10029,222 @@ function clubTMatchHtml(c){
   var m=c.tmatch;if(!m)return '';
   return '<div class="mres" style="margin-top:10px"><b>Trial match</b> · Team A <b>'+m.ar+'/'+m.aw+'</b> v Team B <b>'+m.br+'/'+m.bw+'</b> · '+esc(m.text)+'<br><span class="muted">Best on the day: '+esc(m.best)+'. Grades moved by match form.</span> <button class="btn" type="button" data-watch="'+esc(JSON.stringify(clubTSegs(c)))+'" style="margin-top:6px">👁 Watch the match</button></div>';
 }
+/* ---- trials tournament: scout a bigger camp, draft hopefuls into teams, play a cup ---- */
+var TT_COL=[["Red", "#e63946"], ["Blue", "#1d6fe0"], ["Green", "#2e9e4f"], ["Gold", "#e6b422"], ["Purple", "#7b3fb5"], ["Orange", "#f28c28"], ["White", "#f4f4f4"], ["Black", "#222222"], ["Pink", "#f06ea9"], ["Teal", "#1fa59b"], ["Maroon", "#7a1f2b"], ["Navy", "#1b2a5c"], ["Silver", "#b0b7c0"], ["Crimson", "#c0143c"], ["Violet", "#8f5bd6"], ["Amber", "#ffb300"], ["Indigo", "#4b3fa8"], ["Cyan", "#19c3d6"], ["Lime", "#9acd32"], ["Coral", "#ff7f6b"], ["Magenta", "#d6249f"], ["Turquoise", "#2ec4b6"], ["Bronze", "#a97142"], ["Ivory", "#f3ecd2"], ["Scarlet", "#ff2d1a"], ["Emerald", "#0f9d6b"], ["Sapphire", "#1f4fb8"], ["Ruby", "#b3122f"], ["Saffron", "#f4a300"], ["Copper", "#b87333"], ["Lavender", "#b9a7e8"], ["Olive", "#7d8a2e"], ["Peach", "#ffb58a"], ["Mint", "#8fe3b5"], ["Rose", "#e8577a"], ["Cobalt", "#1550c8"], ["Charcoal", "#444b55"], ["Azure", "#2b8cf0"], ["Burgundy", "#6b1730"], ["Mustard", "#d8a31a"], ["Plum", "#7a3b6e"], ["Jade", "#2fa37a"], ["Slate", "#5f7185"], ["Sand", "#d2b88a"], ["Cherry", "#cc1f45"], ["Lilac", "#c8a2e0"], ["Aqua", "#4fd6e3"], ["Rust", "#b4492a"], ["Khaki", "#bfae6a"], ["Beige", "#d9c9a8"]];
+var TT_FMT=[['lf','Round robin + final (no groups)'],['league','Round robin only (no groups)'],['ko','Knockout'],['super','Groups (max 4) + Super stage + knockouts (half qualify)']];
+var TT_COUNTS=(function(){var a=[15,25,35,45];for(var i=4;i<=50;i+=2)a.push(i);return a.sort(function(x,y){return x-y})})();
+function ttLetter(i){return String.fromCharCode(65+i)}
+function clubScout(role,who,count){
+  var pool=clubPool();
+  if(who==='dom')pool=pool.filter(function(p){return p.gen||p.u});
+  else if(who==='ind')pool=pool.filter(function(p){return !p.os});
+  if(role!=='ANY')pool=pool.filter(function(p){return p.role===role});
+  var taken={};S&&S.sold&&S.sold.forEach(function(x){taken[x.p.name]=1});
+  pool=pool.filter(function(p){return !taken[p.name]});
+  return shuffle(pool.slice()).slice(0,count).map(function(p){
+    var g=Math.max(25,Math.min(99,Math.round(p.rating+gauss()*5)));
+    return{name:p.name,role:p.role,c:p.c,rating:p.rating,base:p.base,os:p.os,grade:g,g0:g,note:g>=p.rating+4?'Impressed':g<=p.rating-4?'Below par':'As expected',st:{m:0,r:0,b:0,wk:0,cc:0,ov:0,pts:0,d:0}};
+  });
+}
+function clubTTRR(n){var a=[],o=[],i,r;for(i=0;i<n;i++)a.push(i);if(n%2)a.push(-1);var m=a.length;
+  for(r=0;r<m-1;r++){for(i=0;i<m/2;i++){var x=a[i],y=a[m-1-i];if(x>=0&&y>=0)o.push([x,y])}a.splice(1,0,a.pop())}return o}
+function clubTTKo(t,alive){var n=alive.length,pw=1;while(pw<n)pw*=2;var byes=pw-n,nm=pw===2?'Final':pw===4?'Semi-finals':pw===8?'Quarter-finals':'Round of '+pw;
+  t.bye=alive.slice(0,byes);var pl=alive.slice(byes);t.rd++;t.rdName=nm+(byes?' ('+byes+' byes)':'');
+  for(var i=0;i<pl.length/2;i++)t.fx.push({a:pl[i],b:pl[pl.length-1-i],st:'ko',rd:t.rd,g:nm})}
+function clubTTNew(o,opt){
+  var n=+opt.n||4,fmt=opt.fmt||'lf';
+  if(fmt==='super'&&n<6){fmt='lf';toast('Super stage needs 6 or more teams, so it plays as league + final.')}
+  var size=+opt.size===6?6:11,need=n*(size===11?6:4),list=clubScout(opt.role||'ANY',opt.who||'dom',n*size);
+  if(list.length<need&&(opt.who||'dom')!=='all'){list=clubScout(opt.role||'ANY','all',n*size);if(list.length>=need)toast('The pool was too small, so the whole pool was used.')}
+  if(list.length<need){toast('Not enough players for '+n+' teams. Try any role and the whole pool, or fewer teams.');return false}
+  var per=Math.min(size,Math.floor(list.length/n));if(per<size)toast('Only '+per+' players a side were available for '+n+' teams.');
+  list=list.slice(0,n*per).sort(function(a,b){return b.grade-a.grade});
+  var teams=[],i;for(i=0;i<n;i++)teams.push({name:TT_COL[i][0],col:TT_COL[i][1],ids:[]});
+  list.forEach(function(p,j){var r=Math.floor(j/n),k=j%n;if(r%2)k=n-1-k;teams[k].ids.push(p.name)});
+  var t={n:n,fmt:fmt,per:per,mt:opt.mt==='test'?'test':'t20',teams:teams,pl:{},fx:[],tbl:[],tbl2:[],groups:[],sgroups:[],qual:[],phase:fmt==='ko'?'ko':fmt==='super'?'group':'league',rd:0,rdName:'',champ:null};
+  list.forEach(function(p){t.pl[p.name]=p});
+  teams.forEach(function(){t.tbl.push({p:0,w:0,l:0,pts:0,rf:0,ra:0});t.tbl2.push({p:0,w:0,l:0,pts:0,rf:0,ra:0})});
+  if(fmt==='ko')clubTTKo(t,teams.map(function(_,k){return k}));
+  else if(fmt==='super'){
+    var gc=Math.max(2,Math.min(clubClamp(+opt.g||4,2,4),Math.floor(n/3)));for(i=0;i<gc;i++)t.groups.push({name:'Group '+ttLetter(i),ids:[]});
+    teams.forEach(function(_,k){t.groups[k%gc].ids.push(k)});
+    t.groups.forEach(function(g,gi){clubTTRR(g.ids.length).forEach(function(q){t.fx.push({a:g.ids[q[0]],b:g.ids[q[1]],st:'lg',g:gi})})});
+  }
+  else clubTTRR(n).forEach(function(q){t.fx.push({a:q[0],b:q[1],st:'lg'})});
+  o.ttourn=t;return true;
+}
+function clubTTApply(p,m){
+  var s=p.st;s.m++;s.r+=m.runs;s.b+=m.balls;s.wk+=m.wk;s.cc+=m.conc;s.ov+=m.ov;s.pts+=m.pts;
+  s.d+=m.form==='Starred'?3:m.form==='Flop'?-3:0;
+  p.grade=clubClamp(p.g0+clubClamp(Math.round(s.d*.6),-9,9),25,99);p.perf=m;
+  p.note=p.grade>=p.g0+4?'Impressed in the tournament':p.grade<=p.g0-4?'Struggled in the tournament':'Solid in the tournament';
+}
+function clubTTCmp(t,tbl){return function(a,b){var x=tbl[a],y=tbl[b];return y.pts-x.pts||(y.rf-y.ra)-(x.rf-x.ra)||a-b}}
+function clubTTSort(t,ids,tbl){tbl=tbl||t.tbl;ids=ids||t.teams.map(function(_,i){return i});return ids.slice().sort(clubTTCmp(t,tbl))}
+function clubTTQual(t){
+  var q=Math.ceil(t.n/2),auto=[],rest=[];
+  t.groups.forEach(function(g){var s=clubTTSort(t,g.ids,t.tbl),k=Math.floor(g.ids.length/2);s.forEach(function(id,i){(i<k?auto:rest).push(id)})});
+  rest.sort(clubTTCmp(t,t.tbl));
+  return auto.concat(rest).slice(0,q).sort(clubTTCmp(t,t.tbl));
+}
+function clubTTOrd(a,b){var x=function(p){return p.role==='PACE'||p.role==='SPIN'?2:p.role==='AR'?1:0};return x(a)-x(b)||b.grade-a.grade}
+function clubTTTail(m){
+  m.runs=Math.round(m.runs*.3);m.balls=Math.max(m.runs?1:0,Math.round(m.balls*.3));
+  m.pts=Math.round(m.runs*.55+m.wk*16-(m.ov?(m.conc-m.ov*8)*.35:0));
+  m.form=m.pts>=26?'Starred':m.pts<=7&&(m.ov||m.balls>8)?'Flop':'Steady';
+}
+function clubTTBook(t,f,ar,br,wi,dr){
+  if(f.st!=='lg'&&f.st!=='sp')return;
+  var tb=f.st==='sp'?t.tbl2:t.tbl,ta=tb[f.a],tc=tb[f.b];
+  ta.p++;tc.p++;ta.rf+=ar;ta.ra+=br;tc.rf+=br;tc.ra+=ar;
+  if(dr){ta.d=(ta.d||0)+1;tc.d=(tc.d||0)+1;ta.pts++;tc.pts++}
+  else{var wt=wi?tc:ta,lt=wi?ta:tc;wt.w++;wt.pts+=2;lt.l++}
+}
+function clubTTPrune(t){var k=0;for(var i=t.fx.length-1;i>=0;i--){var x=t.fx[i];if(x.res&&x.res.segs&&++k>40)delete x.res.segs}}
+/* ---- Test match: two innings a side, draws possible ---- */
+function clubTTPlayTest(t,f){
+  var side=[f.a,f.b].map(function(ti){return t.teams[ti].ids.map(function(nm){return t.pl[nm]})}),lim=Math.max(2,t.per-1),agg={};
+  var isB=function(p){return p.role==='PACE'||p.role==='SPIN'},av=function(L){return L.reduce(function(x,p){return x+p.grade},0)/Math.max(1,L.length)};
+  side.forEach(function(L){L.forEach(function(p){agg[p.name]={runs:0,balls:0,out:false,ov:0,conc:0,wk:0}})});
+  var bat=side.map(function(L){return L.slice().sort(clubTTOrd)}),
+      bowl=side.map(function(L){var s=L.filter(function(p){return isB(p)||p.role==='AR'}).sort(function(a,b){return b.grade-a.grade}).slice(0,5);if(s.length<3)s=L.slice().sort(function(a,b){return b.grade-a.grade}).slice(0,Math.min(4,L.length));return s});
+  function inn(bs,ws,target){
+    var B=bat[bs],W=bowl[ws],pOut=clubClamp(.74+(av(W)-av(B.slice(0,7)))*.006,.55,.95),runs=0,balls=0,w=0,done=false,i;
+    for(i=0;i<B.length&&w<lim&&!done;i++){
+      var p=B[i],bw=isB(p),ar=p.role==='AR',str=bw?p.grade-30:ar?p.grade-8:p.grade,
+        mean=Math.max(3,(str-22)*.62)*(1.12-i*.04),sc=Math.round(clubClamp(mean*(-Math.log(1-Math.random())),0,230)),
+        bl=Math.round((sc?sc*(1.4+Math.random()*.9):0)+1+Math.random()*7),out=Math.random()<pOut;
+      if(target&&runs+sc>=target){sc=target-runs;out=false;done=true}
+      runs+=sc;balls+=bl;var a=agg[p.name];a.runs+=sc;a.balls+=bl;if(out){a.out=true;w++}
+    }
+    var ex=done?0:Math.round(5+Math.random()*13),total=runs+ex,overs=balls/6;
+    var wt=W.map(function(p){return Math.pow(Math.max(5,p.grade-30),1.5)}),sum=wt.reduce(function(x,y){return x+y},0)||1;
+    W.forEach(function(p,k){var sh=wt[k]/sum;agg[p.name].ov+=overs*sh;agg[p.name].conc+=total*sh});
+    for(var q=0;q<w;q++){var r=Math.random()*sum,k=0;while(k<W.length-1&&r>wt[k]){r-=wt[k];k++}agg[W[k].name].wk++}
+    return{r:total,w:w,all:w>=lim,done:done};
+  }
+  var first=Math.random()<.5?0:1,sec=1-first,I=[];
+  I[0]=inn(first,sec,0);I[1]=inn(sec,first,0);I[2]=inn(first,sec,0);
+  var fT=I[0].r+I[2].r,sT=I[1].r,win=-1,txt,draw=false;
+  if(fT<sT){win=sec;txt='won by an innings and '+(sT-fT)+' runs';I[3]=null}
+  else{var target=fT-sT+1;I[3]=inn(sec,first,target);
+    if(I[3].r>=target){win=sec;txt='won by '+(lim-I[3].w)+' wickets'}
+    else if(I[3].all){if(target-1-I[3].r===0){draw=true;txt='Match tied'}else{win=first;txt='won by '+(target-1-I[3].r)+' runs'}}
+    else{draw=true;txt='Match drawn'}}
+  var nmS=[t.teams[f.a].name,t.teams[f.b].name],tot=[0,0];
+  tot[first]=I[0].r+I[2].r;tot[sec]=I[1].r+(I[3]?I[3].r:0);
+  [I[0],I[1],I[2]].forEach(function(x){x.dec=!x.all});var fm=function(i){return i?(i.all?i.r:i.r+'/'+i.w+(i.dec?'d':'')):''},ln=function(s){var L=s===first?[I[0],I[2]]:[I[1],I[3]];return nmS[s]+' '+L.filter(Boolean).map(fm).join(' & ')};
+  var res={ar:tot[0],aw:0,br:tot[1],bw:0,line:ln(0)+' v '+ln(1),draw:draw};
+  if(draw){
+    if(f.st==='ko'){var lead=I[0].r>I[1].r?first:I[1].r>I[0].r?sec:(Math.random()<.5?0:1);res.win=lead?f.b:f.a;res.text=txt+', '+nmS[lead]+' go through on first-innings lead'}
+    else{res.win=null;res.text=txt}
+  }else{res.win=win?f.b:f.a;res.text=nmS[win]+' '+txt}
+  var segs=[];
+  side.forEach(function(L,k){L.forEach(function(p){var a=agg[p.name],ov=Math.round(a.ov),conc=Math.round(a.conc),
+    pts=Math.round(a.runs*.4+a.wk*18-(ov?(conc-ov*3.2)*.2:0)),form=pts>=55?'Starred':pts<=8&&(ov>=10||a.balls>=30)?'Flop':'Steady',
+    m={runs:a.runs,balls:a.balls,out:a.out,ov:ov,conc:conc,wk:a.wk,form:form,pts:pts};
+    clubTTApply(p,m);if(a.balls||ov)segs.push({n:p.name,r:ROLE_LABEL[p.role]||p.role,p:m,team:k?'B':'A'})})});
+  res.segs=segs;f.res=res;
+  clubTTBook(t,f,tot[0],tot[1],win===-1?0:win,draw);clubTTPrune(t);
+}
+function clubTTPlay(t,f){
+  if(t.mt==='test')return clubTTPlayTest(t,f);
+  var tot=[],segs=[],pts=[];
+  [f.a,f.b].forEach(function(ti,k){var r=0,w=0,pp=0;
+    t.teams[ti].ids.map(function(nm){return t.pl[nm]}).sort(clubTTOrd).forEach(function(p,i){var m=clubPerf(p);if(t.per>8&&i>=7)clubTTTail(m);clubTTApply(p,m);r+=m.runs;w+=m.wk;pp+=m.pts;
+      segs.push({n:p.name,r:ROLE_LABEL[p.role]||p.role,p:m,team:k?'B':'A'})});
+    tot.push({r:r+Math.round(4+Math.random()*8),w:w});pts.push(pp)});
+  var A={r:tot[0].r,w:Math.min(t.per-1,tot[1].w)},B={r:tot[1].r,w:Math.min(t.per-1,tot[0].w)},win,txt,an=t.teams[f.a].name,bn=t.teams[f.b].name;
+  if(A.r!==B.r){win=A.r>B.r?0:1;txt=(win?bn:an)+' won by '+Math.abs(A.r-B.r)+' runs'}
+  else{win=pts[0]!==pts[1]?(pts[0]>pts[1]?0:1):(Math.random()<.5?0:1);txt='Tied, '+(win?bn:an)+' won the super over'}
+  f.res={ar:A.r,aw:A.w,br:B.r,bw:B.w,win:win?f.b:f.a,text:txt,segs:segs};
+  clubTTBook(t,f,A.r,B.r,win,false);clubTTPrune(t);
+}
+function clubTTAdvance(t){
+  if(t.champ!=null||t.fx.some(function(f){return !f.res}))return;
+  if(t.phase==='league'){var tb=clubTTSort(t);
+    if(t.fmt==='league'){t.champ=tb[0];t.phase='done';return}
+    t.phase='ko';clubTTKo(t,tb.slice(0,2));return}
+  if(t.phase==='group'){
+    var qs=clubTTQual(t),sg=Math.min(4,Math.ceil(qs.length/6)),gi;t.qual=qs;t.sgroups=[];
+    for(gi=0;gi<sg;gi++)t.sgroups.push({name:'Super Group '+ttLetter(gi),ids:[]});
+    qs.forEach(function(id,i){var r=Math.floor(i/sg),k=i%sg;if(r%2)k=sg-1-k;t.sgroups[k].ids.push(id)});
+    t.sgroups.forEach(function(g,gx){clubTTRR(g.ids.length).forEach(function(q){t.fx.push({a:g.ids[q[0]],b:g.ids[q[1]],st:'sp',g:gx})})});
+    t.phase='super';return}
+  if(t.phase==='super'){
+    var top=t.sgroups.length===1?Math.min(4,t.sgroups[0].ids.length):2,ranks=[],r;
+    for(r=0;r<top;r++)ranks.push([]);
+    t.sgroups.forEach(function(g){var s=clubTTSort(t,g.ids,t.tbl2);for(r=0;r<top;r++)if(s[r]!=null)ranks[r].push(s[r])});
+    var alive=[];ranks.forEach(function(L){alive=alive.concat(L.sort(clubTTCmp(t,t.tbl2)))});
+    t.phase='ko';clubTTKo(t,alive);return}
+  if(t.phase==='ko'){
+    var ws=t.fx.filter(function(f){return f.st==='ko'&&f.rd===t.rd}).map(function(f){return f.res.win});
+    var nx=(t.bye||[]).concat(ws);
+    if(nx.length<=1){t.champ=nx[0];t.phase='done';return}
+    clubTTKo(t,nx)}
+}
+function clubTTNext(t){var f=t.fx.filter(function(x){return !x.res})[0];if(f)clubTTPlay(t,f);clubTTAdvance(t);return f}
+function clubTTAll(t){var g=0;while(t.champ==null&&g++<2000)clubTTNext(t)}
+function clubTPlayers(c){var t=c&&c.ttourn;return t?Object.keys(t.pl).map(function(k){return t.pl[k]}).sort(function(a,b){return b.grade-a.grade}):[]}
+function clubTTAct(o,a,f,sf){
+  if(a==='ttnew'){if(!clubTTNew(o,{n:f['ttn'+sf],fmt:f['ttf'+sf],size:f['ttsz'+sf],g:f['ttg'+sf],mt:f['ttmt'+sf],role:f['ttrole'+sf],who:f['ttwho'+sf]}))return false}
+  else if(a==='ttnext'&&o.ttourn)clubTTNext(o.ttourn);
+  else if(a==='ttlive'&&o.ttourn){var lf=clubTTNext(o.ttourn);if(lf&&lf.res&&window.__watch)setTimeout(function(){window.__watch(lf.res.segs)},0)}
+  else if(a==='ttall'&&o.ttourn)clubTTAll(o.ttourn);
+  else if(a==='ttclear')o.ttourn=null;
+  return true;
+}
+function clubTTHtml(o,g){
+  var t=o.ttourn,sf=g?'g':'',ga=g?' data-g="1"':'',sold={},short=o.short||[];
+  if(clubLive())S.sold.forEach(function(x){sold[x.p.name]=x});
+  var h='<h4 data-sec="ttourn'+sf+'" style="margin:16px 0 4px">🏆 Trials tournament</h4><p class="muted" style="margin:0 0 6px">Scout a big camp of hopefuls, draft them into teams of 11 (or a quick 6 a side) and let them play a cup in T20 or Test matches (two innings each, draws possible, 2 points for a win and 1 for a draw). Choose <b>Round robin</b> (no groups) or <b>Groups + Super stage</b>, which splits the teams into 2 to 4 groups, sends the top half to a Super stage, then the best go into the knockouts. Match form moves each trial grade (by up to 9 points), and the awards show who to shortlist. Nothing here counts for anything.</p>'+
+   '<div class="ctl-row"><label>Teams<select data-cf="ttn'+sf+'" class="btn">'+TT_COUNTS.map(function(n){return '<option value="'+n+'">'+n+' teams</option>'}).join('')+'</select></label>'+
+   '<label>Format<select data-cf="ttf'+sf+'" class="btn">'+TT_FMT.map(function(x){return '<option value="'+x[0]+'">'+x[1]+'</option>'}).join('')+'</select></label>'+
+   '<label>Groups<select data-cf="ttg'+sf+'" class="btn"><option value="4">4 groups</option><option value="3">3 groups</option><option value="2">2 groups</option></select></label>'+
+   '<label>Squad<select data-cf="ttsz'+sf+'" class="btn"><option value="11">Playing 11</option><option value="6">6 a side (quick)</option></select></label>'+
+   '<label>Matches<select data-cf="ttmt'+sf+'" class="btn"><option value="t20">T20</option><option value="test">Test matches</option></select></label>'+
+   '<label>Role<select data-cf="ttrole'+sf+'" class="btn"><option value="ANY">Any role</option>'+Object.keys(ROLE_LABEL).map(function(k){return '<option value="'+k+'">'+ROLE_LABEL[k]+'</option>'}).join('')+'</select></label>'+
+   '<label>Pool<select data-cf="ttwho'+sf+'" class="btn"><option value="dom">Uncapped and domestic</option><option value="ind">All Indian players</option><option value="all">Whole pool</option></select></label>'+
+   '<button class="btn primary" type="button" data-ca="ttnew"'+ga+' style="align-self:end">🏆 '+(t?'New':'Start')+' trials tournament</button>'+
+   (t?'<button class="btn" type="button" data-ca="ttclear"'+ga+' style="align-self:end">Clear</button>':'')+'</div>';
+  if(!t)return h;
+  var nm=function(i){return '<i class="dot" style="--c:'+(t.teams[i].col||'#888')+';border:1px solid #8886"></i> '+esc(t.teams[i].name)},cnt=function(st){var L=t.fx.filter(function(x){return x.st===st});return L.filter(function(x){return x.res}).length+' of '+L.length};
+  var status=t.champ!=null?'Champions: '+nm(t.champ):t.phase==='ko'?esc(t.rdName):t.phase==='super'?'Super stage · '+cnt('sp')+' matches':t.phase==='group'?'Group stage · '+cnt('lg')+' matches':'League stage · '+cnt('lg')+' matches';
+  h+='<div class="mres" style="margin-top:10px"><b>'+status+'</b>'+
+   (t.champ==null?' <button class="btn primary" type="button" data-ca="ttlive"'+ga+' style="margin-left:8px">📺 Watch next match live</button><button class="btn" type="button" data-ca="ttnext"'+ga+' style="margin-left:6px">▶ Quick sim next</button><button class="btn" type="button" data-ca="ttall"'+ga+' style="margin-left:6px">⏭ Sim to the end</button>':'')+'</div>';
+  h+='<div class="muted" style="font-size:12px;margin-top:4px">'+t.per+' a side · '+(t.mt==='test'?'Test matches (two innings each, draws possible)':'T20 matches')+'</div>'+
+   '<details style="margin-top:8px"><summary style="cursor:pointer">Playing XIs · '+t.n+' teams × '+t.per+' players</summary>'+t.teams.map(function(tm){return '<p style="margin:6px 0"><b><i class="dot" style="--c:'+(tm.col||'#888')+';border:1px solid #8886"></i> '+esc(tm.name)+'</b> <span class="muted">'+tm.ids.map(function(n){var p=t.pl[n];return esc(n)+' ('+(ROLE_LABEL[p.role]||p.role)+' '+p.grade+')'}).join(', ')+'</span></p>'}).join('')+'</details>';
+  var tbh=function(title,ids,tbl,qual){return (title?'<h4 style="margin:12px 0 0">'+esc(title)+'</h4>':'')+'<div class="scroll"><table class="tbl"><thead><tr><th>#</th><th>Team</th><th class="r">P</th><th class="r">W</th><th class="r">L</th><th class="r">D</th><th class="r">Pts</th><th class="r">Run diff</th></tr></thead><tbody>'+
+    clubTTSort(t,ids,tbl).map(function(i,k){var e=tbl[i],d=e.rf-e.ra;return '<tr'+(qual&&qual.indexOf(i)>=0?' class="q"':'')+'><td class="mono">'+(k+1)+'</td><td>'+nm(i)+'</td><td class="r mono">'+e.p+'</td><td class="r mono">'+e.w+'</td><td class="r mono">'+e.l+'</td><td class="r mono">'+(e.d||0)+'</td><td class="r mono"><b>'+e.pts+'</b></td><td class="r mono">'+(d>0?'+':'')+d+'</td></tr>'}).join('')+'</tbody></table></div>'};
+  if(t.fmt==='super'){
+    h+='<p class="muted" style="margin:10px 0 0">'+(t.qual.length?'<b>'+t.qual.length+' of '+t.n+' teams</b> qualified for the Super stage (highlighted).':'The top half of the teams ('+Math.ceil(t.n/2)+' of '+t.n+') qualify for the Super stage.')+'</p>';
+    t.groups.forEach(function(gr){h+=tbh(gr.name,gr.ids,t.tbl,t.qual)});
+    t.sgroups.forEach(function(gr){h+=tbh(gr.name+' (Super stage)',gr.ids,t.tbl2)});
+  }else if(t.fmt!=='ko')h+=tbh('',t.teams.map(function(_,i){return i}),t.tbl);
+  var key=function(f){return f.st==='ko'?'ko'+f.rd:f.st},cur=(t.phase==='ko'||t.phase==='done')?'ko'+t.rd:t.phase==='super'?'sp':'lg',order=[],by={};
+  t.fx.forEach(function(f){var k=key(f);if(!by[k]){by[k]=[];order.push(k)}by[k].push(f)});
+  order.forEach(function(k){
+    var L=by[k],f0=L[0],label=f0.st==='ko'?f0.g:f0.st==='sp'?'Super stage':t.fmt==='super'?'Group stage':'League',
+     tb='<div class="scroll"><table class="tbl"><thead><tr><th>Stage</th><th>Match</th><th>Result</th><th></th></tr></thead><tbody>'+L.map(function(f){
+      var r=f.res,sg=f.st==='lg'&&t.fmt==='super'?t.groups[f.g].name:f.st==='sp'?t.sgroups[f.g].name:f.st==='ko'?f.g:'League';
+      return '<tr><td class="muted">'+esc(sg)+'</td><td>'+nm(f.a)+' v '+nm(f.b)+'</td><td class="muted">'+(r?(r.line?esc(r.line)+' · ':'<b>'+r.ar+'/'+r.aw+'</b> v <b>'+r.br+'/'+r.bw+'</b> · ')+esc(r.text):'Not played')+'</td><td>'+
+       (r&&r.segs?'<button class="btn" type="button" data-watch="'+esc(JSON.stringify(r.segs))+'">👁 Watch</button>':'')+'</td></tr>'}).join('')+'</tbody></table></div>';
+    h+=k===cur?'<h4 style="margin:12px 0 0">'+esc(label)+' · matches</h4>'+tb:'<details style="margin-top:8px"><summary style="cursor:pointer">'+esc(label)+' · '+L.length+' matches</summary>'+tb+'</details>';
+  });
+  var all=clubTPlayers(o),allN=all.length,played=all.filter(function(p){return p.st.m>0});
+  if(played.length){
+    var bp=function(fn){return played.slice().sort(fn)[0]};
+    var ob=bp(function(a,b){return b.st.r-a.st.r}),pc=bp(function(a,b){return b.st.wk-a.st.wk||a.st.cc-b.st.cc}),pt=bp(function(a,b){return b.st.pts-a.st.pts});
+    h+='<div class="mres" style="margin-top:8px">🏅 <b>Best player:</b> '+esc(pt.name)+' ('+pt.st.pts+' pts) · 🟠 <b>Most runs:</b> '+esc(ob.name)+' ('+ob.st.r+') · 🟣 <b>Most wickets:</b> '+esc(pc.name)+' ('+pc.st.wk+')</div>';
+  }
+  if(allN>48){all=all.slice(0,48);h+='<p class="muted" style="margin:8px 0 0">Showing the top 48 of '+allN+' players by trial grade.</p>'}
+  h+='<div class="scroll" style="margin-top:8px"><table class="tbl"><thead><tr><th>Player</th><th>Team</th><th>Role</th><th class="r">Rating</th><th class="r">Trial grade</th><th>Verdict</th><th class="r">Runs</th><th class="r">Wkts</th><th class="r">Base</th><th></th></tr></thead><tbody>'+
+   all.map(function(p){
+    var ti=0;t.teams.forEach(function(x,i){if(x.ids.indexOf(p.name)>=0)ti=i});
+    var on=short.indexOf(p.name)>=0,sl=sold[p.name],dg=p.grade-p.g0;
+    return '<tr><td>'+esc(p.name)+(p.os?' <span class="tag hl" style="padding:0 5px;font-size:11px">OS</span>':'')+'</td><td class="muted">'+nm(ti)+'</td><td class="muted">'+ROLE_LABEL[p.role]+'</td><td class="r mono">'+p.rating+'</td><td class="r mono"><b>'+p.grade+'</b> <span class="muted">'+clubGrade(p.grade)+(dg?' ('+(dg>0?'+':'')+dg+')':'')+'</span></td><td class="muted">'+p.note+(sl?' · sold to '+sl.id:'')+'</td><td class="r mono">'+p.st.r+'</td><td class="r mono">'+p.st.wk+'</td><td class="r mono">'+money(p.base)+'</td><td><button class="btn" type="button" data-ca="'+(g?'qshort':'short')+'" data-name="'+esc(p.name)+'">'+(on?'✓ Shortlisted':'Shortlist')+'</button></td></tr>'}).join('')+'</tbody></table></div>';
+  return h;
+}
 /* ---- practice match ---- */
 function clubXI(c){
   var pool=clubPool(),by={};pool.forEach(function(p){by[p.name]=p});
@@ -10034,7 +10252,7 @@ function clubXI(c){
   if(inA)sq=inA.squad.map(function(s){return s.p});
   var seen={};sq.forEach(function(p){seen[p.name]=1});
   (c.short||[]).forEach(function(n){if(by[n]&&!seen[n]){sq.push(by[n]);seen[n]=1}});
-  (c.trials||[]).forEach(function(t){if(by[t.name]&&!seen[t.name]&&sq.length<XIN){sq.push(by[t.name]);seen[t.name]=1}});
+  (c.trials||[]).concat(clubTPlayers(c)).forEach(function(t){if(by[t.name]&&!seen[t.name]&&sq.length<XIN){sq.push(by[t.name]);seen[t.name]=1}});
   var fill=shuffle(pool.filter(function(p){return !seen[p.name]&&(p.gen||p.u)&&!p.os}));
   while(sq.length<XIN&&fill.length){var p=fill.shift();sq.push(p);seen[p.name]=1}
   var own=inA?inA.squad.length:0;return{list:sq,src:own>=XIN?'auction squad':own?'auction squad topped up with your shortlist, trialists and domestic players':(c.short&&c.short.length?'shortlist and trialists':'trialists and domestic players')};
@@ -10090,6 +10308,7 @@ function clubQuickHtml(only){
       var on=g.short.indexOf(t.name)>=0,sl=sold[t.name];
       return '<tr><td>'+esc(t.name)+(t.os?' <span class="tag hl" style="padding:0 5px;font-size:11px">OS</span>':'')+'</td><td class="muted">'+ROLE_LABEL[t.role]+'</td><td class="r mono">'+t.rating+'</td><td class="r mono"><b>'+t.grade+'</b> <span class="muted">'+clubGrade(t.grade)+'</span></td><td class="muted">'+t.note+(sl?' · sold to '+sl.id:'')+'</td><td class="r mono">'+money(t.base)+'</td><td style="white-space:nowrap">'+clubPerfTxt(t)+' <button class="btn" type="button" data-ca="qtplay" data-name="'+esc(t.name)+'">▶ Play</button></td><td><button class="btn" type="button" data-ca="qshort" data-name="'+esc(t.name)+'">'+(on?'✓ Shortlisted':'Shortlist')+'</button></td></tr>'}).join('')+'</tbody></table></div>'+clubTMatchHtml(g);
   }
+  h+=clubTTHtml(g,1);
   if(g.short.length)h+='<p style="margin-top:8px"><span class="k">Shortlist ('+g.short.length+')</span> '+g.short.map(function(n){return '<span class="pill">'+esc(n)+'</span>'}).join(' ')+'</p>';
   if(only==='trials')return h+'</section>';
   var opts=TEAMS.map(function(t){return '<option value="'+t.id+'">'+t.id+' · '+esc(t.name)+'</option>'}).join('');
@@ -10130,6 +10349,7 @@ function clubHtml(){
       var on=(cur.short||[]).indexOf(t.name)>=0,sl=sold[t.name];
       return '<tr><td>'+esc(t.name)+(t.os?' <span class="tag hl" style="padding:0 5px;font-size:11px">OS</span>':'')+'</td><td class="muted">'+ROLE_LABEL[t.role]+'</td><td class="r mono">'+t.rating+'</td><td class="r mono"><b>'+t.grade+'</b> <span class="muted">'+clubGrade(t.grade)+'</span></td><td class="muted">'+t.note+(sl?' · sold to '+sl.id:'')+'</td><td class="r mono">'+money(t.base)+'</td><td style="white-space:nowrap">'+clubPerfTxt(t)+' <button class="btn" type="button" data-ca="tplay" data-name="'+esc(t.name)+'">▶ Play</button></td><td><button class="btn" type="button" data-ca="short" data-name="'+esc(t.name)+'">'+(on?'✓ Shortlisted':'Shortlist')+'</button></td></tr>'}).join('')+'</tbody></table></div>'+clubTMatchHtml(cur);
   }
+  h+=clubTTHtml(cur,0);
   var sh=cur.short||[];
   h+=(sh.length?'<p style="margin-top:8px"><span class="k">Shortlist ('+sh.length+')</span> '+sh.map(function(n){return '<span class="pill">'+esc(n)+'</span>'}).join(' ')+'</p>':'')+'</section>';
   var opps=TEAMS.filter(function(t){return t.id!==cur.id});if(!CLUBPRAC||!opps.some(function(t){return t.id===CLUBPRAC}))CLUBPRAC=opps[0]&&opps[0].id;
@@ -10151,7 +10371,7 @@ function clubPaintShort(){
   if(!names.length){el.innerHTML='<li class="muted">Nobody yet. Shortlist players from the Trials tab.</li>';return}
   var sold={};if(S&&S.sold)S.sold.forEach(function(x){sold[x.p.name]=x});
   var uns={};if(S&&S.unsold)S.unsold.forEach(function(p){uns[p.name]=1});
-  var cur=S&&S.lot&&S.lot.p?S.lot.p.name:null,pool={};(CLUBGUEST.trials||[]).concat.apply(CLUBGUEST.trials||[],CLUBS.map(function(c){return c.trials||[]})).forEach(function(t){pool[t.name]=t});
+  var cur=S&&S.lot&&S.lot.p?S.lot.p.name:null,pool={};(CLUBGUEST.trials||[]).concat.apply(CLUBGUEST.trials||[],CLUBS.map(function(c){return c.trials||[]})).concat(clubTPlayers(CLUBGUEST),[].concat.apply([],CLUBS.map(clubTPlayers))).forEach(function(t){pool[t.name]=t});
   el.innerHTML=names.map(function(n){
     var x=sold[n],p=pool[n],st=x?'Sold to '+esc(x.id)+' · '+money(x.price):n===cur?'<b>On the block now</b>':uns[n]?'Unsold':'Still to come';
     return '<li><span class="nm">⭐ '+esc(n)+'</span><span class="mono muted">'+(p?ROLE_SHORT[p.role].replace(/s$/,'')+' · ':'')+st+'</span></li>'}).join('');
@@ -10183,6 +10403,8 @@ document.addEventListener('click',function(e){
     try{if($('pick')&&!$('pick').hidden)renderPick()}catch(x){}
     toast(nc.name+' created'+(joined?' and added to the auction.':'.'));clubPaint(true);return}
   if(a==='jump'){var jt=host.querySelector('[data-sec="'+b.getAttribute('data-to')+'"]');if(jt)jt.scrollIntoView({behavior:'smooth',block:'start'});return}
+  if(a.indexOf('tt')===0){var gst=!!b.getAttribute('data-g'),ow=gst?CLUBGUEST:c;if(!ow){toast('Select a club first.');return}
+    if(clubTTAct(ow,a,f,gst?'g':'')){if(!gst)clubSave();clubPaint()}return}
   if(a==='qtplay'){clubTrialPlay(CLUBGUEST,b.getAttribute('data-name'));clubPaint();return}
   if(a==='qtmatch'){clubTrialMatch(CLUBGUEST);clubPaint();return}
   if(a==='qtrials'){clubTrials(CLUBGUEST,f.qrole||'ANY',f.qwho||'dom');clubPaint();return}
